@@ -1,9 +1,10 @@
 package net.emphased.malle.example.javamail;
 
 import net.emphased.malle.*;
+import net.emphased.malle.example.AbstractExample;
 import net.emphased.malle.javamail.Javamail;
 
-public class App {
+public class JavamailExample extends AbstractExample {
 
     public static void main(String[] args) {
         String from = System.getProperty("from");
@@ -38,39 +39,12 @@ public class App {
                 mailMessage.html(html);
             }
             mailMessage.send();
-        } catch (MailAddressException e) {
-            err("Invalid address", e.getMessage());
-        } catch (MailSendException e) {
-            err("Couldn't sent", e.getMessage());
-        } catch (MailAuthenticationException e) {
-            err("Couldn't authenticate", e.getMessage());
-        } catch (MailException e) {
-            err("Unexpected mail failure", e.getMessage());
+        } catch (RuntimeException e) {
+            handleException(e);
         }
 
         System.out.println("Success!");
     }
 
-    private static void err(String msg) {
-        System.err.println(msg);
-        System.exit(1);
-    }
 
-    private static void err(String msg, String details) {
-        if (details != null) {
-            msg += " (" + details + ")";
-        }
-        err(msg);
-    }
-
-    private static <T> T checkNotNull(T ref, String msg) {
-        checkTrue(ref != null, msg);
-        return ref;
-    }
-
-    private static void checkTrue(boolean condition, String msg) {
-        if (!condition) {
-            err(msg);
-        }
-    }
 }

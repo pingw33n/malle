@@ -5,19 +5,19 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
+        <artifactId>examples</artifactId>
         <groupId>net.emphased.malle</groupId>
-        <artifactId>malle</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <packaging>pom</packaging>
 
-    <artifactId>examples</artifactId>
-    <name>Malle Examples</name>
-    <description>Examples of Malle usage</description>
+    <artifactId>malle-examples-common</artifactId>
 
-    <modules>
-        <module>freemarker</module>
-        <module>javamail</module>
-        <module>examples-common</module>
-    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>net.emphased.malle</groupId>
+            <artifactId>malle-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
 </project>

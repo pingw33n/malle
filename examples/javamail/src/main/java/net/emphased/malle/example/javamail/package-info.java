@@ -25,7 +25,7 @@
  *          -Dmail.smtp.port=587 \
  *          -Dmail.user=youruser@gmail.com \
  *          -Dmalle.javamail.password=YourAppPassword \
- *          -Dto=pingw33n@emphased.net \
+ *          -Dto=recipient@example.com \
  *          -Dsubject="Malle Javamail Example" \
  *          -Dplain="Hello from Malle Javamail Example!" \
  *          -Dhtml="&lt;h1>Hello from Malle Javamail Example!&lt;/h1>"

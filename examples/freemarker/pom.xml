@@ -5,14 +5,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>net.emphased.malle</groupId>
         <artifactId>examples</artifactId>
+        <groupId>net.emphased.malle</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <groupId>net.emphased.malle.example</groupId>
-    <artifactId>malle-javamail-example</artifactId>
-    <name>Mulle Javamail Example</name>
+    <artifactId>malle-freemarker-example</artifactId>
+    <name>Malle Freemarker Example</name>
+    <description>Example of using Freemarker template for composing a mail</description>
 
     <dependencies>
         <dependency>
@@ -22,9 +22,13 @@
         </dependency>
         <dependency>
             <groupId>net.emphased.malle</groupId>
+            <artifactId>malle-freemarker</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.emphased.malle</groupId>
             <artifactId>malle-examples-common</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
-
 </project>
