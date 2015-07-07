@@ -35,7 +35,7 @@ public class App {
                 mailMessage.plain(plain);
             }
             if (html != null) {
-                mailMessage.plain(html);
+                mailMessage.html(html);
             }
             mailMessage.send();
         } catch (MailAddressException e) {
