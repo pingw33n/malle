@@ -20,15 +20,15 @@
  *     Gmail command line example using the bundled sample template:
  * </p>
  * <pre>
- *     java -jar malle-freemarker-example.jar \
- *          -Dmail.smtp.auth=true \
+ *     java -Dmail.smtp.auth=true \
  *          -Dmail.smtp.starttls.enable=true \
  *          -Dmail.smtp.host=smtp.gmail.com \
  *          -Dmail.smtp.port=587 \
  *          -Dmail.user=youruser@gmail.com \
  *          -Dmalle.javamail.password=YourAppPassword \
  *          -Dtemplate=classpath:sample.ftl \
- *          -Dto=recipient@example.com
+ *          -Dto=recipient@example.com \
+ *          -jar malle-freemarker-example-&ltversion>-allinone.jar
  * </pre>
  */
 package net.emphased.malle.example.freemarker;

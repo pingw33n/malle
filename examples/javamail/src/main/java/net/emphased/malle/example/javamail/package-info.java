@@ -18,8 +18,7 @@
  *     Gmail command line example:
  * </p>
  * <pre>
- *     java -jar malle-javamail-example.jar \
- *          -Dmail.smtp.auth=true \
+ *     java -Dmail.smtp.auth=true \
  *          -Dmail.smtp.starttls.enable=true \
  *          -Dmail.smtp.host=smtp.gmail.com \
  *          -Dmail.smtp.port=587 \
@@ -27,8 +26,9 @@
  *          -Dmalle.javamail.password=YourAppPassword \
  *          -Dto=recipient@example.com \
  *          -Dsubject="Malle Javamail Example" \
- *          -Dplain="Hello from Malle Javamail Example!" \
- *          -Dhtml="&lt;h1>Hello from Malle Javamail Example!&lt;/h1>"
+ *          -Dplain="Hello from Malle Javamail Example" \
+ *          -Dhtml="&lt;h1>Hello from Malle Javamail Example!&lt;/h1>" \
+ *          -jar malle-javamail-example-&ltversion>-allinone.jar
  * </pre>
  */
 package net.emphased.malle.example.javamail;
