@@ -17,7 +17,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import static net.emphased.malle.util.Preconditions.checkArgument;
 import static net.emphased.malle.util.Preconditions.checkNotNull;
 
 public class FreemarkerTemplateEngine implements MailTemplateEngine {
@@ -36,10 +35,7 @@ public class FreemarkerTemplateEngine implements MailTemplateEngine {
     }
 
     @Override
-    public MailTemplate getTemplate(String name, @Nullable Object[] discriminator) {
-        checkArgument(discriminator == null ||
-                discriminator.length == 1 && discriminator[0] instanceof Locale);
-        Locale locale = discriminator != null ? (Locale)  discriminator[0] : null;
+    public MailTemplate getTemplate(String name, @Nullable Locale locale) {
         try {
             return createFreemarkerTemplate(configuration.getTemplate(name, locale));
         } catch (IOException e) {
