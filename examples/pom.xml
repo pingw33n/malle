@@ -11,6 +11,7 @@
     </parent>
     <packaging>pom</packaging>
 
+    <groupId>net.emphased.malle.example</groupId>
     <artifactId>examples</artifactId>
     <name>Malle Examples</name>
     <description>Examples of Malle usage</description>

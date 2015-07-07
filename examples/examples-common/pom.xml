@@ -6,7 +6,7 @@
 
     <parent>
         <artifactId>examples</artifactId>
-        <groupId>net.emphased.malle</groupId>
+        <groupId>net.emphased.malle.example</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 

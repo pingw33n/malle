@@ -5,12 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>net.emphased.malle</groupId>
+        <groupId>net.emphased.malle.example</groupId>
         <artifactId>examples</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <groupId>net.emphased.malle.example</groupId>
     <artifactId>malle-javamail-example</artifactId>
     <name>Mulle Javamail Example</name>
 
@@ -21,7 +20,7 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>net.emphased.malle</groupId>
+            <groupId>net.emphased.malle.example</groupId>
             <artifactId>malle-examples-common</artifactId>
             <version>${project.version}</version>
         </dependency>
