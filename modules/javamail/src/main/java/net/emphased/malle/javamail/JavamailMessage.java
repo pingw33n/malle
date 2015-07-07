@@ -243,7 +243,7 @@ public class JavamailMessage implements MailMessage {
     @Override
     public MailMessage header(String name, String pattern, Object... words) {
         checkNotNull(name, "The 'name' must not be null");
-        checkNotNull(pattern, "The 'value' must not be null");
+        checkNotNull(pattern, "The 'pattern' must not be null");
         try {
             if (words.length != 0) {
                 for (int i = 0; i < words.length; i++) {
