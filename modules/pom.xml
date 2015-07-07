@@ -13,7 +13,7 @@
 
     <artifactId>modules</artifactId>
     <name>Malle Modules</name>
-    <description>Container for the modules</description>
+    <description>Malle modules</description>
 
     <modules>
         <module>core</module>
