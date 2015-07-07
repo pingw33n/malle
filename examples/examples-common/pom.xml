@@ -11,6 +11,8 @@
     </parent>
 
     <artifactId>malle-examples-common</artifactId>
+    <name>Malle Examples Common</name>
+    <description>Common stuff for Malle examples</description>
 
     <dependencies>
         <dependency>
