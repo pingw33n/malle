@@ -1,12 +1,12 @@
 /**
- * Sample app that uses Malle to send out an email with the specified parameters.
+ * Sample app that uses Javamail Malle implementation to send out an email with the specified parameters.
  *
  * <p>
  *     Supported system properties:
  * </p>
  * <ul>
  *     <li>All Javamail standard properties. See <a href="http://docs.oracle.com/javaee/6/api/javax/mail/package-summary.html">javax.mail</a>
- *         and <a href="https://javamail.java.net/nonav/docs/api/com/sun/mail/smtp/package-summary.html">com.sun.mail.smtp</a> (and other) packages Javadoc</li>.
+ *         and <a href="https://javamail.java.net/nonav/docs/api/com/sun/mail/smtp/package-summary.html">com.sun.mail.smtp</a> (and other) packages' Javadoc</li>.
  *     <li>{@code malle.javamail.password} - allows to specify the authentication password. See Gmail command line example below.</li>
  *     <li>{@code to} - a comma-separated list of recipients.</li>
  *     <li>{@code from} - the sender. If omitted, {@code mail.user} will be used and must be present.</li>
