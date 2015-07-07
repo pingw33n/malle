@@ -39,7 +39,7 @@ public class JavamailExample extends AbstractExample {
                 mailMessage.html(html);
             }
             mailMessage.send();
-        } catch (RuntimeException e) {
+        } catch (MailException e) {
             handleException(e);
         }
 
