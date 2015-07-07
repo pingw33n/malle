@@ -17,8 +17,8 @@
     <description>Examples of Malle usage</description>
 
     <modules>
+        <module>common</module>
         <module>freemarker</module>
         <module>javamail</module>
-        <module>examples-common</module>
     </modules>
 </project>
