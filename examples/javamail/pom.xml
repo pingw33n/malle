@@ -11,7 +11,7 @@
     </parent>
 
     <artifactId>malle-javamail-example</artifactId>
-    <name>Mulle Javamail Example</name>
+    <name>Malle Javamail Example</name>
 
     <dependencies>
         <dependency>
