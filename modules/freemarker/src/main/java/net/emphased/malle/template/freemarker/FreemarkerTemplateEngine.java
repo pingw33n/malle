@@ -13,6 +13,7 @@ import net.emphased.malle.template.MailTemplateEngine;
 import javax.annotation.Nullable;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -48,11 +49,10 @@ public class FreemarkerTemplateEngine implements MailTemplateEngine {
         return getTemplate(name, null);
     }
 
-    void applyTemplate(FreemarkerTemplate template, MailMessage message, Map<String, ?> context) {
+    void applyTemplate(FreemarkerTemplate template, MailMessage message, @Nullable Map<String, ?> context) {
         checkNotNull(template, "The 'template' must not be null");
         checkNotNull(message, "The 'message' must not be null");
-        checkNotNull(context, "The 'context' must not be null");
-        Map<String, Object> model = new HashMap<String, Object>(context);
+        Map<String, Object> model = new HashMap<String, Object>(context != null ? context : Collections.<String, Object>emptyMap());
         model.put(MESSAGE_VAR, new ObjectModel(message));
         try {
             Environment env = template.getTemplate().createProcessingEnvironment(model, NoopWriter.INSTANCE, null);

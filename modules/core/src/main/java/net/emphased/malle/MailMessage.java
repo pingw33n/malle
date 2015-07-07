@@ -3,6 +3,8 @@ package net.emphased.malle;
 import javax.annotation.Nullable;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.util.Locale;
+import java.util.Map;
 
 public interface MailMessage {
 
@@ -51,6 +53,11 @@ public interface MailMessage {
     MailMessage attachment(InputStream content, String filename, String type);
     MailMessage attachment(InputStream content, String filename);
     MailMessage inline(InputStream content, String id, String type);
+
+    MailMessage template(String name, @Nullable Locale locale, @Nullable Map<String, ?> context);
+    MailMessage template(String name, @Nullable Locale locale, Object... context);
+    MailMessage template(String name, @Nullable Map<String, ?> context);
+    MailMessage template(String name, Object... context);
 
     void send();
 }

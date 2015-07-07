@@ -2,6 +2,8 @@ package net.emphased.malle.javamail;
 
 import net.emphased.malle.Mail;
 import net.emphased.malle.MailMessage;
+import net.emphased.malle.template.MailTemplate;
+import net.emphased.malle.template.MailTemplateEngine;
 
 import javax.annotation.Nullable;
 import javax.mail.Address;
@@ -12,10 +14,12 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
 import static net.emphased.malle.util.Preconditions.checkNotNull;
+import static net.emphased.malle.util.Preconditions.checkState;
 
 public class Javamail implements Mail {
 
@@ -25,6 +29,7 @@ public class Javamail implements Mail {
     private final Object monitor = new Object();
     private Session session;
     private Map<String, String> properties = new HashMap<String, String>();
+    private MailTemplateEngine templateEngine;
 
     @Override
     public MailMessage createMailMessage(boolean multipart) {
@@ -33,6 +38,16 @@ public class Javamail implements Mail {
 
     JavamailMessage createMailMessage(MultipartMode multipartMode) {
         return new JavamailMessage(this, multipartMode);
+    }
+
+    void applyTemplate(JavamailMessage message, @Nullable String name, @Nullable Locale locale, Map<String, ?> context) {
+        checkState(templateEngine != null, "Please the the template engine first");
+        MailTemplate t = templateEngine.getTemplate(name, locale);
+        applyTemplate(message, t, context);
+    }
+
+    void applyTemplate(JavamailMessage message, MailTemplate template, @Nullable Map<String, ?> context) {
+        template.apply(message, context);
     }
 
     void send(JavamailMessage message, String... addresses) {
@@ -119,6 +134,16 @@ public class Javamail implements Mail {
         checkNotNull(name, "The 'name' must not be null");
         checkNotNull(value, "The 'value' must not be null");
         properties.put(name, value);
+        return this;
+    }
+
+    public void setTemplateEngine(MailTemplateEngine templateEngine) {
+        checkNotNull(templateEngine, "The 'templateEngine' must not be null");
+        this.templateEngine = templateEngine;
+    }
+
+    public Javamail withTemplateEngine(MailTemplateEngine templateEngine) {
+        setTemplateEngine(templateEngine);
         return this;
     }
 }

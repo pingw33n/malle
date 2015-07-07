@@ -2,11 +2,9 @@ package net.emphased.malle.example.freemarker;
 
 import freemarker.template.Configuration;
 import freemarker.template.TemplateExceptionHandler;
-import net.emphased.malle.*;
+import net.emphased.malle.MailException;
 import net.emphased.malle.example.AbstractExample;
 import net.emphased.malle.javamail.Javamail;
-import net.emphased.malle.template.MailTemplate;
-import net.emphased.malle.template.MailTemplateEngine;
 import net.emphased.malle.template.freemarker.FreemarkerTemplateEngine;
 
 import java.io.File;
@@ -34,22 +32,18 @@ public final class FreemarkerExample extends AbstractExample {
             fc.setDirectoryForTemplateLoading(file.getParentFile());
         }
 
-        MailTemplateEngine engine = new FreemarkerTemplateEngine()
-                .withConfiguration(fc);
-        MailTemplate t = engine.getTemplate(template);
-
-        MailMessage m = new Javamail()
-                .createMailMessage(true);
-
         Map<String, Object> c = new HashMap<String, Object>();
         for (Map.Entry<Object, Object> e: System.getProperties().entrySet()) {
             c.put(e.getKey().toString().replace('.', '_'), e.getValue());
         }
 
         try {
-            t.apply(m, c);
-            m.send();
-        } catch (RuntimeException e) {
+            new Javamail()
+                    .withTemplateEngine(new FreemarkerTemplateEngine().withConfiguration(fc))
+                    .createMailMessage(true)
+                    .template(template, c)
+                    .send();
+        } catch (MailException e) {
             handleException(e);
         }
     }

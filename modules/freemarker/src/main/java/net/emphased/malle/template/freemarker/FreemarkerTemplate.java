@@ -1,10 +1,11 @@
 package net.emphased.malle.template.freemarker;
 
-import java.util.Map;
-
 import freemarker.template.Template;
 import net.emphased.malle.MailMessage;
 import net.emphased.malle.template.MailTemplate;
+
+import javax.annotation.Nullable;
+import java.util.Map;
 
 public class FreemarkerTemplate implements MailTemplate {
 
@@ -30,7 +31,7 @@ public class FreemarkerTemplate implements MailTemplate {
     }
 
     @Override
-    public void apply(MailMessage message, Map<String, ?> context) {
+    public void apply(MailMessage message, @Nullable Map<String, ?> context) {
         engine.applyTemplate(this, message, context);
     }
 }

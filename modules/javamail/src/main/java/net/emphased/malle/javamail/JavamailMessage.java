@@ -15,6 +15,7 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.*;
 
+import static net.emphased.malle.util.Preconditions.checkArgument;
 import static net.emphased.malle.util.Preconditions.checkNotNull;
 
 public class JavamailMessage implements MailMessage {
@@ -325,6 +326,43 @@ public class JavamailMessage implements MailMessage {
             throw Utils.wrapException(e);
         }
         return this;
+    }
+
+    @Override
+    public MailMessage template(String name, @Nullable Locale locale, Map<String, ?> context) {
+        javamail.applyTemplate(this, name, locale, context);
+        return this;
+    }
+
+    @Override
+    public MailMessage template(String name, Map<String, ?> context) {
+        return template(name, null, context);
+    }
+
+    @Override
+    public MailMessage template(String name, @Nullable Locale locale, Object... context) {
+        checkArgument(context.length % 2 == 0, "The 'context' varargs must contain an even number of values");
+        Map<String, Object> contextMap;
+        if (context.length != 0) {
+            int len = context.length / 2;
+            contextMap = new HashMap<String, Object>(len);
+            for (int i = 0; i < len; i++) {
+                Object key = context[i * 2];
+                if (!(key instanceof String)) {
+                    checkArgument(false, "The key values in 'context' must be of String type");
+                }
+                Object value = context[i * 2 + 1];
+                contextMap.put((String) key, value);
+            }
+        } else {
+            contextMap = null;
+        }
+        return template(name, locale, contextMap);
+    }
+
+    @Override
+    public MailMessage template(String name, Object... context) {
+        return template(name, null, context);
     }
 
     @Override

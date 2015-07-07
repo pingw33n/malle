@@ -1,12 +1,13 @@
 package net.emphased.malle.template;
 
-import java.util.Map;
-
 import net.emphased.malle.MailMessage;
+
+import javax.annotation.Nullable;
+import java.util.Map;
 
 public interface MailTemplate {
 
     String getName();
 
-    void apply(MailMessage message, Map<String, ?> context);
+    void apply(MailMessage message, @Nullable Map<String, ?> context);
 }
