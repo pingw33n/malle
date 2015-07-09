@@ -25,10 +25,10 @@ public class JavamailMessage implements MailMessage {
     private boolean mimeMessageReady;
     private MimeMultipart rootMimeMultipart;
     private MimeMultipart mimeMultipart;
-    private Charset charset = Charset.forName("UTF-8");
+    private Charset charset = DEFAULT_CHARSET;
     private final Map<BodyType, Body> body = new EnumMap<BodyType, Body>(BodyType.class);
-    private Encoding bodyEncoding = null;
-    private Encoding attachmentEncoding = Encoding.BASE64;
+    private Encoding bodyEncoding = DEFAULT_BODY_ENCODING;
+    private Encoding attachmentEncoding = DEFAULT_ATTACHMENT_ENCODING;
     private final Map<AddressType, List<InternetAddress>> addresses =
             new EnumMap<AddressType, List<InternetAddress>>(AddressType.class);
 
