@@ -9,13 +9,13 @@ import java.util.Map;
 public interface MailMessage {
 
     Charset DEFAULT_CHARSET = Charset.forName("UTF-8");
-    Encoding DEFAULT_BODY_ENCODING = Encoding.AUTO;
+    Encoding DEFAULT_BODY_ENCODING = null;
     Encoding DEFAULT_ATTACHMENT_ENCODING = Encoding.BASE64;
 
     MailMessage charset(Charset charset);
     MailMessage charset(String charset);
-    MailMessage bodyEncoding(Encoding encoding);
-    MailMessage attachmentEncoding(Encoding encoding);
+    MailMessage bodyEncoding(@Nullable Encoding encoding);
+    MailMessage attachmentEncoding(@Nullable Encoding encoding);
 
     MailMessage id(String id);
     MailMessage priority(int priority);

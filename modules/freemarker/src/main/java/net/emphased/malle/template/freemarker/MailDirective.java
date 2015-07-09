@@ -28,7 +28,7 @@ class MailDirective implements TemplateDirectiveModel {
     private static final Map<String, Encoding> STR_TO_ENCODING;
     static {
         Map<String, Encoding> m = new HashMap<String, Encoding>();
-        m.put("auto", Encoding.AUTO);
+        m.put("auto", null);
         m.put("base64", Encoding.BASE64);
         m.put("quoted-printable", Encoding.QUOTED_PRINTABLE);
         m.put("8bit", Encoding.EIGHT_BIT);
@@ -285,8 +285,8 @@ class MailDirective implements TemplateDirectiveModel {
             String type = getStringParam(params, "type", null);
 
             Encoding encoding = getEncodingParam(params, "encoding", MailMessage.DEFAULT_ATTACHMENT_ENCODING);
-            if (encoding == Encoding.AUTO) {
-                throw new UnsupportedOperationException("AUTO encoding is not supported for attachments");
+            if (encoding == null) {
+                throw new UnsupportedOperationException("Autodetected encoding is not supported for attachments");
             }
             m.attachmentEncoding(encoding);
 

@@ -27,7 +27,7 @@ public class JavamailMessage implements MailMessage {
     private MimeMultipart mimeMultipart;
     private Charset charset = Charset.forName("UTF-8");
     private final Map<BodyType, Body> body = new EnumMap<BodyType, Body>(BodyType.class);
-    private Encoding bodyEncoding = Encoding.AUTO;
+    private Encoding bodyEncoding = null;
     private Encoding attachmentEncoding = Encoding.BASE64;
     private final Map<AddressType, List<InternetAddress>> addresses =
             new EnumMap<AddressType, List<InternetAddress>>(AddressType.class);
@@ -35,7 +35,6 @@ public class JavamailMessage implements MailMessage {
     private static final Map<Encoding, String> ENCODING_TO_RFC;
     static {
         EnumMap<Encoding, String> m = new EnumMap<Encoding, String>(Encoding.class);
-        m.put(Encoding.AUTO, null);
         m.put(Encoding.BASE64, "base64");
         m.put(Encoding.QUOTED_PRINTABLE, "quoted-printable");
         m.put(Encoding.EIGHT_BIT, "8bit");
@@ -77,15 +76,13 @@ public class JavamailMessage implements MailMessage {
     }
 
     @Override
-    public MailMessage bodyEncoding(Encoding encoding) {
-        checkNotNull(encoding, "The 'encoding' can't be null");
+    public MailMessage bodyEncoding(@Nullable Encoding encoding) {
         bodyEncoding = encoding;
         return this;
     }
 
     @Override
-    public MailMessage attachmentEncoding(Encoding encoding) {
-        checkNotNull(encoding, "The 'encoding' can't be null");
+    public MailMessage attachmentEncoding(@Nullable Encoding encoding) {
         this.attachmentEncoding = encoding;
         return this;
     }
@@ -492,14 +489,14 @@ public class JavamailMessage implements MailMessage {
         }
     }
 
-    private void setTextToMimePart(MimePart mimePart, String text, String type, Encoding encoding) throws MessagingException {
+    private void setTextToMimePart(MimePart mimePart, String text, String type, @Nullable Encoding encoding) throws MessagingException {
         mimePart.setContent(text, type + "; charset=" + charset.name());
         setContentTransferEncodingHeader(mimePart, encoding);
     }
 
-    private void setContentTransferEncodingHeader(Part part, Encoding encoding) throws MessagingException {
-        if (encoding != Encoding.AUTO) {
-            part.setHeader("Content-Transfer-Encoding", ENCODING_TO_RFC.get(encoding));
+    private void setContentTransferEncodingHeader(Part part, @Nullable Encoding encoding) throws MessagingException {
+        if (encoding != null) {
+            part.setHeader("Content-Transfer-Encoding", checkNotNull(ENCODING_TO_RFC.get(encoding)));
         } else {
             part.removeHeader("Content-Transfer-Encoding");
         }
