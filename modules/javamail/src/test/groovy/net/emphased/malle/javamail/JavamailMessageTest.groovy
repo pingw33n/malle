@@ -34,7 +34,7 @@ class JavamailMessageTest extends Specification {
         mm.getSubject() == "This is a subject"
         mm.getContent() == "Hello from Malle"
 
-        MimeMessageRawMatcher.assertMatch("non_mp_from_to_subject_text.eml", mm)
+        MimeMessageRawMatcher.assertMatch("non_mp_headers_text.eml", mm)
     }
 
     def "creates multipart MimeMessage with headers and plain/html text"() {
