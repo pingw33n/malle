@@ -1,7 +1,6 @@
 package net.emphased.malle.javamail;
 
 import net.emphased.malle.Mail;
-import net.emphased.malle.MailMessage;
 import net.emphased.malle.template.MailTemplate;
 import net.emphased.malle.template.MailTemplateEngine;
 
@@ -32,7 +31,7 @@ public class Javamail implements Mail {
     private MailTemplateEngine templateEngine;
 
     @Override
-    public MailMessage createMailMessage(boolean multipart) {
+    public JavamailMessage createMailMessage(boolean multipart) {
         return createMailMessage(MultipartMode.MIXED_RELATED);
     }
 
