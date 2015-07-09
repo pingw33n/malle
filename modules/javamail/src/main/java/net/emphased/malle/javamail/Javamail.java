@@ -32,7 +32,7 @@ public class Javamail implements Mail {
 
     @Override
     public JavamailMessage createMailMessage(boolean multipart) {
-        return createMailMessage(MultipartMode.MIXED_RELATED);
+        return createMailMessage(multipart ? MultipartMode.MIXED_RELATED : MultipartMode.NONE);
     }
 
     JavamailMessage createMailMessage(MultipartMode multipartMode) {
