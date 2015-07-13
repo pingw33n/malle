@@ -12,7 +12,7 @@
     A message for ${to_firstName} ${to_lastName} sent using Malle and Freemarker
 </@mail>
 
-<#-- Whitespace in the text/html part gets trimmed too_ -->
+<#-- Whitespace in the text/html part gets trimmed too. -->
 <@mail key='html'><#escape x as x?html>
     <p>Hello ${to_firstName} ${to_lastName},</p>
 
