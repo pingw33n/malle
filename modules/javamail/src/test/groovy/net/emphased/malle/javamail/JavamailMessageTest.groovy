@@ -12,18 +12,15 @@ class JavamailMessageTest extends Specification {
     def "creates non-multipart MimeMessage with headers and plain text"() {
 
     given:
-
         JavamailMessage m = javamail.createMailMessage(false)
 
     when:
-
         m.from("from@example.com")
                 .to("to@example.com")
                 .subject("This is a subject")
                 .plain("Hello from Malle")
 
     then:
-
         MimeMessage mm = m.getMimeMessage()
 
         mm.getFrom().length == 1
@@ -41,11 +38,9 @@ class JavamailMessageTest extends Specification {
     def "creates multipart MimeMessage with headers and plain/html text"() {
 
     given:
-
         JavamailMessage m = javamail.createMailMessage(true)
 
     when:
-
         m.from("from@example.com")
                 .to("to@example.com")
                 .subject("This is a subject")
@@ -53,7 +48,6 @@ class JavamailMessageTest extends Specification {
                 .html("Hello from Malle /html")
 
     then:
-
         MimeMessageRawMatcher.assertMatch("mp_headers_plain_html.eml", m.getMimeMessage())
     }
 
