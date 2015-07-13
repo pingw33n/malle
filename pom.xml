@@ -59,9 +59,9 @@
                 <optional>true</optional>
             </dependency>
             <dependency>
-                <groupId>org.spockframework</groupId>
-                <artifactId>spock-core</artifactId>
-                <version>1.0-groovy-2.4</version>
+                <groupId>org.assertj</groupId>
+                <artifactId>assertj-core</artifactId>
+                <version>1.7.1</version>
                 <scope>test</scope>
             </dependency>
             <dependency>

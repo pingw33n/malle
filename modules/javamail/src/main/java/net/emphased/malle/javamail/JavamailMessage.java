@@ -129,6 +129,26 @@ public class JavamailMessage implements MailMessage {
     }
 
     @Override
+    public MailMessage replyTo(Iterable<String> addresses) {
+        return address(AddressType.REPLY_TO, addresses);
+    }
+
+    @Override
+    public MailMessage replyTo(String[] addresses) {
+        return address(AddressType.REPLY_TO, addresses);
+    }
+
+    @Override
+    public MailMessage replyTo(String addresses) {
+        return address(AddressType.REPLY_TO, addresses);
+    }
+
+    @Override
+    public MailMessage replyTo(String address, @Nullable String personal) {
+        return address(AddressType.REPLY_TO, address, personal);
+    }
+
+    @Override
     public MailMessage to(Iterable<String> addresses) {
         return address(AddressType.TO, addresses);
     }
@@ -543,6 +563,12 @@ public class JavamailMessage implements MailMessage {
                         mimeMessage.removeHeader("From");
                         if (!l.isEmpty()) {
                             mimeMessage.addFrom(Utils.toArray(l, InternetAddress.class));
+                        }
+                        break;
+
+                    case REPLY_TO:
+                        if (!l.isEmpty()) {
+                            mimeMessage.setReplyTo(Utils.toArray(l, InternetAddress.class));
                         }
                         break;
 

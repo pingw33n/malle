@@ -24,6 +24,10 @@ public interface MailMessage {
     MailMessage from(String[] addresses);
     MailMessage from(String addresses);
     MailMessage from(String address, @Nullable String personal);
+    MailMessage replyTo(Iterable<String> addresses);
+    MailMessage replyTo(String[] addresses);
+    MailMessage replyTo(String addresses);
+    MailMessage replyTo(String address, @Nullable String personal);
     MailMessage to(Iterable<String> addresses);
     MailMessage to(String[] addresses);
     MailMessage to(String addresses);

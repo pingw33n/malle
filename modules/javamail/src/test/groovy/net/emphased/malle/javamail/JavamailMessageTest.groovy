@@ -1,59 +1,49 @@
 package net.emphased.malle.javamail
-import spock.lang.Specification
 
-import javax.mail.Message
-import javax.mail.internet.InternetAddress
+import org.junit.Before
+import org.junit.Test
+
 import javax.mail.internet.MimeMessage
 
-class JavamailMessageTest extends Specification {
+import static org.assertj.core.api.Assertions.assertThat
 
-    def javamail = new Javamail()
+class JavamailMessageTest extends AbstractJavamailTest {
 
-    def "creates non-multipart MimeMessage with headers and plain text"() {
+    Javamail javamail;
 
-    given:
+    @Before
+    void setUp() {
+        javamail = new Javamail();
+    }
+
+    @Test
+    void "creates non-multipart MimeMessage with headers and plain text"() {
+
         JavamailMessage m = javamail.createMailMessage(false)
 
-    when:
         m.from("from@example.com")
                 .to("to@example.com")
                 .subject("This is a subject")
                 .plain("Hello from Malle")
 
-    then:
         MimeMessage mm = m.getMimeMessage()
 
-        mm.getFrom().length == 1
-        assertInternetAddress("from@example.com", null, mm.getFrom()[0])
-
-        mm.getRecipients(Message.RecipientType.TO).length == 1
-        assertInternetAddress("to@example.com", null, mm.getRecipients(Message.RecipientType.TO)[0])
-
-        mm.getSubject() == "This is a subject"
-        mm.getContent() == "Hello from Malle"
+        assertThat mm.getSubject() isEqualTo "This is a subject"
+        assertThat mm.getContent() isEqualTo "Hello from Malle"
 
         MimeMessageRawMatcher.assertMatch("non_mp_headers_text.eml", mm)
     }
 
-    def "creates multipart MimeMessage with headers and plain/html text"() {
+    @Test
+    void "creates multipart MimeMessage with headers and plain/html text"() {
 
-    given:
         JavamailMessage m = javamail.createMailMessage(true)
-
-    when:
-        m.from("from@example.com")
+                .from("from@example.com")
                 .to("to@example.com")
                 .subject("This is a subject")
                 .plain("Hello from Malle /plain")
                 .html("Hello from Malle /html")
 
-    then:
         MimeMessageRawMatcher.assertMatch("mp_headers_plain_html.eml", m.getMimeMessage())
-    }
-
-    void assertInternetAddress(String address, String personal, actual) {
-        assert actual instanceof InternetAddress
-        assert actual.getAddress() == address
-        assert actual.getPersonal() == personal
     }
 }

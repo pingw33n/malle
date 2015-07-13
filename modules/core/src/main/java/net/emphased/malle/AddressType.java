@@ -2,5 +2,5 @@ package net.emphased.malle;
 
 public enum AddressType {
 
-    FROM, TO, CC, BCC
+    FROM, REPLY_TO, TO, CC, BCC
 }
