@@ -22,7 +22,7 @@ import static net.emphased.malle.util.Preconditions.checkNotNull;
 
 public class FreemarkerTemplateEngine implements MailTemplateEngine {
 
-    static final String MESSAGE_VAR = "__mulle_message";
+    static final String MESSAGE_VAR = "__malle_message";
 
     private Configuration configuration;
 
