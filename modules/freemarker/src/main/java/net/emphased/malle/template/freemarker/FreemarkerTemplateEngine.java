@@ -6,7 +6,7 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateModelException;
 import net.emphased.malle.MailIOException;
-import net.emphased.malle.MailMessage;
+import net.emphased.malle.Mail;
 import net.emphased.malle.template.MailTemplate;
 import net.emphased.malle.template.MailTemplateEngine;
 
@@ -49,7 +49,7 @@ public class FreemarkerTemplateEngine implements MailTemplateEngine {
         return getTemplate(name, null);
     }
 
-    void applyTemplate(FreemarkerTemplate template, MailMessage message, @Nullable Map<String, ?> context) {
+    void applyTemplate(FreemarkerTemplate template, Mail message, @Nullable Map<String, ?> context) {
         checkNotNull(template, "The 'template' must not be null");
         checkNotNull(message, "The 'message' must not be null");
         Map<String, Object> model = new HashMap<String, Object>(context != null ? context : Collections.<String, Object>emptyMap());
@@ -92,7 +92,7 @@ public class FreemarkerTemplateEngine implements MailTemplateEngine {
     }
 
     private void configureEnvironment(Environment env, FreemarkerTemplate template,
-                                      MailMessage message, Map<String, ?> context) {
+                                      Mail message, Map<String, ?> context) {
         // Nothing for now.
     }
 }

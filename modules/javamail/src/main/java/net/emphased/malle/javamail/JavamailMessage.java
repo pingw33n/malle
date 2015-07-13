@@ -3,7 +3,7 @@ package net.emphased.malle.javamail;
 import net.emphased.malle.AddressType;
 import net.emphased.malle.BodyType;
 import net.emphased.malle.Encoding;
-import net.emphased.malle.MailMessage;
+import net.emphased.malle.Mail;
 import net.emphased.malle.util.SimpleFormat;
 
 import javax.activation.DataHandler;
@@ -18,7 +18,7 @@ import java.util.*;
 import static net.emphased.malle.util.Preconditions.checkArgument;
 import static net.emphased.malle.util.Preconditions.checkNotNull;
 
-public class JavamailMessage implements MailMessage {
+public class JavamailMessage implements Mail {
 
     private final Javamail javamail;
     private final MimeMessage mimeMessage = new MimeMessage((Session) null);
@@ -63,32 +63,32 @@ public class JavamailMessage implements MailMessage {
     }
 
     @Override
-    public MailMessage charset(Charset charset) {
+    public Mail charset(Charset charset) {
         checkNotNull(charset, "The 'charset' can't be null");
         this.charset = charset;
         return this;
     }
 
     @Override
-    public MailMessage charset(String charset) {
+    public Mail charset(String charset) {
         charset(Charset.forName(charset));
         return this;
     }
 
     @Override
-    public MailMessage bodyEncoding(@Nullable Encoding encoding) {
+    public Mail bodyEncoding(@Nullable Encoding encoding) {
         bodyEncoding = encoding;
         return this;
     }
 
     @Override
-    public MailMessage attachmentEncoding(@Nullable Encoding encoding) {
+    public Mail attachmentEncoding(@Nullable Encoding encoding) {
         this.attachmentEncoding = encoding;
         return this;
     }
 
     @Override
-    public MailMessage id(String id) {
+    public Mail id(String id) {
         checkNotNull(id, "The 'id' can't be null");
         try {
             mimeMessage.setHeader("Message-ID", '<' + id + '>');
@@ -99,7 +99,7 @@ public class JavamailMessage implements MailMessage {
     }
 
     @Override
-    public MailMessage priority(int priority) {
+    public Mail priority(int priority) {
         try {
             mimeMessage.setHeader("X-Priority", String.valueOf(priority));
         } catch (MessagingException e) {
@@ -109,106 +109,106 @@ public class JavamailMessage implements MailMessage {
     }
 
     @Override
-    public MailMessage from(Iterable<String> addresses) {
+    public Mail from(Iterable<String> addresses) {
         return address(AddressType.FROM, addresses);
     }
 
     @Override
-    public MailMessage from(String[] addresses) {
+    public Mail from(String[] addresses) {
         return address(AddressType.FROM, addresses);
     }
 
     @Override
-    public MailMessage from(String addresses) {
+    public Mail from(String addresses) {
         return address(AddressType.FROM, addresses);
     }
 
     @Override
-    public MailMessage from(String address, @Nullable String personal) {
+    public Mail from(String address, @Nullable String personal) {
         return address(AddressType.FROM, address, personal);
     }
 
     @Override
-    public MailMessage replyTo(Iterable<String> addresses) {
+    public Mail replyTo(Iterable<String> addresses) {
         return address(AddressType.REPLY_TO, addresses);
     }
 
     @Override
-    public MailMessage replyTo(String[] addresses) {
+    public Mail replyTo(String[] addresses) {
         return address(AddressType.REPLY_TO, addresses);
     }
 
     @Override
-    public MailMessage replyTo(String addresses) {
+    public Mail replyTo(String addresses) {
         return address(AddressType.REPLY_TO, addresses);
     }
 
     @Override
-    public MailMessage replyTo(String address, @Nullable String personal) {
+    public Mail replyTo(String address, @Nullable String personal) {
         return address(AddressType.REPLY_TO, address, personal);
     }
 
     @Override
-    public MailMessage to(Iterable<String> addresses) {
+    public Mail to(Iterable<String> addresses) {
         return address(AddressType.TO, addresses);
     }
 
     @Override
-    public MailMessage to(String[] addresses) {
+    public Mail to(String[] addresses) {
         return address(AddressType.TO, addresses);
     }
 
     @Override
-    public MailMessage to(String addresses) {
+    public Mail to(String addresses) {
         return address(AddressType.TO, addresses);
     }
 
     @Override
-    public MailMessage to(String address, @Nullable String personal) {
+    public Mail to(String address, @Nullable String personal) {
         return address(AddressType.TO, createAddress(address, personal));
     }
 
     @Override
-    public MailMessage cc(Iterable<String> addresses) {
+    public Mail cc(Iterable<String> addresses) {
         return address(AddressType.CC, addresses);
     }
 
     @Override
-    public MailMessage cc(String[] addresses) {
+    public Mail cc(String[] addresses) {
         return address(AddressType.CC, addresses);
     }
 
     @Override
-    public MailMessage cc(String addresses) {
+    public Mail cc(String addresses) {
         return address(AddressType.CC, addresses);
     }
 
     @Override
-    public MailMessage cc(String address, @Nullable String personal) {
+    public Mail cc(String address, @Nullable String personal) {
         return address(AddressType.CC, createAddress(address, personal));
     }
 
     @Override
-    public MailMessage bcc(Iterable<String> addresses) {
+    public Mail bcc(Iterable<String> addresses) {
         return address(AddressType.BCC, addresses);
     }
 
-    public MailMessage bcc(String addresses) {
-        return address(AddressType.BCC, addresses);
-    }
-
-    @Override
-    public MailMessage bcc(String[] addresses) {
+    public Mail bcc(String addresses) {
         return address(AddressType.BCC, addresses);
     }
 
     @Override
-    public MailMessage bcc(String address, @Nullable String personal) {
+    public Mail bcc(String[] addresses) {
+        return address(AddressType.BCC, addresses);
+    }
+
+    @Override
+    public Mail bcc(String address, @Nullable String personal) {
         return address(AddressType.BCC, createAddress(address, personal));
     }
 
     @Override
-    public MailMessage address(AddressType type, Iterable<String> addresses) {
+    public Mail address(AddressType type, Iterable<String> addresses) {
         for (String a: addresses) {
             address(type, a);
         }
@@ -216,12 +216,12 @@ public class JavamailMessage implements MailMessage {
     }
 
     @Override
-    public MailMessage address(AddressType type, String[] addresses) {
+    public Mail address(AddressType type, String[] addresses) {
         return address(type, Utils.toIterable(addresses));
     }
 
     @Override
-    public MailMessage address(AddressType type, String addresses) {
+    public Mail address(AddressType type, String addresses) {
         for(InternetAddress ia: parseAddresses(addresses)) {
             address(type, ia);
         }
@@ -229,12 +229,12 @@ public class JavamailMessage implements MailMessage {
     }
 
     @Override
-    public MailMessage address(AddressType type, String address, @Nullable String personal) {
+    public Mail address(AddressType type, String address, @Nullable String personal) {
         return address(type, createAddress(address, personal));
     }
 
     @Override
-    public MailMessage subject(String subject) {
+    public Mail subject(String subject) {
         checkNotNull(subject, "The 'subject' must not be null");
         try {
             mimeMessage.setSubject(subject, charset.name());
@@ -245,7 +245,7 @@ public class JavamailMessage implements MailMessage {
     }
 
     @Override
-    public MailMessage header(String name, String value) {
+    public Mail header(String name, String value) {
         checkNotNull(name, "The 'name' must not be null");
         checkNotNull(value, "The 'value' must not be null");
         try {
@@ -259,7 +259,7 @@ public class JavamailMessage implements MailMessage {
     }
 
     @Override
-    public MailMessage header(String name, String pattern, Object... words) {
+    public Mail header(String name, String pattern, Object... words) {
         checkNotNull(name, "The 'name' must not be null");
         checkNotNull(pattern, "The 'pattern' must not be null");
         try {
@@ -280,19 +280,19 @@ public class JavamailMessage implements MailMessage {
     }
 
     @Override
-    public MailMessage plain(String plain) {
+    public Mail plain(String plain) {
         checkNotNull(plain, "The 'plain' must not be null");
         return body(BodyType.PLAIN, plain);
     }
 
     @Override
-    public MailMessage html(String html) {
+    public Mail html(String html) {
         checkNotNull(html, "The 'html' must not be null");
         return body(BodyType.HTML, html);
     }
 
     @Override
-    public MailMessage body(BodyType type, String value) {
+    public Mail body(BodyType type, String value) {
         checkNotNull(type, "The 'type' must not be null");
         checkNotNull(value, "The 'value' must not be null");
         body.put(type, new Body(value));
@@ -301,7 +301,7 @@ public class JavamailMessage implements MailMessage {
     }
 
     @Override
-    public MailMessage attachment(InputStream content, String filename, String type) {
+    public Mail attachment(InputStream content, String filename, String type) {
         checkNotNull(content, "The 'content' can't be null");
         checkNotNull(filename, "The 'filename' can't be null");
         checkNotNull(type, "The 'type' can't be null");
@@ -323,12 +323,12 @@ public class JavamailMessage implements MailMessage {
     }
 
     @Override
-    public MailMessage attachment(InputStream content, String filename) {
+    public Mail attachment(InputStream content, String filename) {
         return attachment(content, filename, "application/octet-stream");
     }
 
     @Override
-    public MailMessage inline(InputStream content, String id, String type) {
+    public Mail inline(InputStream content, String id, String type) {
         checkNotNull(content, "The 'content' can't be null");
         checkNotNull(id, "The 'id' can't be null");
         checkNotNull(type, "The 'type' can't be null");
@@ -346,18 +346,18 @@ public class JavamailMessage implements MailMessage {
     }
 
     @Override
-    public MailMessage template(String name, @Nullable Locale locale, Map<String, ?> context) {
+    public Mail template(String name, @Nullable Locale locale, Map<String, ?> context) {
         javamail.applyTemplate(this, name, locale, context);
         return this;
     }
 
     @Override
-    public MailMessage template(String name, Map<String, ?> context) {
+    public Mail template(String name, Map<String, ?> context) {
         return template(name, null, context);
     }
 
     @Override
-    public MailMessage template(String name, @Nullable Locale locale, Object... context) {
+    public Mail template(String name, @Nullable Locale locale, Object... context) {
         checkArgument(context.length % 2 == 0, "The 'context' varargs must contain an even number of values");
         Map<String, Object> contextMap;
         if (context.length != 0) {
@@ -378,17 +378,17 @@ public class JavamailMessage implements MailMessage {
     }
 
     @Override
-    public MailMessage template(String name, Object... context) {
+    public Mail template(String name, Object... context) {
         return template(name, null, context);
     }
 
     @Override
-    public MailMessage send() {
+    public Mail send() {
         javamail.send(this);
         return this;
     }
 
-    private MailMessage address(AddressType type, InternetAddress address) {
+    private Mail address(AddressType type, InternetAddress address) {
         List<InternetAddress> l = addresses.get(type);
         if (l == null) {
             l = new ArrayList<InternetAddress>();

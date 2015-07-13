@@ -1,6 +1,6 @@
 package net.emphased.malle.javamail;
 
-import net.emphased.malle.Mail;
+import net.emphased.malle.MailSystem;
 import net.emphased.malle.template.MailTemplate;
 import net.emphased.malle.template.MailTemplateEngine;
 
@@ -20,7 +20,7 @@ import java.util.Properties;
 import static net.emphased.malle.util.Preconditions.checkNotNull;
 import static net.emphased.malle.util.Preconditions.checkState;
 
-public class Javamail implements Mail {
+public class Javamail implements MailSystem {
 
     public static final String DEFAULT_PROTOCOL = "smtp";
     public static final String PASSWORD_PROP = "malle.javamail.password";
@@ -31,11 +31,11 @@ public class Javamail implements Mail {
     private MailTemplateEngine templateEngine;
 
     @Override
-    public JavamailMessage createMailMessage(boolean multipart) {
-        return createMailMessage(multipart ? MultipartMode.MIXED_RELATED : MultipartMode.NONE);
+    public JavamailMessage createMail(boolean multipart) {
+        return createMail(multipart ? MultipartMode.MIXED_RELATED : MultipartMode.NONE);
     }
 
-    JavamailMessage createMailMessage(MultipartMode multipartMode) {
+    JavamailMessage createMail(MultipartMode multipartMode) {
         return new JavamailMessage(this, multipartMode);
     }
 

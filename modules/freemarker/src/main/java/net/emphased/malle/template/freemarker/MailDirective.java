@@ -5,7 +5,7 @@ import freemarker.template.*;
 import net.emphased.malle.AddressType;
 import net.emphased.malle.BodyType;
 import net.emphased.malle.Encoding;
-import net.emphased.malle.MailMessage;
+import net.emphased.malle.Mail;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -73,7 +73,7 @@ class MailDirective implements TemplateDirectiveModel {
         TrimMode trimMode = getEnumParam(params, "trim", TrimMode.class, defaultTrimMode);
         bodyStr = trim(bodyStr, trimMode);
 
-        MailMessage m = getMessage(env);
+        Mail m = getMessage(env);
         handler.handle(key, m, bodyStr, params);
 
         if (!params.isEmpty()) {
@@ -170,8 +170,8 @@ class MailDirective implements TemplateDirectiveModel {
         return checkParamPresent(getEncodingParam(params, name, null), name);
     }
 
-    private MailMessage getMessage(Environment env) throws TemplateModelException {
-        return (MailMessage) ((ObjectModel) env.getDataModel().get(FreemarkerTemplateEngine.MESSAGE_VAR)).getObject();
+    private Mail getMessage(Environment env) throws TemplateModelException {
+        return (Mail) ((ObjectModel) env.getDataModel().get(FreemarkerTemplateEngine.MESSAGE_VAR)).getObject();
     }
 
     private String renderBody(TemplateDirectiveBody body) throws IOException, TemplateException {
@@ -198,14 +198,14 @@ class MailDirective implements TemplateDirectiveModel {
 
     private interface Handler {
 
-        void handle(String key, MailMessage m, String body, Map<String, ?> params) throws TemplateModelException;
+        void handle(String key, Mail m, String body, Map<String, ?> params) throws TemplateModelException;
     }
 
     private static abstract class CharsetAwareHandler implements Handler {
 
         @Override
-        public void handle(String key, MailMessage m, String body, Map<String, ?> params) throws TemplateModelException {
-            Charset charset = getCharsetParam(params, "charset", MailMessage.DEFAULT_CHARSET);
+        public void handle(String key, Mail m, String body, Map<String, ?> params) throws TemplateModelException {
+            Charset charset = getCharsetParam(params, "charset", Mail.DEFAULT_CHARSET);
             m.charset(charset);
         }
     }
@@ -213,7 +213,7 @@ class MailDirective implements TemplateDirectiveModel {
     private static class SubjectHandler extends CharsetAwareHandler {
 
         @Override
-        public void handle(String key, MailMessage m, String body, Map<String, ?> params) throws TemplateModelException {
+        public void handle(String key, Mail m, String body, Map<String, ?> params) throws TemplateModelException {
             super.handle(key, m, body, params);
             m.subject(body);
         }
@@ -232,9 +232,9 @@ class MailDirective implements TemplateDirectiveModel {
         }
 
         @Override
-        public void handle(String key, MailMessage m, String body, Map<String, ?> params) throws TemplateModelException {
+        public void handle(String key, Mail m, String body, Map<String, ?> params) throws TemplateModelException {
             super.handle(key, m, body, params);
-            Encoding encoding = getEncodingParam(params, "encoding", MailMessage.DEFAULT_BODY_ENCODING);
+            Encoding encoding = getEncodingParam(params, "encoding", Mail.DEFAULT_BODY_ENCODING);
             m.bodyEncoding(encoding)
              .body(type, body);
         }
@@ -243,7 +243,7 @@ class MailDirective implements TemplateDirectiveModel {
     private static class PriorityHandler implements Handler {
 
         @Override
-        public void handle(String key, MailMessage m, String body, Map<String, ?> params) throws TemplateModelException {
+        public void handle(String key, Mail m, String body, Map<String, ?> params) throws TemplateModelException {
             int priority;
             try {
                 priority = Integer.valueOf(body);
@@ -264,7 +264,7 @@ class MailDirective implements TemplateDirectiveModel {
         }
 
         @Override
-        public void handle(String key, MailMessage m, String body, Map<String, ?> params)
+        public void handle(String key, Mail m, String body, Map<String, ?> params)
                 throws TemplateModelException {
             super.handle(key, m, body, params);
             String address = getStringParam(params, "address", null);
@@ -279,12 +279,12 @@ class MailDirective implements TemplateDirectiveModel {
     private static class AttachmentHandler implements Handler {
 
         @Override
-        public void handle(String key, MailMessage m, String body, Map<String, ?> params)
+        public void handle(String key, Mail m, String body, Map<String, ?> params)
                 throws TemplateModelException {
             String filename = getStringParam(params, "filename");
             String type = getStringParam(params, "type", null);
 
-            Encoding encoding = getEncodingParam(params, "encoding", MailMessage.DEFAULT_ATTACHMENT_ENCODING);
+            Encoding encoding = getEncodingParam(params, "encoding", Mail.DEFAULT_ATTACHMENT_ENCODING);
             if (encoding == null) {
                 throw new UnsupportedOperationException("Autodetected encoding is not supported for attachments");
             }

@@ -27,18 +27,18 @@ public class JavamailExample extends AbstractExample {
         System.out.println("Sending '" + subject + "' mail from " + from + " to " + to + "...");
 
         try {
-            MailMessage mailMessage = new Javamail()
-                    .createMailMessage(true)
+            Mail mail = new Javamail()
+                    .createMail(true)
                     .from(from)
                     .to(to)
                     .subject(subject);
             if (plain != null) {
-                mailMessage.plain(plain);
+                mail.plain(plain);
             }
             if (html != null) {
-                mailMessage.html(html);
+                mail.html(html);
             }
-            mailMessage.send();
+            mail.send();
         } catch (MailException e) {
             handleException(e);
         }

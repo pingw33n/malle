@@ -19,7 +19,7 @@ class JavamailMessageTest extends AbstractJavamailTest {
     @Test
     void "creates non-multipart MimeMessage with headers and plain text"() {
 
-        JavamailMessage m = javamail.createMailMessage(false)
+        JavamailMessage m = javamail.createMail(false)
 
         m.from("from@example.com")
                 .to("to@example.com")
@@ -37,7 +37,7 @@ class JavamailMessageTest extends AbstractJavamailTest {
     @Test
     void "creates multipart MimeMessage with headers and plain/html text"() {
 
-        JavamailMessage m = javamail.createMailMessage(true)
+        JavamailMessage m = javamail.createMail(true)
                 .from("from@example.com")
                 .to("to@example.com")
                 .subject("This is a subject")
