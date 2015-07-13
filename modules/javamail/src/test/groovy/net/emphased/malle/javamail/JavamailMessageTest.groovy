@@ -31,7 +31,7 @@ class JavamailMessageTest extends AbstractJavamailTest {
         assertThat mm.getSubject() isEqualTo "This is a subject"
         assertThat mm.getContent() isEqualTo "Hello from Malle"
 
-        MimeMessageRawMatcher.assertMatch("non_mp_headers_text.eml", mm)
+        MimeMessageRawMatcher.assertMatch("non_mp_headers_text.eml", m)
     }
 
     @Test
@@ -44,6 +44,6 @@ class JavamailMessageTest extends AbstractJavamailTest {
                 .plain("Hello from Malle /plain")
                 .html("Hello from Malle /html")
 
-        MimeMessageRawMatcher.assertMatch("mp_headers_plain_html.eml", m.getMimeMessage())
+        MimeMessageRawMatcher.assertMatch("mp_headers_plain_html.eml", m)
     }
 }

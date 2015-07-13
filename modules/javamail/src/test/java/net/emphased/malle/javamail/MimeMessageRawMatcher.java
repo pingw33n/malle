@@ -1,7 +1,8 @@
 package net.emphased.malle.javamail;
 
+import net.emphased.malle.Mail;
+
 import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +45,7 @@ public class MimeMessageRawMatcher {
         }
     }
 
-    public static void assertMatch(String expectedResource, MimeMessage actual) throws IOException, MessagingException {
+    public static void assertMatch(String expectedResource, Mail actual) throws IOException, MessagingException {
         InputStream is = MimeMessageRawMatcher.class.getClassLoader().getResourceAsStream(expectedResource);
         if (is == null) {
             throw new IOException("Couldn't find resource: " + expectedResource);

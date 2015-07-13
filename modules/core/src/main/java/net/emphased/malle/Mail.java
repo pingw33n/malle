@@ -1,7 +1,9 @@
 package net.emphased.malle;
 
 import javax.annotation.Nullable;
+import java.io.File;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.util.Locale;
 import java.util.Map;
@@ -64,4 +66,7 @@ public interface Mail {
     Mail template(String name, Object... context);
 
     Mail send();
+
+    Mail writeTo(OutputStream outputStream);
+    Mail writeTo(File file);
 }

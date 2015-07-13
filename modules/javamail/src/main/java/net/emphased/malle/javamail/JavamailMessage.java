@@ -1,17 +1,13 @@
 package net.emphased.malle.javamail;
 
-import net.emphased.malle.AddressType;
-import net.emphased.malle.BodyType;
-import net.emphased.malle.Encoding;
-import net.emphased.malle.Mail;
+import net.emphased.malle.*;
 import net.emphased.malle.util.SimpleFormat;
 
 import javax.activation.DataHandler;
 import javax.annotation.Nullable;
 import javax.mail.*;
 import javax.mail.internet.*;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.util.*;
 
@@ -386,6 +382,32 @@ public class JavamailMessage implements Mail {
     public Mail send() {
         javamail.send(this);
         return this;
+    }
+
+    @Override
+    public Mail writeTo(OutputStream outputStream) {
+        try {
+            getMimeMessage().writeTo(outputStream);
+        } catch (IOException e) {
+            throw new MailIOException(e);
+        } catch (MessagingException e) {
+            throw Utils.wrapException(e);
+        }
+        return this;
+    }
+
+    @Override
+    public Mail writeTo(File file) {
+        try {
+            OutputStream os = new FileOutputStream(file);
+            try {
+                return writeTo(os);
+            } finally {
+                os.close();
+            }
+        } catch (IOException e) {
+            throw new MailIOException(e);
+        }
     }
 
     private Mail address(AddressType type, InternetAddress address) {
