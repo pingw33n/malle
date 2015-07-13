@@ -28,16 +28,16 @@ class MailDirective implements TemplateDirectiveModel {
     private static final Map<String, Encoding> STR_TO_ENCODING;
     static {
         Map<String, Encoding> m = new HashMap<>();
-        m.put("auto", null);
         m.put("base64", Encoding.BASE64);
         m.put("quoted-printable", Encoding.QUOTED_PRINTABLE);
         m.put("8bit", Encoding.EIGHT_BIT);
         m.put("7bit", Encoding.SEVEN_BIT);
         m.put("binary", Encoding.BINARY);
-        STR_TO_ENCODING = Collections.unmodifiableMap(m);
-        if (Encoding.values().length != STR_TO_ENCODING.size()) {
+        if (Encoding.values().length != m.size()) {
             throw new AssertionError("Not all Encoding values have mappings in STR_TO_ENCODING");
         }
+        m.put("auto", null);
+        STR_TO_ENCODING = Collections.unmodifiableMap(m);
     }
 
     @Override
