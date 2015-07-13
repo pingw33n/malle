@@ -27,7 +27,7 @@ public class Javamail implements MailSystem {
 
     private final Object monitor = new Object();
     private Session session;
-    private Map<String, String> properties = new HashMap<String, String>();
+    private Map<String, String> properties = new HashMap<>();
     private MailTemplateEngine templateEngine;
 
     @Override
@@ -120,7 +120,7 @@ public class Javamail implements MailSystem {
     }
 
     public void setProperties(Map<String, String> properties) {
-        this.properties = new HashMap<String, String>(properties);
+        this.properties = new HashMap<>(properties);
         setSession(null);
     }
 

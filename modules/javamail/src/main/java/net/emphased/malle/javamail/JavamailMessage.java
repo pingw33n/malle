@@ -22,15 +22,14 @@ public class JavamailMessage implements Mail {
     private MimeMultipart rootMimeMultipart;
     private MimeMultipart mimeMultipart;
     private Charset charset = DEFAULT_CHARSET;
-    private final Map<BodyType, Body> body = new EnumMap<BodyType, Body>(BodyType.class);
+    private final Map<BodyType, Body> body = new EnumMap<>(BodyType.class);
     private Encoding bodyEncoding = DEFAULT_BODY_ENCODING;
     private Encoding attachmentEncoding = DEFAULT_ATTACHMENT_ENCODING;
-    private final Map<AddressType, List<InternetAddress>> addresses =
-            new EnumMap<AddressType, List<InternetAddress>>(AddressType.class);
+    private final Map<AddressType, List<InternetAddress>> addresses = new EnumMap<>(AddressType.class);
 
     private static final Map<Encoding, String> ENCODING_TO_RFC;
     static {
-        EnumMap<Encoding, String> m = new EnumMap<Encoding, String>(Encoding.class);
+        EnumMap<Encoding, String> m = new EnumMap<>(Encoding.class);
         m.put(Encoding.BASE64, "base64");
         m.put(Encoding.QUOTED_PRINTABLE, "quoted-printable");
         m.put(Encoding.EIGHT_BIT, "8bit");
@@ -398,13 +397,8 @@ public class JavamailMessage implements Mail {
 
     @Override
     public Mail writeTo(File file) {
-        try {
-            OutputStream os = new FileOutputStream(file);
-            try {
-                return writeTo(os);
-            } finally {
-                os.close();
-            }
+        try (OutputStream os = new FileOutputStream(file)) {
+            return writeTo(os);
         } catch (IOException e) {
             throw new MailIOException(e);
         }
@@ -413,7 +407,7 @@ public class JavamailMessage implements Mail {
     private Mail address(AddressType type, InternetAddress address) {
         List<InternetAddress> l = addresses.get(type);
         if (l == null) {
-            l = new ArrayList<InternetAddress>();
+            l = new ArrayList<>();
             addresses.put(type, l);
         }
         l.add(address);

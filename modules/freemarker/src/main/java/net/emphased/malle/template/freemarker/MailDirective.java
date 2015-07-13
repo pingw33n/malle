@@ -27,7 +27,7 @@ class MailDirective implements TemplateDirectiveModel {
 
     private static final Map<String, Encoding> STR_TO_ENCODING;
     static {
-        Map<String, Encoding> m = new HashMap<String, Encoding>();
+        Map<String, Encoding> m = new HashMap<>();
         m.put("auto", null);
         m.put("base64", Encoding.BASE64);
         m.put("quoted-printable", Encoding.QUOTED_PRINTABLE);
@@ -52,7 +52,7 @@ class MailDirective implements TemplateDirectiveModel {
             throw new TemplateModelException("'mail' directive doesn't allow loop variables");
         }
 
-        params = new HashMap<String, Object>(params);
+        params = new HashMap<>(params);
 
         String key = getStringParam(params, "key");
         Handler handler = KEY_HANDLERS.get(key);
@@ -182,7 +182,7 @@ class MailDirective implements TemplateDirectiveModel {
 
     private static final Map<String, Handler> KEY_HANDLERS;
     static {
-        Map<String, Handler> m = new HashMap<String, Handler>();
+        Map<String, Handler> m = new HashMap<>();
         m.put("from", new AddressHandler(AddressType.FROM));
         m.put("to", new AddressHandler(AddressType.TO));
         m.put("cc", new AddressHandler(AddressType.CC));

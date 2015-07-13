@@ -13,7 +13,7 @@ public class MimeMessageRawMatcher {
 
     public static void assertMatch(Reader expected, Reader actual) throws IOException {
         int line = 0;
-        List<String> vars = new ArrayList<String>();
+        List<String> vars = new ArrayList<>();
         while (true) {
             line++;
             Line eline = readLine(expected);

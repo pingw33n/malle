@@ -32,7 +32,7 @@ public final class FreemarkerExample extends AbstractExample {
             fc.setDirectoryForTemplateLoading(file.getParentFile());
         }
 
-        Map<String, Object> c = new HashMap<String, Object>();
+        Map<String, Object> c = new HashMap<>();
         for (Map.Entry<Object, Object> e: System.getProperties().entrySet()) {
             c.put(e.getKey().toString().replace('.', '_'), e.getValue());
         }

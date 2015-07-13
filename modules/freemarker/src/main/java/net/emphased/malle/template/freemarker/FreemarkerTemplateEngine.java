@@ -52,7 +52,7 @@ public class FreemarkerTemplateEngine implements MailTemplateEngine {
     void applyTemplate(FreemarkerTemplate template, Mail message, @Nullable Map<String, ?> context) {
         checkNotNull(template, "The 'template' must not be null");
         checkNotNull(message, "The 'message' must not be null");
-        Map<String, Object> model = new HashMap<String, Object>(context != null ? context : Collections.<String, Object>emptyMap());
+        Map<String, Object> model = new HashMap<>(context != null ? context : Collections.<String, Object>emptyMap());
         model.put(MESSAGE_VAR, new ObjectModel(message));
         try {
             Environment env = template.getTemplate().createProcessingEnvironment(model, NoopWriter.INSTANCE, null);
@@ -76,7 +76,7 @@ public class FreemarkerTemplateEngine implements MailTemplateEngine {
     }
 
     private void configure() {
-        Map<String, Object> vars = new HashMap<String, Object>();
+        Map<String, Object> vars = new HashMap<>();
 
         vars.put(MailDirective.NAME, new MailDirective());
 
