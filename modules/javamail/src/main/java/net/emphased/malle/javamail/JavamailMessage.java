@@ -363,8 +363,9 @@ public class JavamailMessage implements MailMessage {
     }
 
     @Override
-    public void send() {
+    public MailMessage send() {
         javamail.send(this);
+        return this;
     }
 
     private MailMessage address(AddressType type, InternetAddress address) {

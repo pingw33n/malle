@@ -59,5 +59,5 @@ public interface MailMessage {
     MailMessage template(String name, @Nullable Map<String, ?> context);
     MailMessage template(String name, Object... context);
 
-    void send();
+    MailMessage send();
 }
