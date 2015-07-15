@@ -361,7 +361,7 @@ class JavamailMessage implements Mail {
             for (int i = 0; i < len; i++) {
                 Object key = context[i * 2];
                 if (!(key instanceof String)) {
-                    checkArgument(false, "The key values in 'context' must be of String type");
+                    checkArgument(false, "The keys in 'context' must be of String type");
                 }
                 Object value = context[i * 2 + 1];
                 contextMap.put((String) key, value);
