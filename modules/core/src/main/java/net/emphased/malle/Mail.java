@@ -58,6 +58,7 @@ public interface Mail {
     Mail attachment(InputStreamSupplier content, String filename, String type);
     Mail attachment(InputStreamSupplier content, String filename);
     Mail inline(InputStreamSupplier content, String id, String type);
+    Mail inline(InputStreamSupplier content, String id);
 
     Mail template(String name, @Nullable Locale locale, @Nullable Map<String, ?> context);
     Mail template(String name, @Nullable Locale locale, Object... context);

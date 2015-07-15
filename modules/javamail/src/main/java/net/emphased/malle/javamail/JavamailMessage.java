@@ -341,6 +341,11 @@ class JavamailMessage implements Mail {
     }
 
     @Override
+    public Mail inline(InputStreamSupplier content, String id) {
+        return inline(content, id, "application/octet-stream");
+    }
+
+    @Override
     public Mail template(String name, @Nullable Locale locale, Map<String, ?> context) {
         javamail.applyTemplate(this, name, locale, context);
         return this;
