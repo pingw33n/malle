@@ -2,12 +2,9 @@ package net.emphased.malle.template.freemarker;
 
 import freemarker.core.Environment;
 import freemarker.template.*;
-import net.emphased.malle.AddressType;
-import net.emphased.malle.BodyType;
-import net.emphased.malle.Encoding;
-import net.emphased.malle.Mail;
+import net.emphased.malle.*;
+import net.emphased.malle.support.InputStreamSuppliers;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.nio.charset.Charset;
@@ -290,7 +287,7 @@ class MailDirective implements TemplateDirectiveModel {
             }
             m.attachmentEncoding(encoding);
 
-            ByteArrayInputStream content = new ByteArrayInputStream(body.getBytes(Charset.forName("UTF-8")));
+            InputStreamSupplier content = InputStreamSuppliers.bytes(body.getBytes(Charset.forName("UTF-8")));
 
             if (type != null) {
                 m.attachment(content, filename, type);

@@ -296,7 +296,7 @@ public class JavamailMessage implements Mail {
     }
 
     @Override
-    public Mail attachment(InputStream content, String filename, String type) {
+    public Mail attachment(InputStreamSupplier content, String filename, String type) {
         checkNotNull(content, "The 'content' can't be null");
         checkNotNull(filename, "The 'filename' can't be null");
         checkNotNull(type, "The 'type' can't be null");
@@ -308,7 +308,7 @@ public class JavamailMessage implements Mail {
             } catch (UnsupportedEncodingException ex) {
                 throw new RuntimeException("Shouldn't happen", ex);
             }
-            mimeBodyPart.setDataHandler(new DataHandler(new InputStreamDatasource(content, type, filename)));
+            mimeBodyPart.setDataHandler(new DataHandler(new InputStreamSupplierDatasource(content, type, filename)));
             setContentTransferEncodingHeader(mimeBodyPart, attachmentEncoding);
             getRootMimeMultipart().addBodyPart(mimeBodyPart);
         } catch (MessagingException e) {
@@ -318,12 +318,12 @@ public class JavamailMessage implements Mail {
     }
 
     @Override
-    public Mail attachment(InputStream content, String filename) {
+    public Mail attachment(InputStreamSupplier content, String filename) {
         return attachment(content, filename, "application/octet-stream");
     }
 
     @Override
-    public Mail inline(InputStream content, String id, String type) {
+    public Mail inline(InputStreamSupplier content, String id, String type) {
         checkNotNull(content, "The 'content' can't be null");
         checkNotNull(id, "The 'id' can't be null");
         checkNotNull(type, "The 'type' can't be null");
@@ -331,7 +331,7 @@ public class JavamailMessage implements Mail {
             MimeBodyPart mimeBodyPart = new MimeBodyPart();
             mimeBodyPart.setDisposition(MimeBodyPart.INLINE);
             mimeBodyPart.setContentID('<' + id + '>');
-            mimeBodyPart.setDataHandler(new DataHandler(new InputStreamDatasource(content, type, "inline")));
+            mimeBodyPart.setDataHandler(new DataHandler(new InputStreamSupplierDatasource(content, type, "inline")));
             setContentTransferEncodingHeader(mimeBodyPart, attachmentEncoding);
             getMimeMultipart().addBodyPart(mimeBodyPart);
         } catch (MessagingException e) {
@@ -357,7 +357,7 @@ public class JavamailMessage implements Mail {
         Map<String, Object> contextMap;
         if (context.length != 0) {
             int len = context.length / 2;
-            contextMap = new HashMap<String, Object>(len);
+            contextMap = new HashMap<>(len);
             for (int i = 0; i < len; i++) {
                 Object key = context[i * 2];
                 if (!(key instanceof String)) {

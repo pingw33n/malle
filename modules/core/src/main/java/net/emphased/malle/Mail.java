@@ -2,7 +2,6 @@ package net.emphased.malle;
 
 import javax.annotation.Nullable;
 import java.io.File;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.util.Locale;
@@ -56,9 +55,9 @@ public interface Mail {
     Mail html(String html);
     Mail body(BodyType type, String value);
 
-    Mail attachment(InputStream content, String filename, String type);
-    Mail attachment(InputStream content, String filename);
-    Mail inline(InputStream content, String id, String type);
+    Mail attachment(InputStreamSupplier content, String filename, String type);
+    Mail attachment(InputStreamSupplier content, String filename);
+    Mail inline(InputStreamSupplier content, String id, String type);
 
     Mail template(String name, @Nullable Locale locale, @Nullable Map<String, ?> context);
     Mail template(String name, @Nullable Locale locale, Object... context);

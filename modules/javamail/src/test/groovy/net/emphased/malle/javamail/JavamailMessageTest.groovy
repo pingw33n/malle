@@ -1,5 +1,6 @@
 package net.emphased.malle.javamail
 
+import net.emphased.malle.support.InputStreamSuppliers
 import org.junit.Before
 import org.junit.Test
 
@@ -10,6 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat
 class JavamailMessageTest extends AbstractJavamailTest {
 
     Javamail javamail;
+
 
     @Before
     void setUp() {
@@ -37,7 +39,7 @@ class JavamailMessageTest extends AbstractJavamailTest {
     @Test
     void "creates multipart MimeMessage with headers and plain/html text"() {
 
-        JavamailMessage m = javamail.createMail(true)
+        def m = javamail.createMail(true)
                 .from("from@example.com")
                 .to("to@example.com")
                 .subject("This is a subject")
@@ -45,5 +47,14 @@ class JavamailMessageTest extends AbstractJavamailTest {
                 .html("Hello from Malle /html")
 
         MimeMessageRawMatcher.assertMatch("mp_headers_plain_html.eml", m)
+    }
+
+    @Test(expected = IllegalStateException)
+    void "throws IllegalStateException when attempting to read attachment InputStreamS multiple times"() throws Exception {
+        javamail.createMail(true)
+            .plain("")
+            .attachment(InputStreamSuppliers.inputStream(new ByteArrayInputStream()), "test")
+            .writeTo(new ByteArrayOutputStream())
+            .writeTo(new ByteArrayOutputStream());
     }
 }
