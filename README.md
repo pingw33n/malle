@@ -58,6 +58,7 @@ MailSystem mailSystem = new Javamail()
     .withProperty("mail.smtp.port", "587")
     .withProperty("mail.user", "yourgmailaccount@gmail.com")
     .withProperty(Javamail.PASSWORD_PROP, "<your app password>");
+
 mailSystem.createMail(true)
     .from("alice@gmail.com", "Alice")
     .to("bob@gmail.com", "Bob")
