@@ -14,7 +14,7 @@ import java.util.*;
 import static net.emphased.malle.util.Preconditions.checkArgument;
 import static net.emphased.malle.util.Preconditions.checkNotNull;
 
-public class JavamailMessage implements Mail {
+class JavamailMessage implements Mail {
 
     private final Javamail javamail;
     private final MimeMessage mimeMessage = new MimeMessage((Session) null);

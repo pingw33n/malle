@@ -7,7 +7,7 @@ import net.emphased.malle.template.MailTemplate;
 import javax.annotation.Nullable;
 import java.util.Map;
 
-public class FreemarkerTemplate implements MailTemplate {
+class FreemarkerTemplate implements MailTemplate {
 
     private final FreemarkerTemplateEngine engine;
     private final Template template;

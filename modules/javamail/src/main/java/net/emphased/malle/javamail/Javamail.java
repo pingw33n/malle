@@ -1,5 +1,6 @@
 package net.emphased.malle.javamail;
 
+import net.emphased.malle.Mail;
 import net.emphased.malle.MailSystem;
 import net.emphased.malle.template.MailTemplate;
 import net.emphased.malle.template.MailTemplateEngine;
@@ -31,12 +32,8 @@ public class Javamail implements MailSystem {
     private MailTemplateEngine templateEngine;
 
     @Override
-    public JavamailMessage createMail(boolean multipart) {
+    public Mail createMail(boolean multipart) {
         return createMail(multipart ? MultipartMode.MIXED_RELATED : MultipartMode.NONE);
-    }
-
-    JavamailMessage createMail(MultipartMode multipartMode) {
-        return new JavamailMessage(this, multipartMode);
     }
 
     void applyTemplate(JavamailMessage message, @Nullable String name, @Nullable Locale locale, Map<String, ?> context) {
@@ -57,6 +54,10 @@ public class Javamail implements MailSystem {
         } catch (MessagingException e) {
             throw Utils.wrapException(e);
         }
+    }
+
+    private Mail createMail(MultipartMode multipartMode) {
+        return new JavamailMessage(this, multipartMode);
     }
 
     private void doSend(MimeMessage m, Address[] addrs) {
