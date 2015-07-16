@@ -19,8 +19,8 @@ class JavamailMessage implements Mail {
     private final Javamail javamail;
     private final MimeMessage mimeMessage = new MimeMessage((Session) null);
     private boolean mimeMessageReady;
-    private MimeMultipart rootMimeMultipart;
-    private MimeMultipart mimeMultipart;
+    private MimeMultipart attachmentPart;
+    private MimeMultipart inlinePart;
     private Charset charset = DEFAULT_CHARSET;
     private final Map<BodyType, Body> body = new EnumMap<>(BodyType.class);
     private Encoding bodyEncoding = DEFAULT_BODY_ENCODING;
@@ -311,7 +311,7 @@ class JavamailMessage implements Mail {
             }
             mimeBodyPart.setDataHandler(new DataHandler(new InputStreamSupplierDatasource(content, type, filename)));
             setContentTransferEncodingHeader(mimeBodyPart, attachmentEncoding);
-            getRootMimeMultipart().addBodyPart(mimeBodyPart);
+            getAttachmentPart().addBodyPart(mimeBodyPart);
         } catch (MessagingException e) {
             throw Utils.wrapException(e);
         }
@@ -459,44 +459,44 @@ class JavamailMessage implements Mail {
     private void createMimeMultiparts(MultipartMode multipartMode) throws MessagingException {
         switch (multipartMode) {
             case NONE:
-                rootMimeMultipart = null;
-                mimeMultipart = null;
+                attachmentPart = null;
+                inlinePart = null;
                 break;
             case MIXED:
-                rootMimeMultipart = new MimeMultipart("mixed");
-                mimeMessage.setContent(rootMimeMultipart);
-                mimeMultipart = rootMimeMultipart;
+                attachmentPart = new MimeMultipart("mixed");
+                mimeMessage.setContent(attachmentPart);
+                inlinePart = attachmentPart;
                 break;
             case RELATED:
-                rootMimeMultipart = new MimeMultipart("related");
-                mimeMessage.setContent(rootMimeMultipart);
-                mimeMultipart = rootMimeMultipart;
+                attachmentPart = new MimeMultipart("related");
+                mimeMessage.setContent(attachmentPart);
+                inlinePart = attachmentPart;
                 break;
             case MIXED_RELATED:
-                rootMimeMultipart = new MimeMultipart("mixed");
-                mimeMessage.setContent(rootMimeMultipart);
-                mimeMultipart = new MimeMultipart("related");
+                attachmentPart = new MimeMultipart("mixed");
+                mimeMessage.setContent(attachmentPart);
+                inlinePart = new MimeMultipart("related");
                 MimeBodyPart relatedBodyPart = new MimeBodyPart();
-                relatedBodyPart.setContent(mimeMultipart);
-                rootMimeMultipart.addBodyPart(relatedBodyPart);
+                relatedBodyPart.setContent(inlinePart);
+                attachmentPart.addBodyPart(relatedBodyPart);
                 break;
             default:
                 throw new AssertionError();
         }
     }
 
-    private MimeBodyPart getMainPart() throws MessagingException {
+    private MimeBodyPart getTextPart() throws MessagingException {
         checkMultipart();
         MimeBodyPart bodyPart = null;
-        for (int i = 0; i < mimeMultipart.getCount(); i++) {
-            BodyPart bp = mimeMultipart.getBodyPart(i);
+        for (int i = 0; i < inlinePart.getCount(); i++) {
+            BodyPart bp = inlinePart.getBodyPart(i);
             if (bp.getFileName() == null) {
                 bodyPart = (MimeBodyPart) bp;
             }
         }
         if (bodyPart == null) {
             MimeBodyPart mimeBodyPart = new MimeBodyPart();
-            mimeMultipart.addBodyPart(mimeBodyPart);
+            inlinePart.addBodyPart(mimeBodyPart);
             bodyPart = mimeBodyPart;
         }
         return bodyPart;
@@ -504,7 +504,7 @@ class JavamailMessage implements Mail {
 
     private void setText(Body plain, Body html) throws MessagingException {
         MimeMultipart messageBody = new MimeMultipart("alternative");
-        getMainPart().setContent(messageBody, "text/alternative");
+        getTextPart().setContent(messageBody, "text/alternative");
 
         // Create the plain text part of the message.
         MimeBodyPart plainTextPart = new MimeBodyPart();
@@ -520,7 +520,7 @@ class JavamailMessage implements Mail {
     private void setText(Body text, boolean html) throws MessagingException {
         MimePart partToUse;
         if (isMultipart()) {
-            partToUse = getMainPart();
+            partToUse = getTextPart();
         }
         else {
             partToUse = this.mimeMessage;
@@ -555,7 +555,7 @@ class JavamailMessage implements Mail {
     }
 
     private boolean isMultipart() {
-        return rootMimeMultipart != null;
+        return attachmentPart != null;
     }
 
     private void checkMultipart() {
@@ -564,14 +564,14 @@ class JavamailMessage implements Mail {
         }
     }
 
-    private MimeMultipart getRootMimeMultipart() {
+    private MimeMultipart getAttachmentPart() {
         checkMultipart();
-        return rootMimeMultipart;
+        return attachmentPart;
     }
 
-    private MimeMultipart getMimeMultipart() throws IllegalStateException {
+    private MimeMultipart getInlinePart() throws IllegalStateException {
         checkMultipart();
-        return mimeMultipart;
+        return inlinePart;
     }
 
     private void ensureMimeMessageReady() {
@@ -635,7 +635,7 @@ class JavamailMessage implements Mail {
             }
 
             if (!inlines.isEmpty()) {
-                MimeMultipart target = getMimeMultipart();
+                MimeMultipart target = getInlinePart();
                 for (BodyPart part: inlines) {
                     target.addBodyPart(part);
                 }
