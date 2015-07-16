@@ -1,7 +1,6 @@
 package net.emphased.malle.javamail;
 
 import net.emphased.malle.*;
-import net.emphased.malle.util.SimpleFormat;
 
 import javax.activation.DataHandler;
 import javax.annotation.Nullable;
@@ -247,27 +246,6 @@ class JavamailMessage implements Mail {
         checkNotNull(value, "The 'value' must not be null");
         try {
             mimeMessage.addHeader(name, MimeUtility.fold(9, MimeUtility.encodeText(value, charset.name(), null)));
-        } catch (MessagingException e) {
-            throw Utils.wrapException(e);
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException("Shouldn't happen", e);
-        }
-        return this;
-    }
-
-    @Override
-    public Mail header(String name, String pattern, Object... words) {
-        checkNotNull(name, "The 'name' must not be null");
-        checkNotNull(pattern, "The 'pattern' must not be null");
-        try {
-            if (words.length != 0) {
-                for (int i = 0; i < words.length; i++) {
-                    Object arg = words[i];
-                    words[i] = arg != null ? MimeUtility.encodeText(arg.toString(), charset.name(), null) : null;
-                }
-                pattern = SimpleFormat.format(pattern, words);
-            }
-            mimeMessage.addHeader(name, MimeUtility.fold(9, pattern));
         } catch (MessagingException e) {
             throw Utils.wrapException(e);
         } catch (UnsupportedEncodingException e) {

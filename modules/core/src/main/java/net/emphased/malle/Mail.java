@@ -49,7 +49,6 @@ public interface Mail {
     Mail subject(String subject);
 
     Mail header(String name, String value);
-    Mail header(String name, String pattern, Object... words);
 
     Mail plain(String plain);
     Mail html(String html);
