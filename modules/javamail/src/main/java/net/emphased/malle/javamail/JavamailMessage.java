@@ -332,6 +332,8 @@ class JavamailMessage implements Mail {
 
     @Override
     public Mail template(String name, @Nullable Locale locale, Map<String, ?> context) {
+        checkNotNull(name, "The 'name' can't be null");
+        checkNotNull(context, "The 'context' can't be null");
         javamail.applyTemplate(this, name, locale, context);
         return this;
     }
@@ -343,6 +345,8 @@ class JavamailMessage implements Mail {
 
     @Override
     public Mail template(String name, @Nullable Locale locale, Object... context) {
+        checkNotNull(name, "The 'name' can't be null");
+        checkNotNull(context, "The 'context' can't be null");
         checkArgument(context.length % 2 == 0, "The 'context' varargs must contain an even number of values");
         Map<String, Object> contextMap;
         if (context.length != 0) {
@@ -357,7 +361,7 @@ class JavamailMessage implements Mail {
                 contextMap.put((String) key, value);
             }
         } else {
-            contextMap = null;
+            contextMap = Collections.emptyMap();
         }
         return template(name, locale, contextMap);
     }

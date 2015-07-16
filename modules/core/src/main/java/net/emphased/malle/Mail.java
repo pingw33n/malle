@@ -59,9 +59,9 @@ public interface Mail {
     Mail inline(InputStreamSupplier content, String id, @Nullable String type);
     Mail inline(InputStreamSupplier content, String id);
 
-    Mail template(String name, @Nullable Locale locale, @Nullable Map<String, ?> context);
+    Mail template(String name, @Nullable Locale locale, Map<String, ?> context);
     Mail template(String name, @Nullable Locale locale, Object... context);
-    Mail template(String name, @Nullable Map<String, ?> context);
+    Mail template(String name, Map<String, ?> context);
     Mail template(String name, Object... context);
 
     Mail send();

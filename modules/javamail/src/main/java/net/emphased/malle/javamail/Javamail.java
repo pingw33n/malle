@@ -42,13 +42,14 @@ public class Javamail implements MailSystem {
         return createMail(multipart ? MultipartMode.MIXED_RELATED : MultipartMode.NONE);
     }
 
-    void applyTemplate(JavamailMessage message, @Nullable String name, @Nullable Locale locale, Map<String, ?> context) {
+    void applyTemplate(JavamailMessage message, String name, @Nullable Locale locale, Map<String, ?> context) {
         checkState(templateEngine != null, "Please the the template engine first");
+        checkNotNull(name, "The 'name' can't be null");
         MailTemplate t = templateEngine.getTemplate(name, locale);
         applyTemplate(message, t, context);
     }
 
-    void applyTemplate(JavamailMessage message, MailTemplate template, @Nullable Map<String, ?> context) {
+    void applyTemplate(JavamailMessage message, MailTemplate template, Map<String, ?> context) {
         template.apply(message, context);
     }
 
