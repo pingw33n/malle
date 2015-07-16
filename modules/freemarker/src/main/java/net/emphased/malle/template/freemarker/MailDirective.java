@@ -283,7 +283,7 @@ class MailDirective implements TemplateDirectiveModel {
 
             Encoding encoding = getEncodingParam(params, "encoding", Mail.DEFAULT_ATTACHMENT_ENCODING);
             if (encoding == null) {
-                throw new UnsupportedOperationException("Autodetected encoding is not supported for attachments");
+                throw new TemplateModelException("Encoding auto-detection is not supported for attachments");
             }
             m.attachmentEncoding(encoding);
 
