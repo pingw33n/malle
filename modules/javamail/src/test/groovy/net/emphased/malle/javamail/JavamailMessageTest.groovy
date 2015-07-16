@@ -7,6 +7,7 @@ import org.junit.Test
 
 import javax.mail.internet.MimeMessage
 
+import static net.emphased.malle.javamail.MimeMessageRawMatcher.assertMatch
 import static org.assertj.core.api.Assertions.assertThat
 
 class JavamailMessageTest extends AbstractJavamailTest {
@@ -47,7 +48,7 @@ class JavamailMessageTest extends AbstractJavamailTest {
                 .plain("Hello from Malle /plain")
                 .html("Hello from Malle /html")
 
-        MimeMessageRawMatcher.assertMatch("mp_headers_plain_html.eml", m)
+        assertMatch("mp_headers_plain_html.eml", m)
     }
 
     @Test
@@ -59,11 +60,11 @@ class JavamailMessageTest extends AbstractJavamailTest {
                 .inline(InputStreamSuppliers.resource("image1.png"), "image1@example.com", "image/png")
                 .html("<img src=\"cid:image1@example.com\"/>");
 
-        MimeMessageRawMatcher.assertMatch("mp_inline.eml", m)
+        assertMatch("mp_inline.eml", m)
     }
 
     @Test(expected = IllegalStateException)
-    void "throws IllegalStateException when attempting to read attachment InputStreamS multiple times"() throws Exception {
+    void "throws IllegalStateException when attempting to read attachment InputStreamS multiple times"() {
         javamail.createMail()
             .plain("")
             .attachment(InputStreamSuppliers.inputStream(new ByteArrayInputStream()), "test")
