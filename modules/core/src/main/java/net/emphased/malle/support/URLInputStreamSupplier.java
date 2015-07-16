@@ -17,7 +17,7 @@ class URLInputStreamSupplier implements InputStreamSupplier {
     }
 
     @Override
-    public InputStream get() throws IOException {
+    public InputStream getInputStream() throws IOException {
         return url.openStream();
     }
 }

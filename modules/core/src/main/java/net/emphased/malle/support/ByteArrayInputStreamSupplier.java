@@ -40,7 +40,7 @@ class ByteArrayInputStreamSupplier implements InputStreamSupplier {
     }
 
     @Override
-    public InputStream get() {
+    public InputStream getInputStream() {
         return new ByteArrayInputStream(bytes, offset, size);
     }
 }

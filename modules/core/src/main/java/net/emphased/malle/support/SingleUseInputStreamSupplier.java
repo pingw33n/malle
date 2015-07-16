@@ -15,12 +15,16 @@ class SingleUseInputStreamSupplier implements InputStreamSupplier {
         this.inputStream = checkNotNull(inputStream);
     }
 
-    public InputStream getInputStream() {
+    public boolean isUsed() {
+        return used;
+    }
+
+    public InputStream getInputStreamSafe() {
         return inputStream;
     }
 
     @Override
-    public InputStream get() {
+    public InputStream getInputStream() {
         if (used) {
             throw new IllegalStateException("This InputStreamSupplier implementation is single use only");
         }

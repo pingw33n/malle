@@ -32,7 +32,7 @@ class InputStreamSupplierDatasource implements DataSource {
     @Override
     public InputStream getInputStream() throws IOException {
         try {
-            return inputStreamSupplier.get();
+            return inputStreamSupplier.getInputStream();
         } catch (MailIOException e) {
             if (e.getCause() instanceof IOException) {
                 throw (IOException) e.getCause();

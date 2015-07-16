@@ -15,7 +15,7 @@ public class ByteProducerInputStreamSupplier implements InputStreamSupplier {
     }
 
     @Override
-    public InputStream get() throws IOException {
+    public InputStream getInputStream() throws IOException {
         final Path tempFile = Files.createTempFile("malle_", "");
         InputStream r;
         try {

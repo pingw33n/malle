@@ -22,7 +22,7 @@ class PathInputStreamSupplier implements InputStreamSupplier {
     }
 
     @Override
-    public InputStream get() throws FileNotFoundException {
+    public InputStream getInputStream() throws FileNotFoundException {
         return new FileInputStream(path.toFile());
     }
 }
