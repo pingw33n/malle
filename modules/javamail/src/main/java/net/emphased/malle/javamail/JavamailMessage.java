@@ -402,7 +402,7 @@ class JavamailMessage implements Mail {
 
     @Override
     public Mail writeTo(File file) {
-        try (OutputStream os = new FileOutputStream(file)) {
+        try (OutputStream os = new BufferedOutputStream(new FileOutputStream(file))) {
             return writeTo(os);
         } catch (IOException e) {
             throw new MailIOException(e);
