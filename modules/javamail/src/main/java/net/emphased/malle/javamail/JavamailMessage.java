@@ -9,6 +9,7 @@ import javax.mail.*;
 import javax.mail.internet.*;
 import java.io.*;
 import java.nio.charset.Charset;
+import java.nio.file.Path;
 import java.util.*;
 
 import static net.emphased.malle.util.Preconditions.checkArgument;
@@ -406,8 +407,8 @@ class JavamailMessage implements Mail {
     }
 
     @Override
-    public Mail writeTo(File file) {
-        try (OutputStream os = new BufferedOutputStream(new FileOutputStream(file))) {
+    public Mail writeTo(Path path) {
+        try (OutputStream os = new BufferedOutputStream(new FileOutputStream(path.toFile()))) {
             return writeTo(os);
         } catch (IOException e) {
             throw new MailIOException(e);

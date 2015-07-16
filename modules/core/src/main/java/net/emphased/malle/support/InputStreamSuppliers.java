@@ -3,10 +3,11 @@ package net.emphased.malle.support;
 import net.emphased.malle.InputStreamSupplier;
 import net.emphased.malle.MailIOException;
 
-import java.io.File;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public final class InputStreamSuppliers {
 
@@ -18,12 +19,12 @@ public final class InputStreamSuppliers {
         return new ByteArrayInputStreamSupplier(bytes);
     }
 
-    public static InputStreamSupplier file(File file) {
-        return new FileInputStreamSupplier(file);
+    public static InputStreamSupplier file(Path path) {
+        return new PathInputStreamSupplier(path);
     }
 
-    public static InputStreamSupplier file(String file) {
-        return new FileInputStreamSupplier(new File(file));
+    public static InputStreamSupplier file(String path) {
+        return file(Paths.get(path));
     }
 
     public static InputStreamSupplier url(URL url) {

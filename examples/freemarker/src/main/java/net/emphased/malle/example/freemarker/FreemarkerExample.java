@@ -7,8 +7,9 @@ import net.emphased.malle.example.AbstractExample;
 import net.emphased.malle.javamail.Javamail;
 import net.emphased.malle.template.freemarker.FreemarkerTemplateEngine;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,9 +28,9 @@ public final class FreemarkerExample extends AbstractExample {
             template = template.substring("classpath:".length());
             fc.setClassForTemplateLoading(FreemarkerExample.class, "/");
         } else {
-            File file = new File(template);
-            template = file.getName();
-            fc.setDirectoryForTemplateLoading(file.getParentFile());
+            Path path = Paths.get(template);
+            template = path.getFileName().toString();
+            fc.setDirectoryForTemplateLoading(path.getParent().toFile());
         }
 
         Map<String, Object> c = new HashMap<>();
