@@ -71,7 +71,7 @@ mailSystem.createMail()
 
 Sending some attachments:
 
-```
+```java
 String catUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/So_happy_smiling_cat.jpg/411px-So_happy_smiling_cat.jpg";
 String horseUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Funny_Cide.jpg/444px-Funny_Cide.jpg";
 mailSystem.createMail()
