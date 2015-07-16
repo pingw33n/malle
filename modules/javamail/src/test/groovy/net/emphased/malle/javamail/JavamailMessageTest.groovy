@@ -39,7 +39,7 @@ class JavamailMessageTest extends AbstractJavamailTest {
     @Test
     void "creates multipart MimeMessage with headers and plain/html text"() {
 
-        def m = javamail.createMail(true)
+        def m = javamail.createMail()
                 .from("from@example.com")
                 .to("to@example.com")
                 .subject("This is a subject")
@@ -52,7 +52,7 @@ class JavamailMessageTest extends AbstractJavamailTest {
     @Test
     void "creates multipart MimeMessage with inline attachments"() {
 
-        def m = javamail.createMail(true)
+        def m = javamail.createMail()
                 .from("from@example.com")
                 .to("to@example.com")
                 .inline(InputStreamSuppliers.resource("image1.png"), "image1@example.com", "image/png")
@@ -63,7 +63,7 @@ class JavamailMessageTest extends AbstractJavamailTest {
 
     @Test(expected = IllegalStateException)
     void "throws IllegalStateException when attempting to read attachment InputStreamS multiple times"() throws Exception {
-        javamail.createMail(true)
+        javamail.createMail()
             .plain("")
             .attachment(InputStreamSuppliers.inputStream(new ByteArrayInputStream()), "test")
             .writeTo(new ByteArrayOutputStream())

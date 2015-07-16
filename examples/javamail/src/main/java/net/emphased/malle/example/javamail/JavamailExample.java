@@ -28,7 +28,7 @@ public class JavamailExample extends AbstractExample {
 
         try {
             Mail mail = new Javamail()
-                    .createMail(true)
+                    .createMail()
                     .from(from)
                     .to(to)
                     .subject(subject);
