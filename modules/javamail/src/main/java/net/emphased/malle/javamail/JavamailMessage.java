@@ -297,10 +297,12 @@ class JavamailMessage implements Mail {
     }
 
     @Override
-    public Mail attachment(InputStreamSupplier content, String filename, String type) {
+    public Mail attachment(InputStreamSupplier content, String filename, @Nullable String type) {
         checkNotNull(content, "The 'content' can't be null");
         checkNotNull(filename, "The 'filename' can't be null");
-        checkNotNull(type, "The 'type' can't be null");
+        if (type == null) {
+            type = "application/octet-stream";
+        }
         try {
             MimeBodyPart mimeBodyPart = new MimeBodyPart();
             mimeBodyPart.setDisposition(MimeBodyPart.ATTACHMENT);
@@ -320,7 +322,7 @@ class JavamailMessage implements Mail {
 
     @Override
     public Mail attachment(InputStreamSupplier content, String filename) {
-        return attachment(content, filename, "application/octet-stream");
+        return attachment(content, filename, null);
     }
 
     @Override
