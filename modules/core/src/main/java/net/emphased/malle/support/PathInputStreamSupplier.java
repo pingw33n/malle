@@ -1,7 +1,6 @@
 package net.emphased.malle.support;
 
 import net.emphased.malle.InputStreamSupplier;
-import net.emphased.malle.MailIOException;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -23,11 +22,7 @@ class PathInputStreamSupplier implements InputStreamSupplier {
     }
 
     @Override
-    public InputStream get() {
-        try {
-            return new FileInputStream(path.toFile());
-        } catch (FileNotFoundException e) {
-            throw new MailIOException(e);
-        }
+    public InputStream get() throws FileNotFoundException {
+        return new FileInputStream(path.toFile());
     }
 }

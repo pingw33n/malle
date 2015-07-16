@@ -1,7 +1,6 @@
 package net.emphased.malle.support;
 
 import net.emphased.malle.InputStreamSupplier;
-import net.emphased.malle.MailIOException;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,11 +17,7 @@ class URLInputStreamSupplier implements InputStreamSupplier {
     }
 
     @Override
-    public InputStream get() {
-        try {
-            return url.openStream();
-        } catch (IOException e) {
-            throw new MailIOException(e);
-        }
+    public InputStream get() throws IOException {
+        return url.openStream();
     }
 }
