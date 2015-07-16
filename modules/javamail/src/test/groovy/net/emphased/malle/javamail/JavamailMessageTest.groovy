@@ -1,5 +1,6 @@
 package net.emphased.malle.javamail
 
+import net.emphased.malle.MailSendException
 import net.emphased.malle.support.InputStreamSuppliers
 import org.junit.Before
 import org.junit.Test
@@ -15,7 +16,8 @@ class JavamailMessageTest extends AbstractJavamailTest {
 
     @Before
     void setUp() {
-        javamail = new Javamail();
+        javamail = new Javamail()
+                .withProperty("mail.smtp.host", "example.com");
     }
 
     @Test
@@ -67,5 +69,12 @@ class JavamailMessageTest extends AbstractJavamailTest {
             .attachment(InputStreamSuppliers.inputStream(new ByteArrayInputStream()), "test")
             .writeTo(new ByteArrayOutputStream())
             .writeTo(new ByteArrayOutputStream());
+    }
+
+    @Test(expected = MailSendException)
+    void "throws MailSendException when no recipients"() {
+        javamail.createMail()
+                .plain("")
+                .send();
     }
 }

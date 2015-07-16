@@ -1,6 +1,7 @@
 package net.emphased.malle.javamail;
 
 import net.emphased.malle.Mail;
+import net.emphased.malle.MailSendException;
 import net.emphased.malle.MailSystem;
 import net.emphased.malle.template.MailTemplate;
 import net.emphased.malle.template.MailTemplateEngine;
@@ -55,6 +56,9 @@ public class Javamail implements MailSystem {
         MimeMessage m = message.getMimeMessage();
         try {
             Address[] addrs = addresses.length != 0 ? parseAddresses(addresses) : m.getAllRecipients();
+            if (addrs == null || addrs.length == 0) {
+                throw new MailSendException("No mail recipients specified");
+            }
             doSend(m, addrs);
         } catch (MessagingException e) {
             throw Utils.wrapException(e);
