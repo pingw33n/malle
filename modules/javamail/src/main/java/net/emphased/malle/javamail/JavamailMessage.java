@@ -78,7 +78,8 @@ class JavamailMessage implements Mail {
     }
 
     @Override
-    public Mail attachmentEncoding(@Nullable Encoding encoding) {
+    public Mail attachmentEncoding(Encoding encoding) {
+        checkNotNull(encoding, "The 'encoding' must not be null");
         this.attachmentEncoding = encoding;
         return this;
     }

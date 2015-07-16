@@ -16,7 +16,7 @@ public interface Mail {
     Mail charset(Charset charset);
     Mail charset(String charset);
     Mail bodyEncoding(@Nullable Encoding encoding);
-    Mail attachmentEncoding(@Nullable Encoding encoding);
+    Mail attachmentEncoding(Encoding encoding);
 
     Mail id(String id);
     Mail priority(int priority);
