@@ -55,8 +55,7 @@ class JavamailMessageTest extends AbstractJavamailTest {
         def m = javamail.createMail(true)
                 .from("from@example.com")
                 .to("to@example.com")
-                .inline(InputStreamSuppliers.url(getClass().getClassLoader().getResource("image1.png")),
-                        "image1@example.com", "image/png")
+                .inline(InputStreamSuppliers.resource("image1.png"), "image1@example.com", "image/png")
                 .html("<img src=\"cid:image1@example.com\"/>");
 
         MimeMessageRawMatcher.assertMatch("mp_inline.eml", m)

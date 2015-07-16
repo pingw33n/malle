@@ -44,4 +44,24 @@ public final class InputStreamSuppliers {
 
     private InputStreamSuppliers() {
     }
+
+    public static InputStreamSupplier resource(String name) {
+        return resource(name, InputStreamSupplier.class.getClassLoader());
+    }
+
+    public static InputStreamSupplier resource(String name, Class<?> clazz) {
+        URL url = clazz.getResource(name);
+        if (url == null) {
+            throw new MailIOException("Couldn't find the specified resource: " + name);
+        }
+        return url(url);
+    }
+
+    public static InputStreamSupplier resource(String name, ClassLoader classLoader) {
+        URL url = classLoader.getResource(name);
+        if (url == null) {
+            throw new MailIOException("Couldn't find the specified resource: " + name);
+        }
+        return url(url);
+    }
 }
