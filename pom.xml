@@ -29,6 +29,13 @@
         <developerConnection>scm:git:git@github.com:pingw33n/malle.git</developerConnection>
     </scm>
 
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+
     <developers>
         <developer>
             <email>pingw33n@emphased.net</email>
