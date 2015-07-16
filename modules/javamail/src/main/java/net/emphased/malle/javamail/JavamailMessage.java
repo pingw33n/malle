@@ -336,6 +336,7 @@ class JavamailMessage implements Mail {
             mimeBodyPart.setDataHandler(new DataHandler(new InputStreamSupplierDatasource(content, type, "inline")));
             setContentTransferEncodingHeader(mimeBodyPart, attachmentEncoding);
             inlines.add(mimeBodyPart);
+            mimeMessageReady = false;
         } catch (MessagingException e) {
             throw Utils.wrapException(e);
         }
@@ -639,6 +640,7 @@ class JavamailMessage implements Mail {
                 for (BodyPart part: inlines) {
                     target.addBodyPart(part);
                 }
+                inlines.clear();
             }
         } catch (MessagingException e) {
             throw Utils.wrapException(e);
