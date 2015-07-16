@@ -26,6 +26,7 @@ class JavamailMessage implements Mail {
     private Encoding bodyEncoding = DEFAULT_BODY_ENCODING;
     private Encoding attachmentEncoding = DEFAULT_ATTACHMENT_ENCODING;
     private final Map<AddressType, List<InternetAddress>> addresses = new EnumMap<>(AddressType.class);
+    private final List<BodyPart> inlines = new ArrayList<>();
 
     private static final Map<Encoding, String> ENCODING_TO_RFC;
     static {
@@ -327,13 +328,14 @@ class JavamailMessage implements Mail {
         checkNotNull(content, "The 'content' can't be null");
         checkNotNull(id, "The 'id' can't be null");
         checkNotNull(type, "The 'type' can't be null");
+        checkMultipart();
         try {
             MimeBodyPart mimeBodyPart = new MimeBodyPart();
             mimeBodyPart.setDisposition(MimeBodyPart.INLINE);
             mimeBodyPart.setContentID('<' + id + '>');
             mimeBodyPart.setDataHandler(new DataHandler(new InputStreamSupplierDatasource(content, type, "inline")));
             setContentTransferEncodingHeader(mimeBodyPart, attachmentEncoding);
-            getMimeMultipart().addBodyPart(mimeBodyPart);
+            inlines.add(mimeBodyPart);
         } catch (MessagingException e) {
             throw Utils.wrapException(e);
         }
@@ -630,6 +632,13 @@ class JavamailMessage implements Mail {
                 setText(html, true);
             } else {
                 throw new IllegalStateException("The message must have plain and/or html text set");
+            }
+
+            if (!inlines.isEmpty()) {
+                MimeMultipart target = getMimeMultipart();
+                for (BodyPart part: inlines) {
+                    target.addBodyPart(part);
+                }
             }
         } catch (MessagingException e) {
             throw Utils.wrapException(e);

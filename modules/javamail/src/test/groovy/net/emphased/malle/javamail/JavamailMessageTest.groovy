@@ -21,7 +21,7 @@ class JavamailMessageTest extends AbstractJavamailTest {
     @Test
     void "creates non-multipart MimeMessage with headers and plain text"() {
 
-        JavamailMessage m = javamail.createMail(false)
+        def m = javamail.createMail(false)
 
         m.from("from@example.com")
                 .to("to@example.com")
@@ -47,6 +47,19 @@ class JavamailMessageTest extends AbstractJavamailTest {
                 .html("Hello from Malle /html")
 
         MimeMessageRawMatcher.assertMatch("mp_headers_plain_html.eml", m)
+    }
+
+    @Test
+    void "creates multipart MimeMessage with inline attachments"() {
+
+        def m = javamail.createMail(true)
+                .from("from@example.com")
+                .to("to@example.com")
+                .inline(InputStreamSuppliers.url(getClass().getClassLoader().getResource("image1.png")),
+                        "image1@example.com", "image/png")
+                .html("<img src=\"cid:image1@example.com\"/>");
+
+        MimeMessageRawMatcher.assertMatch("mp_inline.eml", m)
     }
 
     @Test(expected = IllegalStateException)
