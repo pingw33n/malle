@@ -155,6 +155,45 @@ This will the attachment's content.
 </@mail>
 ```
 
+Configuring with Spring XML:
+
+```xml
+<bean id="mailSystem" class="net.emphased.malle.javamail.Javamail">
+    <property name="templateEngine">
+        <bean class="net.emphased.malle.template.freemarker.FreemarkerTemplateEngine">
+            <property name="configuration">
+                <bean class="org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean"
+                      p:defaultEncoding="UTF-8"
+                      p:templateLoaderPath="classpath:mail"/>
+            </property>
+        </bean>
+    </property>
+    <property name="properties">
+        <map>
+            <entry key="mail.smtp.host" value="${mail.smtp.host}"/>
+            <entry key="mail.smtp.port" value="${mail.smtp.port}"/>
+            <entry key="mail.smtp.connectiontimeout" value="${mail.smtp.connectiontimeout}"/>
+            <entry key="mail.smtp.timeout" value="${mail.smtp.timeout}"/>
+        </map>
+    </property>
+</bean>
+```
+
+... and using in a ususal way:
+
+```java
+public class MyBean {
+
+    @Autowired
+    private MailSystem mailSystem;
+
+    public void sendMail() {
+        mailSystem.createMail()
+            ...
+            .send()
+    }
+```
+
 ## License
 
 The MIT License (MIT)
