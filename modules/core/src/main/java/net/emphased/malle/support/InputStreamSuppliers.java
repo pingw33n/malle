@@ -65,4 +65,8 @@ public final class InputStreamSuppliers {
         }
         return url(url);
     }
+
+    public static InputStreamSupplier producer(ByteProducer producer) {
+        return new ByteProducerInputStreamSupplier(producer);
+    }
 }
