@@ -22,8 +22,7 @@ class JavamailMessageTest extends AbstractJavamailTest {
     void "creates non-multipart MimeMessage with headers and plain text"() {
 
         def m = javamail.createMail(false)
-
-        m.from("from@example.com")
+                .from("from@example.com")
                 .to("to@example.com")
                 .subject("This is a subject")
                 .plain("Hello from Malle")
