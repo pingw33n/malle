@@ -19,6 +19,7 @@
         <module>core</module>
         <module>javamail</module>
         <module>freemarker</module>
+        <module>servlet</module>
     </modules>
 
 </project>

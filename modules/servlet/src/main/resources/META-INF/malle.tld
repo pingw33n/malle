@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+        version="2.0">
+
+    <description>Malle JSP Tag Library</description>
+    <tlib-version>4.0</tlib-version>
+    <short-name>malle</short-name>
+    <uri>http://emphased.net/malle</uri>
+
+    <tag>
+        <description>
+            Sets the From mail header.
+        </description>
+        <name>from</name>
+        <tag-class>net.emphased.malle.template.servlet.tag.From</tag-class>
+        <body-content>scriptless</body-content>
+        <attribute>
+            <description>The address part.</description>
+            <name>address</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>The personal part.</description>
+            <name>personal</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <description>
+            Sets the To mail header.
+        </description>
+        <name>to</name>
+        <tag-class>net.emphased.malle.template.servlet.tag.To</tag-class>
+        <body-content>scriptless</body-content>
+        <attribute>
+            <description>The address part.</description>
+            <name>address</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>The personal part.</description>
+            <name>personal</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <description>
+            Sets the plain text.
+        </description>
+        <name>plain</name>
+        <tag-class>net.emphased.malle.template.servlet.tag.Plain</tag-class>
+        <body-content>scriptless</body-content>
+    </tag>
+
+    <tag>
+        <description>
+            Sets the html text.
+        </description>
+        <name>html</name>
+        <tag-class>net.emphased.malle.template.servlet.tag.Html</tag-class>
+        <body-content>scriptless</body-content>
+    </tag>
+</taglib>
