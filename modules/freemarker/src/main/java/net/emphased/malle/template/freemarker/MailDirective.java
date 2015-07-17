@@ -57,7 +57,10 @@ class MailDirective implements TemplateDirectiveModel {
             throw new TemplateModelException("Unknown command passed to 'mail' directive: " + cmd);
         }
 
-        String bodyStr = body != null ? renderBody(body) : "";
+        boolean hadBody = body != null;
+        String bodyStr = hadBody ? renderBody(body) : "";
+        // Treat empty string as no body.
+        hadBody &= !bodyStr.isEmpty();
 
         TrimMode defaultTrimMode;
         if (handler instanceof BodyHandler && ((BodyHandler) handler).getType() == BodyType.PLAIN) {
@@ -71,7 +74,7 @@ class MailDirective implements TemplateDirectiveModel {
         bodyStr = trim(bodyStr, trimMode);
 
         Mail m = getMessage(env);
-        handler.handle(cmd, m, bodyStr, params);
+        handler.handle(cmd, m, hadBody, bodyStr, params);
 
         if (!params.isEmpty()) {
             throw new TemplateModelException("Unknown parameters passed to 'mail' (cmd = '" + cmd + "') directive: " + params.keySet());
@@ -188,20 +191,21 @@ class MailDirective implements TemplateDirectiveModel {
         m.put("subject", new SubjectHandler());
         m.put("plain", new BodyHandler(BodyType.PLAIN));
         m.put("html", new BodyHandler(BodyType.HTML));
-        m.put("attachment", new AttachmentHandler());
+        m.put("attachment", new AttachmentHandler(false));
+        m.put("inline", new AttachmentHandler(true));
 
         CMD_HANDLERS = Collections.unmodifiableMap(m);
     }
 
     private interface Handler {
 
-        void handle(String cmd, Mail m, String body, Map<String, ?> params) throws TemplateModelException;
+        void handle(String cmd, Mail m, boolean hadBody, String body, Map<String, ?> params) throws TemplateModelException;
     }
 
     private static abstract class CharsetAwareHandler implements Handler {
 
         @Override
-        public void handle(String cmd, Mail m, String body, Map<String, ?> params) throws TemplateModelException {
+        public void handle(String cmd, Mail m, boolean hadBody, String body, Map<String, ?> params) throws TemplateModelException {
             Charset charset = getCharsetParam(params, "charset", Mail.DEFAULT_CHARSET);
             m.charset(charset);
         }
@@ -210,8 +214,8 @@ class MailDirective implements TemplateDirectiveModel {
     private static class SubjectHandler extends CharsetAwareHandler {
 
         @Override
-        public void handle(String cmd, Mail m, String body, Map<String, ?> params) throws TemplateModelException {
-            super.handle(cmd, m, body, params);
+        public void handle(String cmd, Mail m, boolean hadBody, String body, Map<String, ?> params) throws TemplateModelException {
+            super.handle(cmd, m, hadBody, body, params);
             m.subject(body);
         }
     }
@@ -229,8 +233,8 @@ class MailDirective implements TemplateDirectiveModel {
         }
 
         @Override
-        public void handle(String cmd, Mail m, String body, Map<String, ?> params) throws TemplateModelException {
-            super.handle(cmd, m, body, params);
+        public void handle(String cmd, Mail m, boolean hadBody, String body, Map<String, ?> params) throws TemplateModelException {
+            super.handle(cmd, m, hadBody, body, params);
             Encoding encoding = getEncodingParam(params, "encoding", Mail.DEFAULT_BODY_ENCODING);
             m.bodyEncoding(encoding)
              .body(type, body);
@@ -240,7 +244,7 @@ class MailDirective implements TemplateDirectiveModel {
     private static class PriorityHandler implements Handler {
 
         @Override
-        public void handle(String cmd, Mail m, String body, Map<String, ?> params) throws TemplateModelException {
+        public void handle(String cmd, Mail m, boolean hadBody, String body, Map<String, ?> params) throws TemplateModelException {
             int priority;
             try {
                 priority = Integer.valueOf(body);
@@ -261,9 +265,9 @@ class MailDirective implements TemplateDirectiveModel {
         }
 
         @Override
-        public void handle(String cmd, Mail m, String body, Map<String, ?> params)
+        public void handle(String cmd, Mail m, boolean hadBody, String body, Map<String, ?> params)
                 throws TemplateModelException {
-            super.handle(cmd, m, body, params);
+            super.handle(cmd, m, hadBody, body, params);
             String address = getStringParam(params, "address", null);
             if (address != null) {
                 m.address(type, address, body.isEmpty() ? null : body);
@@ -275,10 +279,29 @@ class MailDirective implements TemplateDirectiveModel {
 
     private static class AttachmentHandler implements Handler {
 
+        private interface ISSFactory {
+            InputStreamSupplier create(String param);
+        }
+
+        private static final Map<String, ISSFactory> ISS_FACTORIES;
+        static {
+            HashMap<String, ISSFactory> m = new HashMap<>();
+            m.put("file", new FileISSFactory());
+            m.put("resource", new ResourceISSFactory());
+            m.put("url", new UrlISSFactory());
+            ISS_FACTORIES = Collections.unmodifiableMap(m);
+        }
+
+        private final boolean inline;
+
+        public AttachmentHandler(boolean inline) {
+            this.inline = inline;
+        }
+
         @Override
-        public void handle(String cmd, Mail m, String body, Map<String, ?> params)
+        public void handle(String cmd, Mail m, boolean hadBody, String body, Map<String, ?> params)
                 throws TemplateModelException {
-            String name = getStringParam(params, "name");
+            String nameOrId = getStringParam(params, inline ? "id" : "name");
             String type = getStringParam(params, "type", null);
 
             Encoding encoding = getEncodingParam(params, "encoding", Mail.DEFAULT_ATTACHMENT_ENCODING);
@@ -287,12 +310,55 @@ class MailDirective implements TemplateDirectiveModel {
             }
             m.attachmentEncoding(encoding);
 
-            InputStreamSupplier content = InputStreamSuppliers.bytes(body.getBytes(Charset.forName("UTF-8")));
+            String issFactoryName = null;
+            InputStreamSupplier content = null;
+            for (Map.Entry<String, ISSFactory> issFactory: ISS_FACTORIES.entrySet()) {
+                String param = getStringParam(params, issFactory.getKey(), null);
+                if (param == null) {
+                    continue;
+                }
+                if (issFactoryName != null) {
+                    throw new TemplateModelException("'mail' directive can't have both '" +
+                            issFactoryName + "' and '" + issFactory.getKey() + "' parameters set");
+                }
+                issFactoryName = issFactory.getKey();
+                content = issFactory.getValue().create(param);
+            }
 
-            if (type != null) {
-                m.attachment(content, name, type);
+            if (content == null) {
+                content = InputStreamSuppliers.bytes(body.getBytes(Charset.forName("UTF-8")));
+            } else if (hadBody) {
+                throw new TemplateModelException("'mail' directive can't have both resource reference and inline content");
+            }
+
+            if (inline) {
+                m.inline(content, nameOrId, type);
             } else {
-                m.attachment(content, name);
+                m.attachment(content, nameOrId, type);
+            }
+        }
+
+        private static class FileISSFactory implements ISSFactory {
+
+            @Override
+            public InputStreamSupplier create(String param) {
+                return InputStreamSuppliers.file(param);
+            }
+        }
+
+        private static class ResourceISSFactory implements ISSFactory {
+
+            @Override
+            public InputStreamSupplier create(String param) {
+                return InputStreamSuppliers.resource(param);
+            }
+        }
+
+        private static class UrlISSFactory implements ISSFactory {
+
+            @Override
+            public InputStreamSupplier create(String param) {
+                return InputStreamSuppliers.url(param);
             }
         }
     }
