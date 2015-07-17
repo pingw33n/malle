@@ -30,6 +30,6 @@ It's sad that you don't have an HTML-capable mail reader :(
 </@mail>
 
 <#-- Simple textual attachments can be created with template too. -->
-<@mail cmd='attachment' filename='wowowow.txt'>
+<@mail cmd='attachment' name='wowowow.txt'>
 This will go inside attachment.
 </@mail>

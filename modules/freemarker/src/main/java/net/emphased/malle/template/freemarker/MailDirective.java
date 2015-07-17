@@ -278,7 +278,7 @@ class MailDirective implements TemplateDirectiveModel {
         @Override
         public void handle(String cmd, Mail m, String body, Map<String, ?> params)
                 throws TemplateModelException {
-            String filename = getStringParam(params, "filename");
+            String name = getStringParam(params, "name");
             String type = getStringParam(params, "type", null);
 
             Encoding encoding = getEncodingParam(params, "encoding", Mail.DEFAULT_ATTACHMENT_ENCODING);
@@ -290,9 +290,9 @@ class MailDirective implements TemplateDirectiveModel {
             InputStreamSupplier content = InputStreamSuppliers.bytes(body.getBytes(Charset.forName("UTF-8")));
 
             if (type != null) {
-                m.attachment(content, filename, type);
+                m.attachment(content, name, type);
             } else {
-                m.attachment(content, filename);
+                m.attachment(content, name);
             }
         }
     }
