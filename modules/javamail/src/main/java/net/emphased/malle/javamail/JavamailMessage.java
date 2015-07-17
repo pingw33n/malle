@@ -306,10 +306,12 @@ class JavamailMessage implements Mail {
     }
 
     @Override
-    public Mail inline(InputStreamSupplier content, String id, String type) {
+    public Mail inline(InputStreamSupplier content, String id, @Nullable String type) {
         checkNotNull(content, "The 'content' can't be null");
         checkNotNull(id, "The 'id' can't be null");
-        checkNotNull(type, "The 'type' can't be null");
+        if (type == null) {
+            type = "application/octet-stream";
+        }
         checkMultipart();
         try {
             MimeBodyPart mimeBodyPart = new MimeBodyPart();
