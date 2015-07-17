@@ -11,7 +11,7 @@
     </parent>
 
     <artifactId>malle-freemarker</artifactId>
-    <name>Malle Freemarker support</name>
+    <name>Malle Freemarker Template Engine</name>
 
     <dependencies>
         <dependency>
