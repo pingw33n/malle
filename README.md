@@ -129,30 +129,42 @@ where `mytemplate.ftl` looks like this:
 <@mail cmd='to' address='${to_address}'>  ${to_personal}  </@mail>
 
 <@mail cmd='subject'>
-A message for ${to_personal} from ${from_personal} sent using Malle and Freemarker
+    A message for ${to_personal} from ${from_personal} sent using Malle and Freemarker
 </@mail>
 
 <#-- Whitespace in the text/html part gets trimmed too. -->
 <@mail cmd='html'><#escape x as x?html>
-<p>Hello ${to_personal},</p>
-
-<p>
-<#-- Unicode works as expected. -->
-    This is a sample mail from ${from_personal} sent to you using Malle ♡ Freemarker.
-</p>
+    <p>Hello ${to_personal},</p>
+    
+    <p>
+        <#-- Unicode works as expected. -->
+        This is a sample mail from ${from_personal} sent to you using Malle ♡ Freemarker.
+    </p>
+    <p>
+        <#-- Inline image, see below. -->
+        <img src="cid:cat.jpg"/>
+    </p>
 </#escape></@mail>
 
 <#-- Only trailing whitespace in the text/plain part gets trimmed. -->
 <@mail cmd='plain'>
+
 Hello ${to_personal},
 
 It's sad that you don't have an HTML-capable mail reader :(
 </@mail>
 
 <#-- Simple textual attachments can be created directly inside the template. -->
-<@mail cmd='attachment' filename='readme.txt'>
+<@mail cmd='attachment' name='readme.txt'>
 This will the attachment's content.
 </@mail>
+
+<#-- Classpath resources can be easily attached. -->
+<@mail cmd='attachment' name='image.png' resource='image.png'/>
+
+<#-- Inline resources are easy to add as well. -->
+<@mail cmd='inline' id='cat.jpg'
+       url='https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/So_happy_smiling_cat.jpg/411px-So_happy_smiling_cat.jpg'/>
 ```
 
 Configuring with Spring XML:
@@ -179,7 +191,7 @@ Configuring with Spring XML:
 </bean>
 ```
 
-... and using in a ususal way:
+... and using in a usual way:
 
 ```java
 public class MyBean {
