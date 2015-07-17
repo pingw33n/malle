@@ -14,11 +14,18 @@ git clone https://github.com/pingw33n/malle.git && cd malle && mvn install
 
 ### Add to your project
 
-Note, the artifacts currently are not in the Maven repo.
-
 Maven:
 
 ```xml
+<repositories>
+    <repository>
+        <id>sonatype-oss-snapshots</id>
+        <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        <releases><enabled>false</enabled></releases>
+        <snapshots><enabled>true</enabled></snapshots>
+    </repository>
+</repositories>
+
 <dependency>
     <groupId>net.emphased.malle</groupId>
     <artifactId>malle-javamail</artifactId>
