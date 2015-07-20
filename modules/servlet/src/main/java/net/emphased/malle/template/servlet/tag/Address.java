@@ -13,6 +13,7 @@ abstract class Address extends Base {
     private String personal;
 
     public Address(AddressType type) {
+        super(TrimMode.both);
         this.type = type;
     }
 

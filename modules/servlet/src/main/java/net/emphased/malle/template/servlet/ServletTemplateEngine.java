@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import static net.emphased.malle.util.Preconditions.checkArgument;
 import static net.emphased.malle.util.Preconditions.checkNotNull;
 
 public class ServletTemplateEngine implements MailTemplateEngine {
@@ -57,7 +58,10 @@ public class ServletTemplateEngine implements MailTemplateEngine {
 
         Map<String, Object> ctx = new HashMap<>(context != null ? context : Collections.<String, Object>emptyMap());
 
-        HttpServletRequest request = getContentProp(ctx, ServletTemplate.REQUEST, HttpServletRequest.class);
+        HttpServletRequest request = getContentProp(ctx, ServletTemplate.REQUEST, HttpServletRequest.class, null);
+        if (request == null) {
+            request = new DummyHttpServletRequest(servletContext, template.getLocale());
+        }
 
         ctx.put(MAIL_ATTR, mail);
 
@@ -84,14 +88,18 @@ public class ServletTemplateEngine implements MailTemplateEngine {
         }
     }
 
-    private <T> T getContentProp(Map<String, ?> context, String name, Class<T> clazz) {
+    private <T> T getContentProp(Map<String, ?> context, String name, Class<T> clazz, T defaultValue) {
         Object r = context.remove(name);
         if (r == null) {
-            throw new IllegalArgumentException("The context must have '" + name + "' property set");
+            return defaultValue;
         }
-        if (!clazz.isInstance(r)) {
-            throw new IllegalArgumentException("The context must have '" + name + "' property be of type " + clazz.getSimpleName());
-        }
+        checkArgument(clazz.isInstance(r), "The context must have '%s' property be of type %s", name, clazz.getSimpleName());
         return clazz.cast(r);
+    }
+
+    private <T> T getContentProp(Map<String, ?> context, String name, Class<T> clazz) {
+        T r = getContentProp(context, name, clazz, null);
+        checkArgument(r != null, "The context must have '%s' property set", name);
+        return r;
     }
 }

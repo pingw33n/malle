@@ -20,6 +20,7 @@
         <module>javamail</module>
         <module>freemarker</module>
         <module>servlet</module>
+        <module>servlet-test</module>
     </modules>
 
 </project>

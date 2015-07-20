@@ -10,6 +10,7 @@ abstract class Body extends Base {
     private final BodyType type;
 
     public Body(BodyType type) {
+        super(type == BodyType.HTML ? TrimMode.both : TrimMode.trailing);
         this.type = type;
     }
 
