@@ -2,12 +2,12 @@ package net.emphased.malle.template.servlet;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
-import javax.servlet.http.HttpSessionContext;
 import java.util.Collections;
 import java.util.Enumeration;
 
 import static net.emphased.malle.util.Preconditions.checkNotNull;
 
+@SuppressWarnings("deprecation")
 public class DummyHttpSession implements HttpSession {
 
     private final ServletContext context;
@@ -47,7 +47,7 @@ public class DummyHttpSession implements HttpSession {
 
     @Deprecated
     @Override
-    public HttpSessionContext getSessionContext() {
+    public javax.servlet.http.HttpSessionContext getSessionContext() {
         return null;
     }
 

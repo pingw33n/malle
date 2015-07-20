@@ -3,6 +3,7 @@ package net.emphased.malle.template.servlet.tag;
 import net.emphased.malle.Mail;
 import net.emphased.malle.template.servlet.ServletTemplateEngine;
 
+import javax.servlet.jsp.JspContext;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.JspFragment;
@@ -18,58 +19,75 @@ abstract class Base extends SimpleTagSupport {
         none, leading, trailing, both
     }
 
+    private Mail mail;
+    private String body;
+    private boolean hasBody;
     private TrimMode trim;
 
     public Base(TrimMode defaultTrim) {
-        // Check that the JSP is inside of the ServletTemplateEngine and not being invoked directly.
-        getMail();
-
         this.trim = defaultTrim;
     }
 
     protected Mail getMail() {
-        try {
-            Mail r = (Mail) getJspContext().getAttribute(ServletTemplateEngine.MAIL_ATTR, PageContext.REQUEST_SCOPE);
-            return checkNotNull(r);
-        } catch (Throwable t) {
-            t.printStackTrace();
-            throw t;
-        }
+        return mail;
     }
 
     protected String getBody() throws JspException, IOException {
-        JspFragment body = getJspBody();
-        if (body == null) {
+        if (body != null) {
+            return body;
+        }
+        JspFragment jspBody = getJspBody();
+        hasBody = jspBody != null;
+        if (!hasBody) {
             return "";
         }
         StringWriter sw = new StringWriter();
-        body.invoke(sw);
-        return trim(sw.toString());
+        jspBody.invoke(sw);
+        body = trim(sw.toString());
+        return body;
+    }
+
+    protected boolean hasBody() {
+        return hasBody;
     }
 
     private String trim(String s) {
         switch (trim) {
             case none:
-                return trimFirstLeadingLineEnd(s);
+                return trimFirstLineEndings(s, TrimMode.both);
             case both:
                 return s.trim();
             case leading:
-                return s.replaceFirst("^\\s+", "");
+                return trimFirstLineEndings(s.replaceFirst("^\\s+", ""), TrimMode.trailing);
             case trailing:
-                return trimFirstLeadingLineEnd(s.replaceFirst("\\s+$", ""));
+                return trimFirstLineEndings(s.replaceFirst("\\s+$", ""), TrimMode.leading);
             default:
                 throw new AssertionError("Unhandled mode: " + trim);
         }
     }
 
-    private String trimFirstLeadingLineEnd(String s) {
-        if (s.startsWith("\r\n")) {
-            return s.substring(2);
-        } else if (s.startsWith("\r") || s.startsWith("\n")) {
-            return s.substring(1);
-        } else {
-            return s;
+    private String trimFirstLineEndings(String s, TrimMode mode) {
+        if (mode == TrimMode.both || mode == TrimMode.leading) {
+            int i = 0;
+            if (s.startsWith("\r\n")) {
+                i += 2;
+            } else if (s.startsWith("\r") || s.startsWith("\n")) {
+                i++;
+            }
+            s = s.substring(i);
         }
+
+        if (mode == TrimMode.both || mode == TrimMode.trailing) {
+            int i = s.length();
+            if (s.endsWith("\r\n")) {
+                i -= 2;
+            } else if (s.endsWith("\r") || s.endsWith("\n")) {
+                i -= 1;
+            }
+            s = s.substring(0, i);
+        }
+
+        return s;
     }
 
     protected TrimMode getTrimEnum() {
@@ -78,5 +96,17 @@ abstract class Base extends SimpleTagSupport {
 
     public void setTrim(String trim) {
         this.trim = TrimMode.valueOf(trim);
+    }
+
+    @Override
+    public void setJspContext(JspContext pc) {
+        super.setJspContext(pc);
+        init();
+    }
+
+    private void init() {
+        mail = (Mail) getJspContext().getAttribute(ServletTemplateEngine.MAIL_ATTR, PageContext.REQUEST_SCOPE);
+        checkNotNull(mail, "The '%s' request attribute not found, is the JSP being invoked directly?",
+                ServletTemplateEngine.MAIL_ATTR);
     }
 }

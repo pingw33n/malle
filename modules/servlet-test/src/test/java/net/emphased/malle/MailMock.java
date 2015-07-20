@@ -1,60 +1,22 @@
 package net.emphased.malle;
 
+import com.google.common.io.ByteStreams;
 import net.emphased.malle.template.MailTemplateEngine;
 
 import javax.annotation.Nullable;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.util.*;
 
-import static net.emphased.malle.util.Preconditions.checkArgument;
-import static net.emphased.malle.util.Preconditions.checkNotNull;
-import static net.emphased.malle.util.Preconditions.checkState;
+import static net.emphased.malle.util.Preconditions.*;
 
 public class MailMock implements Mail {
 
-    public abstract class Contextual {
-
-        private final Charset charset;
-        private final Encoding bodyEncoding;
-        private final Encoding attachmentEncoding;
-
-        public Contextual() {
-            this.charset = MailMock.this.charset;
-            this.bodyEncoding = MailMock.this.bodyEncoding;
-            this.attachmentEncoding = MailMock.this.attachmentEncoding;
-        }
-
-        public Charset getCharset() {
-            return charset;
-        }
-
-        public Encoding getBodyEncoding() {
-            return bodyEncoding;
-        }
-
-        public Encoding getAttachmentEncoding() {
-            return attachmentEncoding;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (!(o instanceof Contextual)) return false;
-            Contextual that = (Contextual) o;
-            return Objects.equals(charset, that.charset) &&
-                    Objects.equals(bodyEncoding, that.bodyEncoding) &&
-                    Objects.equals(attachmentEncoding, that.attachmentEncoding);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(charset, bodyEncoding, attachmentEncoding);
-        }
-    }
-
-    public abstract class Address extends Contextual {
+    public abstract class Address {
     }
 
     public class SplitAddress extends Address {
@@ -79,7 +41,6 @@ public class MailMock implements Mail {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (!(o instanceof SplitAddress)) return false;
-            if (!super.equals(o)) return false;
             SplitAddress that = (SplitAddress) o;
             return Objects.equals(address, that.address) &&
                     Objects.equals(personal, that.personal);
@@ -87,7 +48,7 @@ public class MailMock implements Mail {
 
         @Override
         public int hashCode() {
-            return Objects.hash(super.hashCode(), address, personal);
+            return Objects.hash(address, personal);
         }
 
         @Override
@@ -115,14 +76,13 @@ public class MailMock implements Mail {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (!(o instanceof EncodedAddress)) return false;
-            if (!super.equals(o)) return false;
             EncodedAddress that = (EncodedAddress) o;
             return Objects.equals(value, that.value);
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(super.hashCode(), value);
+            return Objects.hash(value);
         }
 
         @Override
@@ -133,7 +93,7 @@ public class MailMock implements Mail {
         }
     }
 
-    public class Header extends Contextual {
+    public class Header {
 
         private final String name;
         private final String value;
@@ -155,7 +115,6 @@ public class MailMock implements Mail {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (!(o instanceof Header)) return false;
-            if (!super.equals(o)) return false;
             Header header = (Header) o;
             return Objects.equals(name, header.name) &&
                     Objects.equals(value, header.value);
@@ -163,7 +122,7 @@ public class MailMock implements Mail {
 
         @Override
         public int hashCode() {
-            return Objects.hash(super.hashCode(), name, value);
+            return Objects.hash(name, value);
         }
 
         @Override
@@ -175,7 +134,7 @@ public class MailMock implements Mail {
         }
     }
 
-    public class Attachment extends Contextual {
+    public class Attachment {
 
         private final InputStreamSupplier content;
         private final String name;
@@ -200,6 +159,21 @@ public class MailMock implements Mail {
         }
 
         @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof Attachment)) return false;
+            Attachment that = (Attachment) o;
+            return Objects.equals(name, that.name) &&
+                    Objects.equals(type, that.type) &&
+                    issEquals(content, that.content);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(content, name, type);
+        }
+
+        @Override
         public String toString() {
             return "Attachment{" +
                     "content=" + content +
@@ -209,7 +183,7 @@ public class MailMock implements Mail {
         }
     }
 
-    public class Inline extends Contextual {
+    public class Inline {
 
         private final InputStreamSupplier content;
         private final String id;
@@ -231,6 +205,21 @@ public class MailMock implements Mail {
 
         public String getType() {
             return type;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof Inline)) return false;
+            Inline inline = (Inline) o;
+            return Objects.equals(id, inline.id) &&
+                    Objects.equals(type, inline.type) &&
+                    issEquals(content, inline.content);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(content, id, type);
         }
 
         @Override
@@ -454,14 +443,14 @@ public class MailMock implements Mail {
     }
 
     @Override
-    public Mail attachment(InputStreamSupplier content, String filename, @Nullable String type) {
-        attachments.add(new Attachment(content, filename, type));
+    public Mail attachment(InputStreamSupplier content, String name, @Nullable String type) {
+        attachments.add(new Attachment(content, name, type));
         return this;
     }
 
     @Override
-    public Mail attachment(InputStreamSupplier content, String filename) {
-        return attachment(content, filename, null);
+    public Mail attachment(InputStreamSupplier content, String name) {
+        return attachment(content, name, null);
     }
 
     @Override
@@ -657,29 +646,19 @@ public class MailMock implements Mail {
         };
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        MailMock mailMock = (MailMock) o;
-        return Objects.equals(multipart, mailMock.multipart) &&
-                Objects.equals(priority, mailMock.priority) &&
-                Objects.equals(templateEngine, mailMock.templateEngine) &&
-                Objects.equals(charset, mailMock.charset) &&
-                Objects.equals(bodyEncoding, mailMock.bodyEncoding) &&
-                Objects.equals(attachmentEncoding, mailMock.attachmentEncoding) &&
-                Objects.equals(id, mailMock.id) &&
-                Objects.equals(addresses, mailMock.addresses) &&
-                Objects.equals(bodies, mailMock.bodies) &&
-                Objects.equals(subject, mailMock.subject) &&
-                Objects.equals(headers, mailMock.headers) &&
-                Objects.equals(attachments, mailMock.attachments) &&
-                Objects.equals(inlines, mailMock.inlines);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(templateEngine, multipart, charset, bodyEncoding, attachmentEncoding, id,
-                priority, addresses, bodies, subject, headers, attachments, inlines);
+    private static boolean issEquals(InputStreamSupplier iss1, InputStreamSupplier iss2) {
+        ByteArrayOutputStream a1 = new ByteArrayOutputStream();
+        ByteArrayOutputStream a2 = new ByteArrayOutputStream();
+        try {
+            try (InputStream is = iss1.getInputStream()) {
+                ByteStreams.copy(is, a1);
+            }
+            try (InputStream is = iss2.getInputStream()) {
+                ByteStreams.copy(is, a2);
+            }
+        } catch (IOException e) {
+            throw new AssertionError(e);
+        }
+        return Arrays.equals(a1.toByteArray(), a2.toByteArray());
     }
 }

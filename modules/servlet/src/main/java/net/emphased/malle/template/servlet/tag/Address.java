@@ -1,14 +1,16 @@
 package net.emphased.malle.template.servlet.tag;
 
 import net.emphased.malle.AddressType;
-import net.emphased.malle.Mail;
 
 import javax.servlet.jsp.JspException;
 import java.io.IOException;
 
+import static net.emphased.malle.util.Preconditions.checkArgument;
+
 abstract class Address extends Base {
 
     private final AddressType type;
+    private String tagName;
     private String address;
     private String personal;
 
@@ -40,18 +42,23 @@ abstract class Address extends Base {
     @Override
     public void doTag() throws JspException, IOException {
         String body = getBody();
-        boolean hasBody = !body.isEmpty();
+        boolean bodyNotEmpty = !body.isEmpty();
 
-        String personal;
-        if (!hasBody) {
-            personal = this.personal;
-        } else if (this.personal != null) {
-            throw new IllegalArgumentException("Either body or 'personal' must be set");
+        if (address != null) {
+            checkArgument(!(bodyNotEmpty && personal != null), "[%s] Either body or 'personal' may be specified but not both", getTagName());
+            String personal = bodyNotEmpty ? body : this.personal;
+            getMail().address(type, address, personal);
         } else {
-            personal = body;
+            checkArgument(bodyNotEmpty && personal == null, "[%s] When 'address' attribute is not specified the body must provide " +
+                    "a valid list of addresses with optional personal part. This usage type also forbids specifying 'personal' attribute", getTagName());
+            getMail().address(type, body);
         }
+    }
 
-        Mail mail = getMail();
-        mail.address(type, address, personal);
+    private String getTagName() {
+        if (tagName == null) {
+            tagName = type.name().replace('_', '-').toLowerCase();
+        }
+        return tagName;
     }
 }
