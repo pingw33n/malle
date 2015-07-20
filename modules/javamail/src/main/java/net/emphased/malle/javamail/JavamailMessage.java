@@ -162,7 +162,7 @@ class JavamailMessage implements Mail {
 
     @Override
     public Mail to(String address, @Nullable String personal) {
-        return address(AddressType.TO, createAddress(address, personal));
+        return address(AddressType.TO, address, personal);
     }
 
     @Override
@@ -182,7 +182,7 @@ class JavamailMessage implements Mail {
 
     @Override
     public Mail cc(String address, @Nullable String personal) {
-        return address(AddressType.CC, createAddress(address, personal));
+        return address(AddressType.CC, address, personal);
     }
 
     @Override
@@ -201,7 +201,7 @@ class JavamailMessage implements Mail {
 
     @Override
     public Mail bcc(String address, @Nullable String personal) {
-        return address(AddressType.BCC, createAddress(address, personal));
+        return address(AddressType.BCC, address, personal);
     }
 
     @Override
