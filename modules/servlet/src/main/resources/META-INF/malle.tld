@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+        version="2.0">
+
+    <description>Malle JSP Tag Library</description>
+    <tlib-version>4.0</tlib-version>
+    <short-name>malle</short-name>
+    <uri>http://emphased.net/malle</uri>
+
+    <tag>
+        <description>
+            Adds From header.
+        </description>
+        <name>from</name>
+        <tag-class>net.emphased.malle.template.servlet.tag.From</tag-class>
+        <body-content>scriptless</body-content>
+        <attribute>
+            <description>Sets the trimming mode for the body content. Possible values: 'none', 'leading', 'trailing', 'both' (default).</description>
+            <name>trim</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>The address part.</description>
+            <name>address</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>The personal part.</description>
+            <name>personal</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <description>
+            Adds To header.
+        </description>
+        <name>to</name>
+        <tag-class>net.emphased.malle.template.servlet.tag.To</tag-class>
+        <body-content>scriptless</body-content>
+        <attribute>
+            <description>Sets the trimming mode for the body content. Possible values: 'none', 'leading', 'trailing', 'both' (default).</description>
+            <name>trim</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>The address part.</description>
+            <name>address</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>The personal part.</description>
+            <name>personal</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <description>
+            Adds CC header.
+        </description>
+        <name>cc</name>
+        <tag-class>net.emphased.malle.template.servlet.tag.Cc</tag-class>
+        <body-content>scriptless</body-content>
+        <attribute>
+            <description>Sets the trimming mode for the body content. Possible values: 'none', 'leading', 'trailing', 'both' (default).</description>
+            <name>trim</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>The address part.</description>
+            <name>address</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>The personal part.</description>
+            <name>personal</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <description>
+            Adds BCC header.
+        </description>
+        <name>bcc</name>
+        <tag-class>net.emphased.malle.template.servlet.tag.Bcc</tag-class>
+        <body-content>scriptless</body-content>
+        <attribute>
+            <description>Sets the trimming mode for the body content. Possible values: 'none', 'leading', 'trailing', 'both' (default).</description>
+            <name>trim</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>The address part.</description>
+            <name>address</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>The personal part.</description>
+            <name>personal</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <description>
+            Adds Reply-To header.
+        </description>
+        <name>replyTo</name>
+        <tag-class>net.emphased.malle.template.servlet.tag.ReplyTo</tag-class>
+        <body-content>scriptless</body-content>
+        <attribute>
+            <description>Sets the trimming mode for the body content. Possible values: 'none', 'leading', 'trailing', 'both' (default).</description>
+            <name>trim</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>The address part.</description>
+            <name>address</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>The personal part.</description>
+            <name>personal</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <description>
+            Sets the text/plain content.
+        </description>
+        <name>plain</name>
+        <tag-class>net.emphased.malle.template.servlet.tag.Plain</tag-class>
+        <body-content>scriptless</body-content>
+        <attribute>
+            <description>Sets the trimming mode for the body content. Possible values: 'none', 'leading', 'trailing' (default), 'both'.</description>
+            <name>trim</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <description>
+            Sets the text/html content.
+        </description>
+        <name>html</name>
+        <tag-class>net.emphased.malle.template.servlet.tag.Html</tag-class>
+        <body-content>scriptless</body-content>
+        <attribute>
+            <description>Sets the trimming mode for the body content. Possible values: 'none', 'leading', 'trailing', 'both' (default).</description>
+            <name>trim</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <description>
+            Adds an attachment. One of the 'file', 'url' or 'resource' attributes must specify the attachment content,
+            or it can be embedded directly into the tag body.
+        </description>
+        <name>attachment</name>
+        <tag-class>net.emphased.malle.template.servlet.tag.Attachment</tag-class>
+        <body-content>scriptless</body-content>
+        <attribute>
+            <description>Sets the trimming mode for the body content for the body. Possible values: 'none' (default), 'leading', 'trailing', 'both'.</description>
+            <name>trim</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>The attachment filename.</description>
+            <name>name</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>The content type.</description>
+            <name>type</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>Path of the file to be used as the attachment content.</description>
+            <name>file</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>URL of the resource to be used as the attachment content.</description>
+            <name>url</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>Name of the classpath resource to be used as the attachment content.</description>
+            <name>resource</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <description>
+            Adds an inline attachment. One of the 'file', 'url' or 'resource' attributes must specify the attachment content,
+            or it can be embedded directly into the tag body.
+        </description>
+        <name>inline</name>
+        <tag-class>net.emphased.malle.template.servlet.tag.Inline</tag-class>
+        <body-content>scriptless</body-content>
+        <attribute>
+            <description>Sets the trimming mode for the body content. Possible values: 'none' (default), 'leading', 'trailing', 'both'.</description>
+            <name>trim</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>The attachment ID for referencing from the HTML content.</description>
+            <name>id</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>The content type.</description>
+            <name>type</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>Path of the file to be used as the attachment content.</description>
+            <name>file</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>URL of the resource to be used as the attachment content.</description>
+            <name>url</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>Name of the classpath resource to be used as the attachment content.</description>
+            <name>resource</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <description>
+            Sets mail settings.
+        </description>
+        <name>settings</name>
+        <tag-class>net.emphased.malle.template.servlet.tag.Settings</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <description>Sets the charset. Default is UTF-8.</description>
+            <name>charset</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>Sets the body encoding. Possible values are: 'base64', 'quoted-printable', '8bit', '7bit', 'binary', 'auto' (default).</description>
+            <name>bodyEncoding</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>Sets the attachment encoding. Possible values are: 'base64' (default), 'quoted-printable', '8bit', '7bit', 'binary'.</description>
+            <name>attachmentEncoding</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+</taglib>

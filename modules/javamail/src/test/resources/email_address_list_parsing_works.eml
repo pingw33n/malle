@@ -1,0 +1,5 @@
+To: to1@example.com, To 2 <to2@example.com>, "To, 3" <to3@example.com>, =?UTF-8?Q?=E2=99=A1_Unicode_=E2=99=A1?= <to4@example.com>
+Message-ID: <~.+~>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit

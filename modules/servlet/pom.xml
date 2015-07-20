@@ -5,13 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>net.emphased.malle</groupId>
         <artifactId>modules</artifactId>
+        <groupId>net.emphased.malle</groupId>
         <version>0.1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>malle-freemarker</artifactId>
-    <name>Malle Freemarker Template Engine</name>
+    <artifactId>malle-servlet</artifactId>
+    <name>Malle Servlet Template Engine</name>
 
     <dependencies>
         <dependency>
@@ -21,9 +21,16 @@
         </dependency>
 
         <dependency>
-            <groupId>org.freemarker</groupId>
-            <artifactId>freemarker</artifactId>
-            <version>2.3.22</version>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet.jsp</groupId>
+            <artifactId>jsp-api</artifactId>
+            <version>2.1</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>
