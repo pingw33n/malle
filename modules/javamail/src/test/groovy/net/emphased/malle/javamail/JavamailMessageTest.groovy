@@ -78,4 +78,12 @@ class JavamailMessageTest extends AbstractJavamailTest {
                 .plain("")
                 .send();
     }
+
+    @Test
+    void "email address list parsing works"() {
+        def m = javamail.createMail(false)
+                .to("to1@example.com, To 2 <to2@example.com>, \t\r\n\"To, 3\" <to3@example.com>, \n\"♡ Unicode ♡\" <to4@example.com>")
+                .plain("")
+        assertMatch("email_address_list_parsing_works.eml", m)
+    }
 }
