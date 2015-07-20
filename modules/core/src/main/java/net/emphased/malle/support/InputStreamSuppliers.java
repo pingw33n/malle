@@ -47,7 +47,11 @@ public final class InputStreamSuppliers {
     }
 
     public static InputStreamSupplier resource(String name) {
-        return resource(name, InputStreamSupplier.class.getClassLoader());
+        ClassLoader loader = Thread.currentThread().getContextClassLoader();
+        if (loader == null) {
+            loader = InputStreamSupplier.class.getClassLoader();
+        }
+        return resource(name, loader);
     }
 
     public static InputStreamSupplier resource(String name, Class<?> clazz) {
