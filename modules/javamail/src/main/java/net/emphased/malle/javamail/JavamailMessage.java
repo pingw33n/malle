@@ -277,9 +277,9 @@ class JavamailMessage implements Mail {
     }
 
     @Override
-    public Mail attachment(InputStreamSupplier content, String filename, @Nullable String type) {
+    public Mail attachment(InputStreamSupplier content, String name, @Nullable String type) {
         checkNotNull(content, "The 'content' can't be null");
-        checkNotNull(filename, "The 'filename' can't be null");
+        checkNotNull(name, "The 'name' can't be null");
         if (type == null) {
             type = "application/octet-stream";
         }
@@ -287,11 +287,11 @@ class JavamailMessage implements Mail {
             MimeBodyPart mimeBodyPart = new MimeBodyPart();
             mimeBodyPart.setDisposition(MimeBodyPart.ATTACHMENT);
             try {
-                mimeBodyPart.setFileName(MimeUtility.encodeWord(filename, charset.name(), null));
+                mimeBodyPart.setFileName(MimeUtility.encodeWord(name, charset.name(), null));
             } catch (UnsupportedEncodingException ex) {
                 throw new RuntimeException("Shouldn't happen", ex);
             }
-            mimeBodyPart.setDataHandler(new DataHandler(new InputStreamSupplierDatasource(content, type, filename)));
+            mimeBodyPart.setDataHandler(new DataHandler(new InputStreamSupplierDatasource(content, type, name)));
             setContentTransferEncodingHeader(mimeBodyPart, attachmentEncoding);
             getAttachmentPart().addBodyPart(mimeBodyPart);
         } catch (MessagingException e) {
@@ -301,8 +301,8 @@ class JavamailMessage implements Mail {
     }
 
     @Override
-    public Mail attachment(InputStreamSupplier content, String filename) {
-        return attachment(content, filename, null);
+    public Mail attachment(InputStreamSupplier content, String name) {
+        return attachment(content, name, null);
     }
 
     @Override

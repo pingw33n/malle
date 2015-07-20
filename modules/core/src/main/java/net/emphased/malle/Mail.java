@@ -54,8 +54,8 @@ public interface Mail {
     Mail html(String html);
     Mail body(BodyType type, String value);
 
-    Mail attachment(InputStreamSupplier content, String filename, @Nullable String type);
-    Mail attachment(InputStreamSupplier content, String filename);
+    Mail attachment(InputStreamSupplier content, String name, @Nullable String type);
+    Mail attachment(InputStreamSupplier content, String name);
     Mail inline(InputStreamSupplier content, String id, @Nullable String type);
     Mail inline(InputStreamSupplier content, String id);
 
