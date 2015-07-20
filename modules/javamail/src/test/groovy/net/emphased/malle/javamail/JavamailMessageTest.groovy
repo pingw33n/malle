@@ -12,13 +12,13 @@ import static org.assertj.core.api.Assertions.assertThat
 
 class JavamailMessageTest extends AbstractJavamailTest {
 
-    Javamail javamail;
+    Javamail javamail
 
 
     @Before
     void setUp() {
         javamail = new Javamail()
-                .withProperty("mail.smtp.host", "example.com");
+                .withProperty("mail.smtp.host", "example.com")
     }
 
     @Test
@@ -58,7 +58,7 @@ class JavamailMessageTest extends AbstractJavamailTest {
                 .from("from@example.com")
                 .to("to@example.com")
                 .inline(InputStreamSuppliers.resource("image1.png"), "image1@example.com", "image/png")
-                .html("<img src=\"cid:image1@example.com\"/>");
+                .html("<img src=\"cid:image1@example.com\"/>")
 
         assertMatch("mp_inline.eml", m)
     }
@@ -69,14 +69,14 @@ class JavamailMessageTest extends AbstractJavamailTest {
             .plain("")
             .attachment(InputStreamSuppliers.inputStream(new ByteArrayInputStream()), "test")
             .writeTo(new ByteArrayOutputStream())
-            .writeTo(new ByteArrayOutputStream());
+            .writeTo(new ByteArrayOutputStream())
     }
 
     @Test(expected = MailSendException)
     void "throws MailSendException when no recipients"() {
         javamail.createMail()
                 .plain("")
-                .send();
+                .send()
     }
 
     @Test
