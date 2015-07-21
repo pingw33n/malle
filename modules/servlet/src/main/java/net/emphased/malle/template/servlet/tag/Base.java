@@ -21,7 +21,6 @@ abstract class Base extends SimpleTagSupport {
 
     private Mail mail;
     private String body;
-    private boolean hasBody;
     private TrimMode trim;
 
     public Base(TrimMode defaultTrim) {
@@ -37,9 +36,9 @@ abstract class Base extends SimpleTagSupport {
             return body;
         }
         JspFragment jspBody = getJspBody();
-        hasBody = jspBody != null;
-        if (!hasBody) {
-            return "";
+        if (jspBody == null) {
+            body = "";
+            return body;
         }
         StringWriter sw = new StringWriter();
         jspBody.invoke(sw);
@@ -48,8 +47,7 @@ abstract class Base extends SimpleTagSupport {
     }
 
     protected boolean hasBody() throws IOException, JspException {
-        getBody();
-        return hasBody;
+        return getJspBody() != null;
     }
 
     private String trim(String s) {
