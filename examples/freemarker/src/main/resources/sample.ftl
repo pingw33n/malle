@@ -31,11 +31,6 @@ Hello ${to_firstName} ${to_lastName},
 It's sad that you don't have an HTML-capable mail reader :(
 </@mail>
 
-<#-- Simple textual attachments can be created with template too. -->
-<@mail cmd='attachment' name='wowowow.txt'>
-This will go inside attachment.
-</@mail>
-
 <@mail cmd='attachment' name='image1.png' resource='image1.png'/>
 
 <@mail cmd='inline' id='cat.jpg' url='https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/So_happy_smiling_cat.jpg/411px-So_happy_smiling_cat.jpg'/>
