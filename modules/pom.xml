@@ -21,6 +21,7 @@
         <module>freemarker</module>
         <module>servlet</module>
         <module>servlet-test</module>
+        <module>test</module>
     </modules>
 
 </project>
