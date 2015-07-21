@@ -76,7 +76,7 @@ class MailDirective implements TemplateDirectiveModel {
             throw new TemplateModelException("Unknown command passed to 'mail' directive: " + cmd);
         }
 
-        String bodyStr = body != null ? renderBody(body) : "";
+        String bodyStr = body != null ? renderBody(body) : null;
 
         TrimMode defaultTrimMode;
         if (handler instanceof BodyHandler && ((BodyHandler) handler).getType() == BodyType.PLAIN) {
@@ -87,7 +87,9 @@ class MailDirective implements TemplateDirectiveModel {
             defaultTrimMode = TrimMode.both;
         }
         TrimMode trimMode = getEnumParam(params, "trim", TrimMode.class, defaultTrimMode);
-        bodyStr = trim(bodyStr, trimMode);
+        if (bodyStr != null) {
+            bodyStr = trim(bodyStr, trimMode);
+        }
 
         Mail m = getMessage(env);
         handler.handle(cmd, m, bodyStr, params);
