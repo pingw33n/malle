@@ -71,7 +71,7 @@ class JavamailMessageAddressTest extends AbstractJavamailTest {
 
     @Test
     public void test() {
-        JavamailMessage m = javamail.mail(false)
+        JavamailMessage m = (JavamailMessage) javamail.mail(false)
                 .plain("");
 
         inMethod(m, ADDRESSES)
