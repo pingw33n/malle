@@ -25,10 +25,6 @@
     <p>Html hello ☺</p>
 </m:html>
 
-<m:attachment name="embedded.txt">
-    Hello there ✌
-</m:attachment>
-
 <m:attachment name="classpath.txt" resource="classpath.txt"/>
 
 <m:inline id="inline.png" resource="image1.png"/>

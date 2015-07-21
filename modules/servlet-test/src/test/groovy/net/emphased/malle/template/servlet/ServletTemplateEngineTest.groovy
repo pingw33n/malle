@@ -1,14 +1,14 @@
 package net.emphased.malle.template.servlet
+import com.google.common.base.Throwables
 import com.google.common.io.Resources
 import net.emphased.malle.Encoding
 import net.emphased.malle.MailMock
 import net.emphased.malle.MailMockAssert
 import net.emphased.malle.support.InputStreamSuppliers
+import net.emphased.malle.template.MailTemplateException
 import org.apache.catalina.startup.Tomcat
-import org.junit.After
-import org.junit.Before
-import org.junit.BeforeClass
-import org.junit.Test
+import org.junit.*
+import org.junit.rules.ExpectedException
 
 import javax.servlet.ServletContext
 import javax.servlet.ServletContextEvent
@@ -24,6 +24,9 @@ class ServletTemplateEngineTest {
     Tomcat tomcat
     static ServletContext servletContext
     ServletTemplateEngine t
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
     static class SCL implements ServletContextListener {
 
@@ -86,10 +89,23 @@ class ServletTemplateEngineTest {
                     "    \"♡ Unicode ♡\" <cc4@example.com>")
                 .plain("    Plain hello ☺")
                 .html("<p>Html hello ☺</p>")
-                .attachment(InputStreamSuppliers.bytes("    Hello there ✌".getBytes("UTF-8")), "embedded.txt")
                 .attachment(InputStreamSuppliers.resource("classpath.txt"), "classpath.txt")
                 .inline(InputStreamSuppliers.resource("image1.png"), "inline.png")
 
         MailMockAssert.assertThat(actual).isEqualTo(expected)
+    }
+
+    @Test
+    void "throws MailTemplateException when attachment or inline command has body"() {
+        thrown.expect(IllegalArgumentException);
+        thrown.expectMessage("Embedded attachment content is not supported");
+
+        try {
+            new MailMock(true)
+                    .withTemplateEngine(t)
+                    .template("/WEB-INF/mail/throws MailTemplateException when attachment or inline command has body.jsp")
+        } catch (MailTemplateException e) {
+            throw Throwables.getCausalChain(e).findAll { it instanceof IllegalArgumentException } [0]
+        }
     }
 }

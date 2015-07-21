@@ -364,6 +364,10 @@ class MailDirective implements TemplateDirectiveModel {
             String nameOrId = getStringParam(params, inline ? "id" : "name");
             String type = getStringParam(params, "type", null);
 
+            if (body != null) {
+                throw new TemplateModelException("'mail' directive doesn't support embedded attachment content");
+            }
+
             String issFactoryName = null;
             InputStreamSupplier content = null;
             for (Map.Entry<String, ISSFactory> issFactory: ISS_FACTORIES.entrySet()) {
@@ -380,13 +384,8 @@ class MailDirective implements TemplateDirectiveModel {
             }
 
             if (content == null) {
-                if (body == null) {
-                    throw new TemplateModelException("'mail' directive must have either resource reference or inline content");
-                }
-                content = InputStreamSuppliers.bytes(body.getBytes(Charset.forName("UTF-8")));
-            } else if (body != null) {
-                throw new TemplateModelException("'mail' directive can't have both resource reference and inline content");
-            }
+                throw new TemplateModelException("'mail' directive: one of 'file', 'resource' or 'url' parameters must be present");
+            } else
 
             if (inline) {
                 m.inline(content, nameOrId, type);

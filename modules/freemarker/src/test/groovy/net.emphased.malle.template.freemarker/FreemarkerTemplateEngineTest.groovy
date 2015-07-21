@@ -5,12 +5,18 @@ import net.emphased.malle.Encoding
 import net.emphased.malle.MailMock
 import net.emphased.malle.MailMockAssert
 import net.emphased.malle.support.InputStreamSuppliers
+import net.emphased.malle.template.MailTemplateException
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.ExpectedException
 
 class FreemarkerTemplateEngineTest {
 
     FreemarkerTemplateEngine t
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
     @Before
     void setUp() {
@@ -41,10 +47,19 @@ class FreemarkerTemplateEngineTest {
                         "    \"♡ Unicode ♡\" <cc4@example.com>")
                 .plain("    Plain hello ☺")
                 .html("<p>Html hello ☺</p>")
-                .attachment(InputStreamSuppliers.bytes("    Hello there ✌".getBytes("UTF-8")), "embedded.txt")
                 .attachment(InputStreamSuppliers.resource("classpath.txt"), "classpath.txt")
                 .inline(InputStreamSuppliers.resource("image1.png"), "inline.png")
 
         MailMockAssert.assertThat(actual).isEqualTo(expected)
+    }
+
+    @Test
+    void "throws MailTemplateException when attachment or inline command has body"() {
+        thrown.expect(MailTemplateException)
+        thrown.expectMessage("'mail' directive doesn't support embedded attachment content")
+
+        new MailMock(true)
+                .withTemplateEngine(t)
+                .template("throws MailTemplateException when attachment or inline command has body.ftl")
     }
 }
