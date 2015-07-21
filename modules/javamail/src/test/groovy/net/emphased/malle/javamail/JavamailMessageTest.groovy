@@ -35,7 +35,7 @@ class JavamailMessageTest extends AbstractJavamailTest {
         assertThat mm.getSubject() isEqualTo "This is a subject"
         assertThat mm.getContent() isEqualTo "Hello from Malle"
 
-        MimeMessageRawMatcher.assertMatch("non_mp_headers_text.eml", m)
+        MimeMessageRawMatcher.assertMatch("creates non-multipart MimeMessage with headers and plain text.eml", m)
     }
 
     @Test
@@ -48,7 +48,7 @@ class JavamailMessageTest extends AbstractJavamailTest {
                 .plain("Hello from Malle /plain")
                 .html("Hello from Malle /html")
 
-        assertMatch("mp_headers_plain_html.eml", m)
+        assertMatch("creates multipart MimeMessage with headers and plain_html text.eml", m)
     }
 
     @Test
@@ -60,7 +60,7 @@ class JavamailMessageTest extends AbstractJavamailTest {
                 .inline(InputStreamSuppliers.resource("image1.png"), "image1@example.com", "image/png")
                 .html("<img src=\"cid:image1@example.com\"/>")
 
-        assertMatch("mp_inline.eml", m)
+        assertMatch("creates multipart MimeMessage with inline attachments.eml", m)
     }
 
     @Test(expected = IllegalStateException)
@@ -80,10 +80,10 @@ class JavamailMessageTest extends AbstractJavamailTest {
     }
 
     @Test
-    void "email address list parsing works"() {
+    void "parses email address list"() {
         def m = javamail.mail(false)
                 .to("to1@example.com, To 2 <to2@example.com>, \t\r\n\"To, 3\" <to3@example.com>, \n\"♡ Unicode ♡\" <to4@example.com>")
                 .plain("")
-        assertMatch("email_address_list_parsing_works.eml", m)
+        assertMatch("parses email address list.eml", m)
     }
 }
