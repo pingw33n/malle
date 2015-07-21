@@ -45,7 +45,7 @@ class ServletTemplateEngineTest {
     @Before
     void setUp() {
         // Is there a better way to make Tomcat see the TLD?
-        def target = Paths.get(webappDir, "WEB-INF", "mulle.tld")
+        def target = Paths.get(webappDir, "WEB-INF", "malle.tld")
         Files.createDirectories(target.getParent())
         new FileOutputStream(target.toFile()).withCloseable { os ->
             Resources.copy(Resources.getResource("META-INF/malle.tld"), os)
