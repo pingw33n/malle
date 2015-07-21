@@ -2,7 +2,7 @@
 <#assign to_firstName = '${to_firstName!"Mr"}'/>
 <#assign to_lastName = '${to_lastName!"X"}'/>
 
-<@mail cmd='from' address='${from!mail_user}'/>
+<@mail cmd='from' address='${from}'/>
 <#-- Leading and trailing whitespace in the header values gets trimmed. -->
 <@mail cmd='to' address='${to}'>
     ${to_firstName} ${to_lastName}
