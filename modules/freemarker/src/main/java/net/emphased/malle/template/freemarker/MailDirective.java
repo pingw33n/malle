@@ -364,12 +364,6 @@ class MailDirective implements TemplateDirectiveModel {
             String nameOrId = getStringParam(params, inline ? "id" : "name");
             String type = getStringParam(params, "type", null);
 
-            Encoding encoding = getEncodingParam(params, "encoding", Mail.DEFAULT_ATTACHMENT_ENCODING);
-            if (encoding == null) {
-                throw new TemplateModelException("Encoding auto-detection is not supported for attachments");
-            }
-            m.attachmentEncoding(encoding);
-
             String issFactoryName = null;
             InputStreamSupplier content = null;
             for (Map.Entry<String, ISSFactory> issFactory: ISS_FACTORIES.entrySet()) {
