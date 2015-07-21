@@ -22,6 +22,23 @@ class MailDirective implements TemplateDirectiveModel {
         none, leading, trailing, both
     }
 
+    private static final Map<String, Handler> CMD_HANDLERS;
+    static {
+        Map<String, Handler> m = new HashMap<>();
+        m.put("from", new AddressHandler(AddressType.FROM));
+        m.put("to", new AddressHandler(AddressType.TO));
+        m.put("cc", new AddressHandler(AddressType.CC));
+        m.put("bcc", new AddressHandler(AddressType.BCC));
+        m.put("priority", new PriorityHandler());
+        m.put("subject", new SubjectHandler());
+        m.put("plain", new BodyHandler(BodyType.PLAIN));
+        m.put("html", new BodyHandler(BodyType.HTML));
+        m.put("attachment", new AttachmentHandler(false));
+        m.put("inline", new AttachmentHandler(true));
+
+        CMD_HANDLERS = Collections.unmodifiableMap(m);
+    }
+
     private static final Map<String, Encoding> STR_TO_ENCODING;
     static {
         Map<String, Encoding> m = new HashMap<>();
@@ -44,7 +61,8 @@ class MailDirective implements TemplateDirectiveModel {
         doExecute(env, params, loopVars, body);
     }
 
-    private void doExecute(Environment env, Map<String, Object> params, TemplateModel[] loopVars, TemplateDirectiveBody body) throws TemplateException, IOException {
+    private void doExecute(Environment env, Map<String, Object> params, TemplateModel[] loopVars,
+                           TemplateDirectiveBody body) throws TemplateException, IOException {
         if (loopVars.length != 0) {
             throw new TemplateModelException("'mail' directive doesn't allow loop variables");
         }
@@ -178,23 +196,6 @@ class MailDirective implements TemplateDirectiveModel {
         StringWriter content = new StringWriter();
         body.render(content);
         return content.toString();
-    }
-
-    private static final Map<String, Handler> CMD_HANDLERS;
-    static {
-        Map<String, Handler> m = new HashMap<>();
-        m.put("from", new AddressHandler(AddressType.FROM));
-        m.put("to", new AddressHandler(AddressType.TO));
-        m.put("cc", new AddressHandler(AddressType.CC));
-        m.put("bcc", new AddressHandler(AddressType.BCC));
-        m.put("priority", new PriorityHandler());
-        m.put("subject", new SubjectHandler());
-        m.put("plain", new BodyHandler(BodyType.PLAIN));
-        m.put("html", new BodyHandler(BodyType.HTML));
-        m.put("attachment", new AttachmentHandler(false));
-        m.put("inline", new AttachmentHandler(true));
-
-        CMD_HANDLERS = Collections.unmodifiableMap(m);
     }
 
     private interface Handler {
