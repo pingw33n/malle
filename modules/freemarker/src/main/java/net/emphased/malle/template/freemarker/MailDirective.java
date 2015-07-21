@@ -57,13 +57,13 @@ class MailDirective implements TemplateDirectiveModel {
 
     @Override
     @SuppressWarnings("unchecked")
-    public void execute(Environment env, Map params, TemplateModel[] loopVars, TemplateDirectiveBody body)
+    public void execute(Environment env, Map params, TemplateModel[] loopVars, @Nullable TemplateDirectiveBody body)
             throws TemplateException, IOException {
         doExecute(env, params, loopVars, body);
     }
 
     private void doExecute(Environment env, Map<String, Object> params, TemplateModel[] loopVars,
-                           TemplateDirectiveBody body) throws TemplateException, IOException {
+                           @Nullable TemplateDirectiveBody body) throws TemplateException, IOException {
         if (loopVars.length != 0) {
             throw new TemplateModelException("'mail' directive doesn't allow loop variables");
         }
@@ -113,7 +113,8 @@ class MailDirective implements TemplateDirectiveModel {
         }
     }
 
-    private static String getStringParam(Map<String, ?> params, String name, String defaultValue) throws TemplateModelException {
+    private static String getStringParam(Map<String, ?> params, String name,
+                                         @Nullable String defaultValue) throws TemplateModelException {
         Object o = params.remove(name);
         if (o == null) {
             return defaultValue;
@@ -128,7 +129,8 @@ class MailDirective implements TemplateDirectiveModel {
         return checkParamPresent(getStringParam(params, name, null), name);
     }
 
-    private static Integer getIntParam(Map<String, ?> params, String name, Integer defaultValue) throws TemplateModelException {
+    private static Integer getIntParam(Map<String, ?> params, String name,
+                                       @Nullable Integer defaultValue) throws TemplateModelException {
         String s = getStringParam(params, name, null);
         if (s == null) {
             return defaultValue;
@@ -144,7 +146,8 @@ class MailDirective implements TemplateDirectiveModel {
         return checkParamPresent(getIntParam(params, name, null), name);
     }
 
-    private static <T extends Enum<T>> T getEnumParam(Map<String, ?> params, String name, Class<T> type, T defaultValue)
+    private static <T extends Enum<T>> T getEnumParam(Map<String, ?> params, String name,
+                                                      Class<T> type, @Nullable T defaultValue)
             throws TemplateModelException {
         String s = getStringParam(params, name, null);
         if (s == null) {
@@ -158,7 +161,8 @@ class MailDirective implements TemplateDirectiveModel {
         }
     }
 
-    private static <T extends Enum<T>> T getEnumParam(Map<String, ?> params, String name, Class<T> type) throws TemplateModelException {
+    private static <T extends Enum<T>> T getEnumParam(Map<String, ?> params, String name,
+                                                      Class<T> type) throws TemplateModelException {
         return checkParamPresent(getEnumParam(params, name, type, null), name);
     }
 
@@ -169,7 +173,8 @@ class MailDirective implements TemplateDirectiveModel {
         return value;
     }
 
-    private static Encoding getEncodingParam(Map<String, ?> params, String name, Encoding defaultValue) throws TemplateModelException {
+    private static Encoding getEncodingParam(Map<String, ?> params, String name,
+                                             @Nullable Encoding defaultValue) throws TemplateModelException {
         String s = getStringParam(params, name, null);
         if (s == null) {
             return defaultValue;
@@ -186,7 +191,8 @@ class MailDirective implements TemplateDirectiveModel {
         return checkParamPresent(getCharsetParam(params, name, null), name);
     }
 
-    private static Charset getCharsetParam(Map<String, ?> params, String name, Charset defaultValue) throws TemplateModelException {
+    private static Charset getCharsetParam(Map<String, ?> params, String name,
+                                           @Nullable Charset defaultValue) throws TemplateModelException {
         String s = getStringParam(params, name, null);
         if (s == null) {
             return defaultValue;
