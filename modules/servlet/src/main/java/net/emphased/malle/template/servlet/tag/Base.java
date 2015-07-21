@@ -47,7 +47,8 @@ abstract class Base extends SimpleTagSupport {
         return body;
     }
 
-    protected boolean hasBody() {
+    protected boolean hasBody() throws IOException, JspException {
+        getBody();
         return hasBody;
     }
 
