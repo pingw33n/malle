@@ -1,7 +1,7 @@
 ![travis-ci](https://travis-ci.org/pingw33n/malle.svg?branch=master)
 
 Malle is a small Java (1.7 or higher) library that aims to provide consistent and fluent interface for sending
-mail messages. Implemented on top of standard [JavaMail](http://www.oracle.com/technetwork/java/javamail/index.html) 
+mail messages. Implemented on top of standard [JavaMail](http://www.oracle.com/technetwork/java/javamail/index.html)
 with [FreeMarker](http://freemarker.org/) for templating support.
 
 ## Getting started
@@ -130,11 +130,10 @@ mailSystem.createMail()
 where `mytemplate.ftl` looks like this:
 
 ```html
-<@mail cmd='from' address='${from_address}'>${from_personal}</@mail>
+<@mail cmd='from' address='${from_address}' personal='${from_personal}'/>
+<@mail cmd='to' address='${to_address}' personal='${to_personal}'/>
 
 <#-- Leading and trailing whitespace inside the headers gets trimmed. -->
-<@mail cmd='to' address='${to_address}'>  ${to_personal}  </@mail>
-
 <@mail cmd='subject'>
     A message for ${to_personal} from ${from_personal} sent using Malle and Freemarker
 </@mail>
@@ -142,7 +141,7 @@ where `mytemplate.ftl` looks like this:
 <#-- Whitespace in the text/html part gets trimmed too. -->
 <@mail cmd='html'><#escape x as x?html>
     <p>Hello ${to_personal},</p>
-    
+
     <p>
         <#-- Unicode works as expected. -->
         This is a sample mail from ${from_personal} sent to you using Malle ♡ Freemarker.

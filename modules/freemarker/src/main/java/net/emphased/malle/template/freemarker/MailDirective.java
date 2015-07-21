@@ -319,9 +319,19 @@ class MailDirective implements TemplateDirectiveModel {
         public void handle(String cmd, Mail m, @Nullable String body, Map<String, ?> params)
                 throws TemplateModelException {
             String address = getStringParam(params, "address", null);
+            String personal = getStringParam(params, "personal", null);
             if (address != null) {
-                m.address(type, address, body);
+                if (body != null) {
+                    throw new TemplateModelException("'mail' directive: 'address' parameter and body can't be both present");
+                }
+                m.address(type, address, personal);
             } else {
+                if (body == null) {
+                    throw new TemplateModelException("'mail' directive: body must be present when 'address' parameter is omitted");
+                }
+                if (personal != null) {
+                    throw new TemplateModelException("'mail' directive: 'personal' parameter may not be specified when there's no 'address' parameter");
+                }
                 m.address(type, body);
             }
         }

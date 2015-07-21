@@ -3,16 +3,14 @@
 <#assign to_lastName = '${to_lastName!"X"}'/>
 
 <@mail cmd='from' address='${from}'/>
-<#-- Leading and trailing whitespace in the header values gets trimmed. -->
-<@mail cmd='to' address='${to}'>
-    ${to_firstName} ${to_lastName}
-</@mail>
+<@mail cmd='to' address='${to}' personal='${to_firstName} ${to_lastName}'/>
 
+<#-- Leading and trailing whitespace in the header values gets trimmed. -->
 <@mail cmd='subject'>
     A message for ${to_firstName} ${to_lastName} sent using Malle and Freemarker
 </@mail>
 
-<#-- Whitespace in the text/html part gets trimmed too. -->
+<#-- Whitespace in the text/html part gets trimmed. -->
 <@mail cmd='html'><#escape x as x?html>
     <p>Hello ${to_firstName} ${to_lastName},</p>
 
