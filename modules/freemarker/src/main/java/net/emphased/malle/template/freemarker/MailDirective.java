@@ -5,6 +5,7 @@ import freemarker.template.*;
 import net.emphased.malle.*;
 import net.emphased.malle.support.InputStreamSuppliers;
 
+import javax.annotation.Nullable;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.nio.charset.Charset;
@@ -75,10 +76,7 @@ class MailDirective implements TemplateDirectiveModel {
             throw new TemplateModelException("Unknown command passed to 'mail' directive: " + cmd);
         }
 
-        boolean hadBody = body != null;
-        String bodyStr = hadBody ? renderBody(body) : "";
-        // Treat empty string as no body.
-        hadBody &= !bodyStr.isEmpty();
+        String bodyStr = body != null ? renderBody(body) : "";
 
         TrimMode defaultTrimMode;
         if (handler instanceof BodyHandler && ((BodyHandler) handler).getType() == BodyType.PLAIN) {
@@ -92,7 +90,7 @@ class MailDirective implements TemplateDirectiveModel {
         bodyStr = trim(bodyStr, trimMode);
 
         Mail m = getMessage(env);
-        handler.handle(cmd, m, hadBody, bodyStr, params);
+        handler.handle(cmd, m, bodyStr, params);
 
         if (!params.isEmpty()) {
             throw new TemplateModelException("Unknown parameters passed to 'mail' (cmd = '" + cmd + "') directive: " + params.keySet());
@@ -200,13 +198,13 @@ class MailDirective implements TemplateDirectiveModel {
 
     private interface Handler {
 
-        void handle(String cmd, Mail m, boolean hadBody, String body, Map<String, ?> params) throws TemplateModelException;
+        void handle(String cmd, Mail m, @Nullable String body, Map<String, ?> params) throws TemplateModelException;
     }
 
     private static abstract class CharsetAwareHandler implements Handler {
 
         @Override
-        public void handle(String cmd, Mail m, boolean hadBody, String body, Map<String, ?> params) throws TemplateModelException {
+        public void handle(String cmd, Mail m, @Nullable String body, Map<String, ?> params) throws TemplateModelException {
             Charset charset = getCharsetParam(params, "charset", Mail.DEFAULT_CHARSET);
             m.charset(charset);
         }
@@ -215,8 +213,8 @@ class MailDirective implements TemplateDirectiveModel {
     private static class SubjectHandler extends CharsetAwareHandler {
 
         @Override
-        public void handle(String cmd, Mail m, boolean hadBody, String body, Map<String, ?> params) throws TemplateModelException {
-            super.handle(cmd, m, hadBody, body, params);
+        public void handle(String cmd, Mail m, @Nullable String body, Map<String, ?> params) throws TemplateModelException {
+            super.handle(cmd, m, body, params);
             m.subject(body);
         }
     }
@@ -234,8 +232,8 @@ class MailDirective implements TemplateDirectiveModel {
         }
 
         @Override
-        public void handle(String cmd, Mail m, boolean hadBody, String body, Map<String, ?> params) throws TemplateModelException {
-            super.handle(cmd, m, hadBody, body, params);
+        public void handle(String cmd, Mail m, @Nullable String body, Map<String, ?> params) throws TemplateModelException {
+            super.handle(cmd, m, body, params);
             Encoding encoding = getEncodingParam(params, "encoding", Mail.DEFAULT_BODY_ENCODING);
             m.bodyEncoding(encoding)
              .body(type, body);
@@ -245,7 +243,7 @@ class MailDirective implements TemplateDirectiveModel {
     private static class PriorityHandler implements Handler {
 
         @Override
-        public void handle(String cmd, Mail m, boolean hadBody, String body, Map<String, ?> params) throws TemplateModelException {
+        public void handle(String cmd, Mail m, @Nullable String body, Map<String, ?> params) throws TemplateModelException {
             int priority;
             try {
                 priority = Integer.valueOf(body);
@@ -266,12 +264,12 @@ class MailDirective implements TemplateDirectiveModel {
         }
 
         @Override
-        public void handle(String cmd, Mail m, boolean hadBody, String body, Map<String, ?> params)
+        public void handle(String cmd, Mail m, @Nullable String body, Map<String, ?> params)
                 throws TemplateModelException {
-            super.handle(cmd, m, hadBody, body, params);
+            super.handle(cmd, m, body, params);
             String address = getStringParam(params, "address", null);
             if (address != null) {
-                m.address(type, address, body.isEmpty() ? null : body);
+                m.address(type, address, body);
             } else {
                 m.address(type, body);
             }
@@ -300,7 +298,7 @@ class MailDirective implements TemplateDirectiveModel {
         }
 
         @Override
-        public void handle(String cmd, Mail m, boolean hadBody, String body, Map<String, ?> params)
+        public void handle(String cmd, Mail m, @Nullable String body, Map<String, ?> params)
                 throws TemplateModelException {
             String nameOrId = getStringParam(params, inline ? "id" : "name");
             String type = getStringParam(params, "type", null);
@@ -327,8 +325,11 @@ class MailDirective implements TemplateDirectiveModel {
             }
 
             if (content == null) {
+                if (body == null) {
+                    throw new TemplateModelException("'mail' directive must have either resource reference or inline content");
+                }
                 content = InputStreamSuppliers.bytes(body.getBytes(Charset.forName("UTF-8")));
-            } else if (hadBody) {
+            } else if (body == null) {
                 throw new TemplateModelException("'mail' directive can't have both resource reference and inline content");
             }
 
