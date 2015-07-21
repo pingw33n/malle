@@ -36,6 +36,7 @@ class MailDirective implements TemplateDirectiveModel {
         m.put("html", new BodyHandler(BodyType.HTML));
         m.put("attachment", new AttachmentHandler(false));
         m.put("inline", new AttachmentHandler(true));
+        m.put("settings", new SettingsHandler());
 
         CMD_HANDLERS = Collections.unmodifiableMap(m);
     }
@@ -225,25 +226,36 @@ class MailDirective implements TemplateDirectiveModel {
         void handle(String cmd, Mail m, @Nullable String body, Map<String, ?> params) throws TemplateModelException;
     }
 
-    private static abstract class CharsetAwareHandler implements Handler {
+    private static class SettingsHandler implements Handler {
 
         @Override
         public void handle(String cmd, Mail m, @Nullable String body, Map<String, ?> params) throws TemplateModelException {
-            Charset charset = getCharsetParam(params, "charset", Mail.DEFAULT_CHARSET);
-            m.charset(charset);
+            Charset charset = getCharsetParam(params, "charset", null);
+            if (charset != null) {
+                m.charset(charset);
+            }
+
+            Encoding bodyEncoding = getEncodingParam(params, "body_encoding", Mail.DEFAULT_BODY_ENCODING);
+            if (bodyEncoding != null) {
+                m.bodyEncoding(bodyEncoding);
+            }
+
+            Encoding attachmentEncoding = getEncodingParam(params, "attachment_encoding", Mail.DEFAULT_BODY_ENCODING);
+            if (attachmentEncoding != null) {
+                m.attachmentEncoding(bodyEncoding);
+            }
         }
     }
 
-    private static class SubjectHandler extends CharsetAwareHandler {
+    private static class SubjectHandler implements Handler {
 
         @Override
         public void handle(String cmd, Mail m, @Nullable String body, Map<String, ?> params) throws TemplateModelException {
-            super.handle(cmd, m, body, params);
             m.subject(body);
         }
     }
 
-    private static class BodyHandler extends CharsetAwareHandler {
+    private static class BodyHandler implements Handler {
 
         private final BodyType type;
 
@@ -257,10 +269,7 @@ class MailDirective implements TemplateDirectiveModel {
 
         @Override
         public void handle(String cmd, Mail m, @Nullable String body, Map<String, ?> params) throws TemplateModelException {
-            super.handle(cmd, m, body, params);
-            Encoding encoding = getEncodingParam(params, "encoding", Mail.DEFAULT_BODY_ENCODING);
-            m.bodyEncoding(encoding)
-             .body(type, body);
+            m.body(type, body != null ? body : "");
         }
     }
 
@@ -273,7 +282,7 @@ class MailDirective implements TemplateDirectiveModel {
         }
     }
 
-    private static class AddressHandler extends CharsetAwareHandler {
+    private static class AddressHandler implements Handler {
 
         private final AddressType type;
 
@@ -285,7 +294,6 @@ class MailDirective implements TemplateDirectiveModel {
         @Override
         public void handle(String cmd, Mail m, @Nullable String body, Map<String, ?> params)
                 throws TemplateModelException {
-            super.handle(cmd, m, body, params);
             String address = getStringParam(params, "address", null);
             if (address != null) {
                 m.address(type, address, body);
