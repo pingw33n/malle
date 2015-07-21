@@ -25,20 +25,20 @@ class FreemarkerTemplateEngineTest {
 
     @Test
     void "applies template"() {
-        MailMock actual = (MailMock) new MailMock(true)
+        MailMock actual = new MailMock(true)
                 .withTemplateEngine(t)
                 .template("applies template.ftl",
-                "to", "to@example.com",
-                "toPersonal", "Unicode ♡ Malle")
+                        "to", "to@example.com",
+                        "toPersonal", "Unicode ♡ Malle")
 
-        MailMock expected = (MailMock) new MailMock(true)
+        MailMock expected = new MailMock(true)
                 .bodyEncoding(Encoding.BASE64)
                 .from("from@example.com", null)
                 .to("to@example.com", "Unicode ♡ Malle")
                 .cc("cc@example.com", "Malle ♡ Unicode")
                 .cc("cc2@example.com,\n" +
-                "    \"CC 3\" <cc3@example.com>,\n" +
-                "    \"♡ Unicode ♡\" <cc4@example.com>")
+                        "    \"CC 3\" <cc3@example.com>,\n" +
+                        "    \"♡ Unicode ♡\" <cc4@example.com>")
                 .plain("    Plain hello ☺")
                 .html("<p>Html hello ☺</p>")
                 .attachment(InputStreamSuppliers.bytes("    Hello there ✌".getBytes("UTF-8")), "embedded.txt")

@@ -258,221 +258,221 @@ public class MailMock implements Mail {
     }
 
     @Override
-    public Mail charset(Charset charset) {
+    public MailMock charset(Charset charset) {
         this.charset = checkNotNull(charset);
         return this;
     }
 
     @Override
-    public Mail charset(String charset) {
+    public MailMock charset(String charset) {
         return charset(Charset.forName(charset));
     }
 
     @Override
-    public Mail bodyEncoding(@Nullable Encoding encoding) {
+    public MailMock bodyEncoding(@Nullable Encoding encoding) {
         bodyEncoding = encoding;
         return this;
     }
 
     @Override
-    public Mail attachmentEncoding(Encoding encoding) {
+    public MailMock attachmentEncoding(Encoding encoding) {
         attachmentEncoding = checkNotNull(encoding);
         return this;
     }
 
     @Override
-    public Mail id(String id) {
+    public MailMock id(String id) {
         this.id = checkNotNull(id);
         return this;
     }
 
     @Override
-    public Mail priority(int priority) {
+    public MailMock priority(int priority) {
         this.priority = priority;
         return this;
     }
 
     @Override
-    public Mail from(Iterable<String> addresses) {
+    public MailMock from(Iterable<String> addresses) {
         return address(AddressType.FROM, addresses);
     }
 
     @Override
-    public Mail from(String[] addresses) {
+    public MailMock from(String[] addresses) {
         return address(AddressType.FROM, addresses);
     }
 
     @Override
-    public Mail from(String addresses) {
+    public MailMock from(String addresses) {
         return address(AddressType.FROM, addresses);
     }
 
     @Override
-    public Mail from(String address, @Nullable String personal) {
+    public MailMock from(String address, @Nullable String personal) {
         return address(AddressType.FROM, address, personal);
     }
 
     @Override
-    public Mail replyTo(Iterable<String> addresses) {
+    public MailMock replyTo(Iterable<String> addresses) {
         return address(AddressType.REPLY_TO, addresses);
     }
 
     @Override
-    public Mail replyTo(String[] addresses) {
+    public MailMock replyTo(String[] addresses) {
         return address(AddressType.REPLY_TO, addresses);
     }
 
     @Override
-    public Mail replyTo(String addresses) {
+    public MailMock replyTo(String addresses) {
         return address(AddressType.REPLY_TO, addresses);
     }
 
     @Override
-    public Mail replyTo(String address, @Nullable String personal) {
+    public MailMock replyTo(String address, @Nullable String personal) {
         return address(AddressType.REPLY_TO, address, personal);
     }
 
     @Override
-    public Mail to(Iterable<String> addresses) {
+    public MailMock to(Iterable<String> addresses) {
         return address(AddressType.TO, addresses);
     }
 
     @Override
-    public Mail to(String[] addresses) {
+    public MailMock to(String[] addresses) {
         return address(AddressType.TO, addresses);
     }
 
     @Override
-    public Mail to(String addresses) {
+    public MailMock to(String addresses) {
         return address(AddressType.TO, addresses);
     }
 
     @Override
-    public Mail to(String address, @Nullable String personal) {
+    public MailMock to(String address, @Nullable String personal) {
         return address(AddressType.TO, address, personal);
     }
 
     @Override
-    public Mail cc(Iterable<String> addresses) {
+    public MailMock cc(Iterable<String> addresses) {
         return address(AddressType.CC, addresses);
     }
 
     @Override
-    public Mail cc(String[] addresses) {
+    public MailMock cc(String[] addresses) {
         return address(AddressType.CC, addresses);
     }
 
     @Override
-    public Mail cc(String addresses) {
+    public MailMock cc(String addresses) {
         return address(AddressType.CC, addresses);
     }
 
     @Override
-    public Mail cc(String address, @Nullable String personal) {
+    public MailMock cc(String address, @Nullable String personal) {
         return address(AddressType.CC, address, personal);
     }
 
     @Override
-    public Mail bcc(Iterable<String> addresses) {
+    public MailMock bcc(Iterable<String> addresses) {
         return address(AddressType.BCC, addresses);
     }
 
-    public Mail bcc(String addresses) {
-        return address(AddressType.BCC, addresses);
-    }
-
-    @Override
-    public Mail bcc(String[] addresses) {
+    public MailMock bcc(String addresses) {
         return address(AddressType.BCC, addresses);
     }
 
     @Override
-    public Mail bcc(String address, @Nullable String personal) {
+    public MailMock bcc(String[] addresses) {
+        return address(AddressType.BCC, addresses);
+    }
+
+    @Override
+    public MailMock bcc(String address, @Nullable String personal) {
         return address(AddressType.BCC, address, personal);
     }
 
     @Override
-    public Mail address(AddressType type, Iterable<String> addresses) {
+    public MailMock address(AddressType type, Iterable<String> addresses) {
         this.addresses.get(type).addAll(toAddressList(addresses));
         return this;
     }
 
     @Override
-    public Mail address(AddressType type, String[] addresses) {
+    public MailMock address(AddressType type, String[] addresses) {
         return address(type, toIterable(addresses));
     }
 
     @Override
-    public Mail address(AddressType type, String addresses) {
+    public MailMock address(AddressType type, String addresses) {
         this.addresses.get(type).add(new EncodedAddress(addresses));
         return this;
     }
 
     @Override
-    public Mail address(AddressType type, String address, @Nullable String personal) {
+    public MailMock address(AddressType type, String address, @Nullable String personal) {
         this.addresses.get(type).add(new SplitAddress(address, personal));
         return this;
     }
 
     @Override
-    public Mail subject(String subject) {
+    public MailMock subject(String subject) {
         this.subject = checkNotNull(subject);
         return this;
     }
 
     @Override
-    public Mail header(String name, String value) {
+    public MailMock header(String name, String value) {
         headers.add(new Header(name, value));
         return this;
     }
 
     @Override
-    public Mail plain(String plain) {
+    public MailMock plain(String plain) {
         return body(BodyType.PLAIN, plain);
     }
 
     @Override
-    public Mail html(String html) {
+    public MailMock html(String html) {
         return body(BodyType.HTML, html);
     }
 
     @Override
-    public Mail body(BodyType type, String value) {
+    public MailMock body(BodyType type, String value) {
         bodies.put(type, value);
         return this;
     }
 
     @Override
-    public Mail attachment(InputStreamSupplier content, String name, @Nullable String type) {
+    public MailMock attachment(InputStreamSupplier content, String name, @Nullable String type) {
         attachments.add(new Attachment(content, name, type));
         return this;
     }
 
     @Override
-    public Mail attachment(InputStreamSupplier content, String name) {
+    public MailMock attachment(InputStreamSupplier content, String name) {
         return attachment(content, name, null);
     }
 
     @Override
-    public Mail inline(InputStreamSupplier content, String id, @Nullable String type) {
+    public MailMock inline(InputStreamSupplier content, String id, @Nullable String type) {
         inlines.add(new Inline(content, id, type));
         return this;
     }
 
     @Override
-    public Mail inline(InputStreamSupplier content, String id) {
+    public MailMock inline(InputStreamSupplier content, String id) {
         return inline(content, id, null);
     }
 
     @Override
-    public Mail template(String name, @Nullable Locale locale, Map<String, ?> context) {
+    public MailMock template(String name, @Nullable Locale locale, Map<String, ?> context) {
         checkState(templateEngine != null, "The 'templateEngine' must be set first");
         templateEngine.getTemplate(name, locale).apply(this, checkNotNull(context));
         return this;
     }
 
     @Override
-    public Mail template(String name, @Nullable Locale locale, Object... context) {
+    public MailMock template(String name, @Nullable Locale locale, Object... context) {
         checkNotNull(name, "The 'name' can't be null");
         checkNotNull(context, "The 'context' can't be null");
         checkArgument(context.length % 2 == 0, "The 'context' varargs must contain an even number of values");
@@ -495,27 +495,27 @@ public class MailMock implements Mail {
     }
 
     @Override
-    public Mail template(String name, Map<String, ?> context) {
+    public MailMock template(String name, Map<String, ?> context) {
         return template(name, null, context);
     }
 
     @Override
-    public Mail template(String name, Object... context) {
+    public MailMock template(String name, Object... context) {
         return template(name, null, context);
     }
 
     @Override
-    public Mail send() {
+    public MailMock send() {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public Mail writeTo(OutputStream outputStream) {
+    public MailMock writeTo(OutputStream outputStream) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public Mail writeTo(Path path) {
+    public MailMock writeTo(Path path) {
         throw new UnsupportedOperationException();
     }
 
