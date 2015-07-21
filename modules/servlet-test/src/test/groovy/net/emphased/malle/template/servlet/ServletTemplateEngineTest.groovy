@@ -74,7 +74,7 @@ class ServletTemplateEngineTest {
                 .withTemplateEngine(t)
                 .template("/WEB-INF/mail/applies template.jsp",
                     "to", "to@example.com",
-                    "toPersonal", "Unicode ♡ Malle");
+                    "toPersonal", "Unicode ♡ Malle")
 
         MailMock expected = (MailMock) new MailMock(true)
                 .bodyEncoding(Encoding.BASE64)
@@ -90,6 +90,6 @@ class ServletTemplateEngineTest {
                 .attachment(InputStreamSuppliers.resource("classpath.txt"), "classpath.txt")
                 .inline(InputStreamSuppliers.resource("image1.png"), "inline.png")
 
-        MailMockAssert.assertThat(actual).isEqualTo(expected);
+        MailMockAssert.assertThat(actual).isEqualTo(expected)
     }
 }
