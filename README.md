@@ -160,11 +160,6 @@ Hello ${to_personal},
 It's sad that you don't have an HTML-capable mail reader :(
 </@mail>
 
-<#-- Simple textual attachments can be created directly inside the template. -->
-<@mail cmd='attachment' name='readme.txt'>
-This will the attachment's content.
-</@mail>
-
 <#-- Classpath resources can be easily attached. -->
 <@mail cmd='attachment' name='image.png' resource='image.png'/>
 
