@@ -41,7 +41,7 @@ public final class FreemarkerExample extends AbstractExample {
         try {
             new Javamail()
                     .withTemplateEngine(new FreemarkerTemplateEngine().withConfiguration(fc))
-                    .createMail()
+                    .mail()
                     .template(template, c)
                     .send();
         } catch (MailException e) {

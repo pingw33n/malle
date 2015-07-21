@@ -49,7 +49,7 @@ Assuming the JavaMail is properly configured with system properties, sending a m
 
 ```java
 new Javamail()
-    .createMail()
+    .mail()
     .from("alice@example.com", "Alice")
     .to("bob@example.com", "Bob")
     .subject("A mail from Alice")
@@ -68,7 +68,7 @@ MailSystem mailSystem = new Javamail()
     .withProperty("mail.user", "yourgmailaccount@gmail.com")
     .withProperty(Javamail.PASSWORD_PROP, "<your app password>");
 
-mailSystem.createMail()
+mailSystem.mail()
     .from("alice@gmail.com", "Alice")
     .to("bob@gmail.com", "Bob")
     .subject("A mail from Alice")
@@ -81,7 +81,7 @@ Sending some attachments:
 ```java
 String catUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/So_happy_smiling_cat.jpg/411px-So_happy_smiling_cat.jpg";
 String horseUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Funny_Cide.jpg/444px-Funny_Cide.jpg";
-mailSystem.createMail()
+mailSystem.mail()
     .from("alice@example.com", "Alice")
     .to("bob@example.com", "Bob")
     .subject("A mail with some pics from Alice")
@@ -96,7 +96,7 @@ Sending some inline attachments:
 ```java
 String catUrl = ...
 String horseUrl = ...
-mailSystem.createMail()
+mailSystem.mail()
     .from("alice@example.com", "Alice")
     .to("bob@example.com", "Bob")
     .subject("A mail with some inline pics from Alice")
@@ -118,7 +118,7 @@ MailSystem mailSystem = new Javamail()
     ...
     .withTemplateEngine(new FreemarkerTemplateEngine().withConfiguration(fc));
 
-mailSystem.createMail()
+mailSystem.mail()
     .template("mytemplate.ftl",
               "from_address", "alice@example.com",
               "from_personal", "Alice",
@@ -206,7 +206,7 @@ public class MyBean {
     private MailSystem mailSystem;
 
     public void sendMail() {
-        mailSystem.createMail()
+        mailSystem.mail()
             ...
             .send()
     }

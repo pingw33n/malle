@@ -32,12 +32,12 @@ public class Javamail implements MailSystem {
     private MailTemplateEngine templateEngine;
 
     @Override
-    public Mail createMail() {
-        return createMail(true);
+    public Mail mail() {
+        return mail(true);
     }
 
     @Override
-    public Mail createMail(boolean multipart) {
+    public Mail mail(boolean multipart) {
         return createMail(multipart ? MultipartMode.MIXED_RELATED : MultipartMode.NONE);
     }
 

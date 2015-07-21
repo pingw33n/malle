@@ -24,7 +24,7 @@ class JavamailMessageTest extends AbstractJavamailTest {
     @Test
     void "creates non-multipart MimeMessage with headers and plain text"() {
 
-        def m = javamail.createMail(false)
+        def m = javamail.mail(false)
                 .from("from@example.com")
                 .to("to@example.com")
                 .subject("This is a subject")
@@ -41,7 +41,7 @@ class JavamailMessageTest extends AbstractJavamailTest {
     @Test
     void "creates multipart MimeMessage with headers and plain/html text"() {
 
-        def m = javamail.createMail()
+        def m = javamail.mail()
                 .from("from@example.com")
                 .to("to@example.com")
                 .subject("This is a subject")
@@ -54,7 +54,7 @@ class JavamailMessageTest extends AbstractJavamailTest {
     @Test
     void "creates multipart MimeMessage with inline attachments"() {
 
-        def m = javamail.createMail()
+        def m = javamail.mail()
                 .from("from@example.com")
                 .to("to@example.com")
                 .inline(InputStreamSuppliers.resource("image1.png"), "image1@example.com", "image/png")
@@ -65,7 +65,7 @@ class JavamailMessageTest extends AbstractJavamailTest {
 
     @Test(expected = IllegalStateException)
     void "throws IllegalStateException when attempting to read attachment InputStreamS multiple times"() {
-        javamail.createMail()
+        javamail.mail()
             .plain("")
             .attachment(InputStreamSuppliers.inputStream(new ByteArrayInputStream()), "test")
             .writeTo(new ByteArrayOutputStream())
@@ -74,14 +74,14 @@ class JavamailMessageTest extends AbstractJavamailTest {
 
     @Test(expected = MailSendException)
     void "throws MailSendException when no recipients"() {
-        javamail.createMail()
+        javamail.mail()
                 .plain("")
                 .send()
     }
 
     @Test
     void "email address list parsing works"() {
-        def m = javamail.createMail(false)
+        def m = javamail.mail(false)
                 .to("to1@example.com, To 2 <to2@example.com>, \t\r\n\"To, 3\" <to3@example.com>, \n\"♡ Unicode ♡\" <to4@example.com>")
                 .plain("")
         assertMatch("email_address_list_parsing_works.eml", m)
