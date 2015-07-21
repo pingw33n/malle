@@ -128,6 +128,22 @@ class MailDirective implements TemplateDirectiveModel {
         return checkParamPresent(getStringParam(params, name, null), name);
     }
 
+    private static Integer getIntParam(Map<String, ?> params, String name, Integer defaultValue) throws TemplateModelException {
+        String s = getStringParam(params, name, null);
+        if (s == null) {
+            return defaultValue;
+        }
+        try {
+            return Integer.valueOf(s);
+        } catch (NumberFormatException e) {
+            throw new TemplateModelException("'mail' directive requires '" + name + "' parameter to be a valid integer", e);
+        }
+    }
+
+    private static int getIntParam(Map<String, ?> params, String name) throws TemplateModelException {
+        return checkParamPresent(getIntParam(params, name, null), name);
+    }
+
     private static <T extends Enum<T>> T getEnumParam(Map<String, ?> params, String name, Class<T> type, T defaultValue)
             throws TemplateModelException {
         String s = getStringParam(params, name, null);
@@ -244,12 +260,7 @@ class MailDirective implements TemplateDirectiveModel {
 
         @Override
         public void handle(String cmd, Mail m, @Nullable String body, Map<String, ?> params) throws TemplateModelException {
-            int priority;
-            try {
-                priority = Integer.valueOf(body);
-            } catch (NumberFormatException e) {
-                throw new TemplateModelException("'mail' directive requires body to be a number", e);
-            }
+            int priority = getIntParam(params, "value");
             m.priority(priority);
         }
     }
