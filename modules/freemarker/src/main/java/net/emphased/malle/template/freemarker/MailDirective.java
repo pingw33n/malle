@@ -348,7 +348,7 @@ class MailDirective implements TemplateDirectiveModel {
                     throw new TemplateModelException("'mail' directive must have either resource reference or inline content");
                 }
                 content = InputStreamSuppliers.bytes(body.getBytes(Charset.forName("UTF-8")));
-            } else if (body == null) {
+            } else if (body != null) {
                 throw new TemplateModelException("'mail' directive can't have both resource reference and inline content");
             }
 
