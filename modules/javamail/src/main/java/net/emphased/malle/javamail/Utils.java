@@ -1,20 +1,16 @@
 package net.emphased.malle.javamail;
 
-import java.lang.reflect.Array;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
+import net.emphased.malle.*;
 
 import javax.mail.AuthenticationFailedException;
 import javax.mail.MessagingException;
 import javax.mail.SendFailedException;
 import javax.mail.internet.AddressException;
-
-import net.emphased.malle.GenericMailException;
-import net.emphased.malle.MailAddressException;
-import net.emphased.malle.MailAuthenticationException;
-import net.emphased.malle.MailException;
-import net.emphased.malle.MailSendException;
+import javax.mail.internet.MimeMessage;
+import java.lang.reflect.Array;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 final class Utils {
 
@@ -65,6 +61,16 @@ final class Utils {
                 };
             }
         };
+    }
+
+    public static void saveChanges(MimeMessage m) throws MessagingException {
+        String messageId = m.getMessageID();
+
+        m.saveChanges();
+
+        if (messageId != null) {
+            m.setHeader("Message-ID", messageId);
+        }
     }
 
     private Utils() {

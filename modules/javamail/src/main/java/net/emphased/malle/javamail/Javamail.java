@@ -19,8 +19,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
-import static net.emphased.malle.util.Preconditions.checkNotNull;
-import static net.emphased.malle.util.Preconditions.checkState;
+import static net.emphased.malle.util.Preconditions.*;
 
 public class Javamail implements MailSystem {
 
@@ -42,6 +41,23 @@ public class Javamail implements MailSystem {
         return createMail(multipart ? MultipartMode.MIXED_RELATED : MultipartMode.NONE);
     }
 
+    @Override
+    public void send(Mail... mail) {
+        send(Utils.toIterable(mail));
+    }
+
+    @Override
+    public void send(Iterable<? extends Mail> mail) {
+        for (Mail m: mail) {
+            checkArgument(m instanceof JavamailMessage,
+                    "Expected instance of JavamailMessage but found: %s", m != null ? m.getClass() : null);
+        }
+
+        @SuppressWarnings("unchecked")
+        Iterable<JavamailMessage> messages = (Iterable<JavamailMessage>) mail;
+        doSend(messages);
+    }
+
     void applyTemplate(JavamailMessage message, String name, @Nullable Locale locale, Map<String, ?> context) {
         checkState(templateEngine != null, "Please the the template engine first");
         checkNotNull(name, "The 'name' can't be null");
@@ -53,44 +69,45 @@ public class Javamail implements MailSystem {
         template.apply(message, context);
     }
 
-    void send(JavamailMessage message, String... addresses) {
-        MimeMessage m = message.getMimeMessage();
-        try {
-            Address[] addrs = addresses.length != 0 ? parseAddresses(addresses) : m.getAllRecipients();
-            if (addrs == null || addrs.length == 0) {
-                throw new MailSendException("No mail recipients specified");
-            }
-            doSend(m, addrs);
-        } catch (MessagingException e) {
-            throw Utils.wrapException(e);
-        }
-    }
-
     private Mail createMail(MultipartMode multipartMode) {
         return new JavamailMessage(this, multipartMode);
     }
 
-    private void doSend(MimeMessage m, Address[] addrs) {
+    private void doSend(Iterable<JavamailMessage> messages) {
         try {
-            String messageId = m.getMessageID();
-
-            m.saveChanges();
-
-            if (messageId != null) {
-                m.setHeader("Message-ID", messageId);
-            }
-
             Session s = getOrCreateSession();
             Transport t = s.getTransport(getProtocol(s));
+            boolean connected = false;
             try {
-                t.connect(null, -1, null, getPassword(s));
-                t.sendMessage(m, addrs);
+                for (JavamailMessage jmsg: messages) {
+                    MimeMessage m = jmsg.getMimeMessage();
+
+                    Address[] addrs = m.getAllRecipients();
+                    if (addrs == null || addrs.length == 0) {
+                        throw new MailSendException("No mail recipients specified");
+                    }
+
+                    if (!connected) {
+                        t.connect(null, -1, null, getPassword(s));
+                        connected = true;
+                    }
+
+                    doSend(t, m, addrs);
+                }
             } finally {
-                t.close();
+                if (connected) {
+                    t.close();
+                }
             }
         } catch (MessagingException e) {
             throw Utils.wrapException(e);
         }
+
+    }
+
+    private void doSend(Transport t, MimeMessage m, Address[] addrs) throws MessagingException {
+        Utils.saveChanges(m);
+        t.sendMessage(m, addrs);
     }
 
     private String getPassword(Session s) {
