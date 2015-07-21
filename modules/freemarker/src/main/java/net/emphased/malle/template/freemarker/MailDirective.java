@@ -103,17 +103,41 @@ class MailDirective implements TemplateDirectiveModel {
     private String trim(String value, TrimMode mode) {
         switch (mode) {
             case none:
-                return value;
+                return trimFirstLineEndings(value, TrimMode.trailing);
             case both:
                 return value.trim();
             case leading:
-                return value.replaceFirst("^\\s+", "");
+                return trimFirstLineEndings(value.replaceFirst("^\\s+", ""), TrimMode.trailing);
             case trailing:
                 return value.replaceFirst("\\s+$", "");
             default:
                 throw new AssertionError("Unhandled mode: " + mode);
 
         }
+    }
+
+    private String trimFirstLineEndings(String s, TrimMode mode) {
+        if (mode == TrimMode.both || mode == TrimMode.leading) {
+            int i = 0;
+            if (s.startsWith("\r\n")) {
+                i += 2;
+            } else if (s.startsWith("\r") || s.startsWith("\n")) {
+                i++;
+            }
+            s = s.substring(i);
+        }
+
+        if (mode == TrimMode.both || mode == TrimMode.trailing) {
+            int i = s.length();
+            if (s.endsWith("\r\n")) {
+                i -= 2;
+            } else if (s.endsWith("\r") || s.endsWith("\n")) {
+                i -= 1;
+            }
+            s = s.substring(0, i);
+        }
+
+        return s;
     }
 
     private static String getStringParam(Map<String, ?> params, String name,
