@@ -21,6 +21,6 @@ abstract class Body extends Base {
     @Override
     public void doTag() throws JspException, IOException {
         String body = getBody();
-        getMail().body(type, body);
+        getMail().body(type, body != null ? body : "");
     }
 }

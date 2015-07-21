@@ -3,6 +3,7 @@ package net.emphased.malle.template.servlet.tag;
 import net.emphased.malle.Mail;
 import net.emphased.malle.template.servlet.ServletTemplateEngine;
 
+import javax.annotation.Nullable;
 import javax.servlet.jsp.JspContext;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
@@ -21,6 +22,7 @@ abstract class Base extends SimpleTagSupport {
 
     private Mail mail;
     private String body;
+    private boolean bodyReady;
     private TrimMode trim;
 
     public Base(TrimMode defaultTrim) {
@@ -31,23 +33,20 @@ abstract class Base extends SimpleTagSupport {
         return mail;
     }
 
-    protected String getBody() throws JspException, IOException {
-        if (body != null) {
+    protected @Nullable String getBody() throws JspException, IOException {
+        if (bodyReady) {
             return body;
         }
         JspFragment jspBody = getJspBody();
         if (jspBody == null) {
-            body = "";
-            return body;
+            body = null;
+        } else {
+            StringWriter sw = new StringWriter();
+            jspBody.invoke(sw);
+            body = trim(sw.toString());
         }
-        StringWriter sw = new StringWriter();
-        jspBody.invoke(sw);
-        body = trim(sw.toString());
+        bodyReady = true;
         return body;
-    }
-
-    protected boolean hasBody() throws IOException, JspException {
-        return getJspBody() != null;
     }
 
     private String trim(String s) {

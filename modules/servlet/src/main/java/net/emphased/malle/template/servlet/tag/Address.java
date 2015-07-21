@@ -42,14 +42,13 @@ abstract class Address extends Base {
     @Override
     public void doTag() throws JspException, IOException {
         String body = getBody();
-        boolean bodyNotEmpty = !body.isEmpty();
 
         if (address != null) {
-            checkArgument(!(bodyNotEmpty && personal != null), "[%s] Either body or 'personal' may be specified but not both", getTagName());
-            String personal = bodyNotEmpty ? body : this.personal;
+            checkArgument(!(body != null && personal != null), "[%s] Either body or 'personal' may be specified but not both", getTagName());
+            String personal = body != null ? body : this.personal;
             getMail().address(type, address, personal);
         } else {
-            checkArgument(bodyNotEmpty && personal == null, "[%s] When 'address' attribute is not specified the body must provide " +
+            checkArgument(body != null && personal == null, "[%s] When 'address' attribute is not specified the body must provide " +
                     "a valid list of addresses with optional personal part. This usage type also forbids specifying 'personal' attribute", getTagName());
             getMail().address(type, body);
         }
