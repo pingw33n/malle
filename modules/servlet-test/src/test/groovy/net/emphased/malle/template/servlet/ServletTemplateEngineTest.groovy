@@ -42,7 +42,8 @@ class ServletTemplateEngineTest {
 
     @BeforeClass
     static void setUpStatic() {
-        webappDir = checkNotNull(Resources.getResource("webapp").getFile())
+        String f = checkNotNull(Resources.getResource("webapp").getFile())
+        webappDir = new File(f).toString()
     }
 
     @Before
