@@ -106,7 +106,6 @@ public class Javamail implements MailSystem {
     }
 
     private void doSend(Transport t, MimeMessage m, Address[] addrs) throws MessagingException {
-        Utils.saveChanges(m);
         t.sendMessage(m, addrs);
     }
 

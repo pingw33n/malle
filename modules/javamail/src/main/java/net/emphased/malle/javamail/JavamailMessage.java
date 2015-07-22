@@ -16,17 +16,19 @@ import static net.emphased.malle.util.Preconditions.checkNotNull;
 
 class JavamailMessage implements Mail {
 
+    private final MultipartMode multipartMode;
+
     private final Javamail javamail;
-    private final MimeMessage mimeMessage = new MimeMessage((Session) null);
-    private boolean mimeMessageReady;
-    private MimeMultipart attachmentPart;
-    private MimeMultipart inlinePart;
     private Charset charset = DEFAULT_CHARSET;
-    private final Map<BodyType, Body> body = new EnumMap<>(BodyType.class);
+    private final Map<BodyType, String> bodies = new EnumMap<>(BodyType.class);
     private Encoding bodyEncoding = DEFAULT_BODY_ENCODING;
     private Encoding attachmentEncoding = DEFAULT_ATTACHMENT_ENCODING;
     private final Map<AddressType, List<InternetAddress>> addresses = new EnumMap<>(AddressType.class);
-    private final List<BodyPart> inlines = new ArrayList<>();
+    private final Map<Attachment.Type, List<Attachment>> attachments = new EnumMap<>(Attachment.Type.class);
+    private String id;
+    private Integer priority;
+    private String subject;
+    private final Map<String, String> headers = new LinkedHashMap<>();
 
     private static final Map<Encoding, String> ENCODING_TO_RFC;
     static {
@@ -45,17 +47,12 @@ class JavamailMessage implements Mail {
     JavamailMessage(Javamail javamail, MultipartMode multipartMode) {
         checkNotNull(javamail, "The 'javamail' can't be null");
         checkNotNull(multipartMode, "The 'multipartMode' can't be null");
+        this.multipartMode = multipartMode;
         this.javamail = javamail;
-        try {
-            createMimeMultiparts(multipartMode);
-        } catch (MessagingException e) {
-            throw Utils.wrapException(e);
-        }
     }
 
-    public MimeMessage getMimeMessage() {
-        ensureMimeMessageReady();
-        return mimeMessage;
+    MimeMessage getMimeMessage() {
+        return new MimeMessageBuilder().build();
     }
 
     @Override
@@ -87,21 +84,13 @@ class JavamailMessage implements Mail {
     @Override
     public Mail id(String id) {
         checkNotNull(id, "The 'id' can't be null");
-        try {
-            mimeMessage.setHeader("Message-ID", '<' + id + '>');
-        } catch (MessagingException e) {
-            throw Utils.wrapException(e);
-        }
+        this.id = id;
         return this;
     }
 
     @Override
     public Mail priority(int priority) {
-        try {
-            mimeMessage.setHeader("X-Priority", String.valueOf(priority));
-        } catch (MessagingException e) {
-            throw Utils.wrapException(e);
-        }
+        this.priority = priority;
         return this;
     }
 
@@ -233,11 +222,7 @@ class JavamailMessage implements Mail {
     @Override
     public Mail subject(String subject) {
         checkNotNull(subject, "The 'subject' must not be null");
-        try {
-            mimeMessage.setSubject(subject, charset.name());
-        } catch (MessagingException e) {
-            throw Utils.wrapException(e);
-        }
+        this.subject = subject;
         return this;
     }
 
@@ -245,13 +230,7 @@ class JavamailMessage implements Mail {
     public Mail header(String name, String value) {
         checkNotNull(name, "The 'name' must not be null");
         checkNotNull(value, "The 'value' must not be null");
-        try {
-            mimeMessage.addHeader(name, MimeUtility.fold(9, MimeUtility.encodeText(value, charset.name(), null)));
-        } catch (MessagingException e) {
-            throw Utils.wrapException(e);
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException("Shouldn't happen", e);
-        }
+        headers.put(name, value);
         return this;
     }
 
@@ -271,33 +250,16 @@ class JavamailMessage implements Mail {
     public Mail body(BodyType type, String value) {
         checkNotNull(type, "The 'type' must not be null");
         checkNotNull(value, "The 'value' must not be null");
-        body.put(type, new Body(value));
-        mimeMessageReady = false;
+        if (!isMultipart() && !bodies.isEmpty() && !bodies.containsKey(type)) {
+            checkMultipart();
+        }
+        bodies.put(type, value);
         return this;
     }
 
     @Override
     public Mail attachment(InputStreamSupplier content, String name, @Nullable String type) {
-        checkNotNull(content, "The 'content' can't be null");
-        checkNotNull(name, "The 'name' can't be null");
-        if (type == null) {
-            type = "application/octet-stream";
-        }
-        try {
-            MimeBodyPart mimeBodyPart = new MimeBodyPart();
-            mimeBodyPart.setDisposition(MimeBodyPart.ATTACHMENT);
-            try {
-                mimeBodyPart.setFileName(MimeUtility.encodeWord(name, charset.name(), null));
-            } catch (UnsupportedEncodingException ex) {
-                throw new RuntimeException("Shouldn't happen", ex);
-            }
-            mimeBodyPart.setDataHandler(new DataHandler(new InputStreamSupplierDatasource(content, type, name)));
-            setContentTransferEncodingHeader(mimeBodyPart, attachmentEncoding);
-            getAttachmentPart().addBodyPart(mimeBodyPart);
-        } catch (MessagingException e) {
-            throw Utils.wrapException(e);
-        }
-        return this;
+        return attachment(Attachment.Type.REGULAR, content, null, name, type);
     }
 
     @Override
@@ -307,23 +269,28 @@ class JavamailMessage implements Mail {
 
     @Override
     public Mail inline(InputStreamSupplier content, String id, @Nullable String type) {
+        return attachment(Attachment.Type.INLINE, content, id, null, type);
+    }
+
+    private Mail attachment(Attachment.Type type, InputStreamSupplier content, @Nullable String id,
+                            @Nullable String name, @Nullable String contentType) {
         checkNotNull(content, "The 'content' can't be null");
-        checkNotNull(id, "The 'id' can't be null");
-        if (type == null) {
-            type = "application/octet-stream";
+        if (type == Attachment.Type.INLINE) {
+            checkNotNull(id, "The 'id' can't be null");
+        } else {
+            checkNotNull(name, "The 'name' can't be null");
+        }
+        if (contentType == null) {
+            contentType = "application/octet-stream";
         }
         checkMultipart();
-        try {
-            MimeBodyPart mimeBodyPart = new MimeBodyPart();
-            mimeBodyPart.setDisposition(MimeBodyPart.INLINE);
-            mimeBodyPart.setContentID('<' + id + '>');
-            mimeBodyPart.setDataHandler(new DataHandler(new InputStreamSupplierDatasource(content, type, "inline")));
-            setContentTransferEncodingHeader(mimeBodyPart, attachmentEncoding);
-            inlines.add(mimeBodyPart);
-            mimeMessageReady = false;
-        } catch (MessagingException e) {
-            throw Utils.wrapException(e);
+        List<Attachment> list = attachments.get(type);
+        if (list == null) {
+            list = new ArrayList<>();
+            attachments.put(type, list);
         }
+        list.add(new Attachment(type, content, id, name, contentType));
+
         return this;
     }
 
@@ -407,7 +374,6 @@ class JavamailMessage implements Mail {
             addresses.put(type, l);
         }
         l.add(address);
-        mimeMessageReady = false;
         return this;
     }
 
@@ -445,163 +411,79 @@ class JavamailMessage implements Mail {
         return r;
     }
 
-    private void createMimeMultiparts(MultipartMode multipartMode) throws MessagingException {
-        switch (multipartMode) {
-            case NONE:
-                attachmentPart = null;
-                inlinePart = null;
-                break;
-            case MIXED:
-                attachmentPart = new MimeMultipart("mixed");
-                mimeMessage.setContent(attachmentPart);
-                inlinePart = attachmentPart;
-                break;
-            case RELATED:
-                attachmentPart = new MimeMultipart("related");
-                mimeMessage.setContent(attachmentPart);
-                inlinePart = attachmentPart;
-                break;
-            case MIXED_RELATED:
-                attachmentPart = new MimeMultipart("mixed");
-                mimeMessage.setContent(attachmentPart);
-                inlinePart = new MimeMultipart("related");
-                MimeBodyPart relatedBodyPart = new MimeBodyPart();
-                relatedBodyPart.setContent(inlinePart);
-                attachmentPart.addBodyPart(relatedBodyPart);
-                break;
-            default:
-                throw new AssertionError();
-        }
-    }
+    private class MimeMessageBuilder {
 
-    private MimeBodyPart getTextPart() throws MessagingException {
-        checkMultipart();
-        MimeBodyPart bodyPart = null;
-        for (int i = 0; i < inlinePart.getCount(); i++) {
-            BodyPart bp = inlinePart.getBodyPart(i);
-            if (bp.getFileName() == null) {
-                bodyPart = (MimeBodyPart) bp;
+        private MimeMessage root;
+        private final Map<Attachment.Type, MimeMultipart> attachmentParts = new EnumMap<>(Attachment.Type.class);
+
+        private void buildParts() throws MessagingException {
+            root = new MimeMessage((Session) null);
+            MimeMultipart attachmentPart, inlinePart;
+            switch (multipartMode) {
+                case NONE:
+                    attachmentPart = null;
+                    inlinePart = null;
+                    break;
+                case MIXED:
+                    attachmentPart = new MimeMultipart("mixed");
+                    root.setContent(attachmentPart);
+                    inlinePart = attachmentPart;
+                    break;
+                case RELATED:
+                    attachmentPart = new MimeMultipart("related");
+                    root.setContent(attachmentPart);
+                    inlinePart = attachmentPart;
+                    break;
+                case MIXED_RELATED:
+                    attachmentPart = new MimeMultipart("mixed");
+                    root.setContent(attachmentPart);
+                    inlinePart = new MimeMultipart("related");
+                    MimeBodyPart relatedBodyPart = new MimeBodyPart();
+                    relatedBodyPart.setContent(inlinePart);
+                    attachmentPart.addBodyPart(relatedBodyPart);
+                    break;
+                default:
+                    throw new AssertionError("Unhandled MultipartMode: " + multipartMode);
             }
+            attachmentParts.put(Attachment.Type.REGULAR, attachmentPart);
+            attachmentParts.put(Attachment.Type.INLINE, inlinePart);
         }
-        if (bodyPart == null) {
-            MimeBodyPart mimeBodyPart = new MimeBodyPart();
-            inlinePart.addBodyPart(mimeBodyPart);
-            bodyPart = mimeBodyPart;
-        }
-        return bodyPart;
-    }
 
-    private void setText(Body plain, Body html) throws MessagingException {
-        MimeMultipart messageBody = new MimeMultipart("alternative");
-        getTextPart().setContent(messageBody, "text/alternative");
-
-        // Create the plain text part of the message.
-        MimeBodyPart plainTextPart = new MimeBodyPart();
-        setPlainTextToMimePart(plainTextPart, plain);
-        messageBody.addBodyPart(plainTextPart);
-
-        // Create the HTML text part of the message.
-        MimeBodyPart htmlTextPart = new MimeBodyPart();
-        setHtmlToMimePart(htmlTextPart, html);
-        messageBody.addBodyPart(htmlTextPart);
-    }
-
-    private void setText(Body text, boolean html) throws MessagingException {
-        MimePart partToUse;
-        if (isMultipart()) {
-            partToUse = getTextPart();
-        }
-        else {
-            partToUse = this.mimeMessage;
-        }
-        if (html) {
-            setHtmlToMimePart(partToUse, text);
-        }
-        else {
-            setPlainTextToMimePart(partToUse, text);
-        }
-    }
-
-    private void setTextToMimePart(MimePart mimePart, String text, String type, @Nullable Encoding encoding) throws MessagingException {
-        mimePart.setContent(text, type + "; charset=" + charset.name());
-        setContentTransferEncodingHeader(mimePart, encoding);
-    }
-
-    private void setContentTransferEncodingHeader(Part part, @Nullable Encoding encoding) throws MessagingException {
-        if (encoding != null) {
-            part.setHeader("Content-Transfer-Encoding", checkNotNull(ENCODING_TO_RFC.get(encoding)));
-        } else {
-            part.removeHeader("Content-Transfer-Encoding");
-        }
-    }
-
-    private void setPlainTextToMimePart(MimePart part, Body text) throws MessagingException {
-        setTextToMimePart(part, text.text, "text/plain", text.bodyEncoding);
-    }
-
-    private void setHtmlToMimePart(MimePart part, Body text) throws MessagingException {
-        setTextToMimePart(part, text.text, "text/html", text.bodyEncoding);
-    }
-
-    private boolean isMultipart() {
-        return attachmentPart != null;
-    }
-
-    private void checkMultipart() {
-        if (!isMultipart()) {
-            throw new IllegalStateException("This message is not multipart");
-        }
-    }
-
-    private MimeMultipart getAttachmentPart() {
-        checkMultipart();
-        return attachmentPart;
-    }
-
-    private MimeMultipart getInlinePart() throws IllegalStateException {
-        checkMultipart();
-        return inlinePart;
-    }
-
-    private void ensureMimeMessageReady() {
-        if (mimeMessageReady) {
-            return;
-        }
-        try {
+        private void buildAddresses() throws MessagingException {
             for (Map.Entry<AddressType, List<InternetAddress>> entry: addresses.entrySet()) {
                 List<InternetAddress> l = entry.getValue();
                 switch (entry.getKey()) {
                     case FROM:
-                        mimeMessage.removeHeader("From");
+                        root.removeHeader("From");
                         if (!l.isEmpty()) {
-                            mimeMessage.addFrom(Utils.toArray(l, InternetAddress.class));
+                            root.addFrom(Utils.toArray(l, InternetAddress.class));
                         }
                         break;
 
                     case REPLY_TO:
                         if (!l.isEmpty()) {
-                            mimeMessage.setReplyTo(Utils.toArray(l, InternetAddress.class));
+                            root.setReplyTo(Utils.toArray(l, InternetAddress.class));
                         }
                         break;
 
                     case TO:
-                        mimeMessage.removeHeader("To");
+                        root.removeHeader("To");
                         if (!l.isEmpty()) {
-                            mimeMessage.addRecipients(Message.RecipientType.TO, Utils.toArray(l, InternetAddress.class));
+                            root.addRecipients(Message.RecipientType.TO, Utils.toArray(l, InternetAddress.class));
                         }
                         break;
 
                     case CC:
-                        mimeMessage.removeHeader("CC");
+                        root.removeHeader("CC");
                         if (!l.isEmpty()) {
-                            mimeMessage.addRecipients(Message.RecipientType.CC, Utils.toArray(l, InternetAddress.class));
+                            root.addRecipients(Message.RecipientType.CC, Utils.toArray(l, InternetAddress.class));
                         }
                         break;
 
                     case BCC:
-                        mimeMessage.removeHeader("BCC");
+                        root.removeHeader("BCC");
                         if (!l.isEmpty()) {
-                            mimeMessage.addRecipients(Message.RecipientType.BCC, Utils.toArray(l, InternetAddress.class));
+                            root.addRecipients(Message.RecipientType.BCC, Utils.toArray(l, InternetAddress.class));
                         }
                         break;
 
@@ -609,9 +491,65 @@ class JavamailMessage implements Mail {
                         throw new AssertionError("Unhandled RecipientType: " + entry.getKey());
                 }
             }
+        }
 
-            Body plain = body.get(BodyType.PLAIN);
-            Body html = body.get(BodyType.HTML);
+        private MimeBodyPart getOrCreateTextPart() throws MessagingException {
+            MimeMultipart container = attachmentParts.get(Attachment.Type.INLINE);
+            if (container.getCount() == 0) {
+                MimeBodyPart part = new MimeBodyPart();
+                container.addBodyPart(part);
+                return part;
+            } else {
+                return (MimeBodyPart) container.getBodyPart(0);
+            }
+        }
+
+        private void setText(String plain, String html) throws MessagingException {
+            MimeMultipart messageBody = new MimeMultipart("alternative");
+            getOrCreateTextPart().setContent(messageBody, "text/alternative");
+
+            // Create the plain text part of the message.
+            MimeBodyPart plainTextPart = new MimeBodyPart();
+            setPlainTextToMimePart(plainTextPart, plain);
+            messageBody.addBodyPart(plainTextPart);
+
+            // Create the HTML text part of the message.
+            MimeBodyPart htmlTextPart = new MimeBodyPart();
+            setHtmlToMimePart(htmlTextPart, html);
+            messageBody.addBodyPart(htmlTextPart);
+        }
+
+        private void setText(String text, boolean html) throws MessagingException {
+            MimePart partToUse;
+            if (isMultipart()) {
+                partToUse = getOrCreateTextPart();
+            } else {
+                partToUse = root;
+            }
+            if (html) {
+                setHtmlToMimePart(partToUse, text);
+            } else {
+                setPlainTextToMimePart(partToUse, text);
+            }
+        }
+
+        private void setPlainTextToMimePart(MimePart part, String text) throws MessagingException {
+            setTextToMimePart(part, text, "text/plain", bodyEncoding);
+        }
+
+        private void setHtmlToMimePart(MimePart part, String text) throws MessagingException {
+            setTextToMimePart(part, text, "text/html", bodyEncoding);
+        }
+
+        private void setTextToMimePart(MimePart mimePart, String text, String type,
+                                       @Nullable Encoding encoding) throws MessagingException {
+            mimePart.setContent(text, type + "; charset=" + charset.name());
+            setContentTransferEncodingHeader(mimePart, encoding);
+        }
+
+        private void buildBodies() throws MessagingException {
+            String plain = bodies.get(BodyType.PLAIN);
+            String html = bodies.get(BodyType.HTML);
             if (plain != null && html != null) {
                 checkMultipart();
                 setText(plain, html);
@@ -622,37 +560,116 @@ class JavamailMessage implements Mail {
             } else {
                 throw new IllegalStateException("The message must have plain and/or html text set");
             }
+        }
 
-            if (!inlines.isEmpty()) {
-                MimeMultipart target = getInlinePart();
-                for (BodyPart part: inlines) {
+        private void buildAttachments() throws MessagingException {
+            for (Map.Entry<Attachment.Type, List<Attachment>> entry: attachments.entrySet()) {
+                MimeMultipart target = attachmentParts.get(entry.getKey());
+                for (Attachment att: entry.getValue()) {
+                    BodyPart part = att.createBodyPart(attachmentEncoding, charset);
                     target.addBodyPart(part);
                 }
-                inlines.clear();
             }
-        } catch (MessagingException e) {
-            throw Utils.wrapException(e);
         }
 
-        mimeMessageReady = true;
-    }
+        public MimeMessage build() {
+            root = null;
+            attachmentParts.clear();
+            try {
+                buildParts();
 
-    private class Context {
-        final Charset charset;
-        final Encoding bodyEncoding;
+                try {
+                    for (Map.Entry<String, String> header : headers.entrySet()) {
+                        root.addHeader(header.getKey(), MimeUtility.fold(header.getKey().length() + 2,
+                                MimeUtility.encodeText(header.getValue(), charset.name(), null)));
+                    }
+                } catch (UnsupportedEncodingException e) {
+                    throw new RuntimeException("Shouldn't happen", e);
+                }
 
-        public Context() {
-            charset = JavamailMessage.this.charset;
-            bodyEncoding = JavamailMessage.this.bodyEncoding;
+                if (priority != null) {
+                    root.setHeader("X-Priority", String.valueOf(priority));
+                }
+                if (subject != null) {
+                    root.setSubject(subject, charset.name());
+                }
+
+                buildAddresses();
+                buildBodies();
+                buildAttachments();
+
+                root.saveChanges();
+
+                // Doing this after saveChanges() because the latter overwrites Message-ID header.
+                if (id != null) {
+                    root.setHeader("Message-ID", '<' + id + '>');
+                }
+
+            } catch (MessagingException e) {
+                throw Utils.wrapException(e);
+            }
+
+            return root;
         }
     }
 
-    private class Body extends Context {
+    private static void setContentTransferEncodingHeader(Part part, @Nullable Encoding encoding) throws MessagingException {
+        if (encoding != null) {
+            part.setHeader("Content-Transfer-Encoding", checkNotNull(ENCODING_TO_RFC.get(encoding)));
+        } else {
+            part.removeHeader("Content-Transfer-Encoding");
+        }
+    }
 
-        final String text;
+    private boolean isMultipart() {
+        return multipartMode != MultipartMode.NONE;
+    }
 
-        public Body(String text) {
-            this.text = text;
+    private void checkMultipart() {
+        if (!isMultipart()) {
+            throw new IllegalStateException("This message is not multipart");
+        }
+    }
+
+    private static class Attachment {
+
+        private enum Type {
+            REGULAR, INLINE
+        }
+
+        private final Type type;
+        private final InputStreamSupplier content;
+        private final String id;
+        private final String name;
+        private final String contentType;
+
+        public Attachment(Type type, InputStreamSupplier content,
+                          @Nullable String id, @Nullable String name, String contentType) {
+            this.type = type;
+            this.content = content;
+            this.id = id;
+            this.name = name;
+            this.contentType = contentType;
+        }
+
+        public BodyPart createBodyPart(Encoding encoding, @Nullable Charset charset) throws MessagingException {
+            MimeBodyPart r = new MimeBodyPart();
+            r.setDisposition(type == Type.INLINE ? MimeBodyPart.INLINE : MimeBodyPart.ATTACHMENT);
+            if (id != null) {
+                r.setContentID('<' + id + '>');
+            }
+            if (name != null) {
+                checkNotNull(charset);
+                try {
+                    r.setFileName(MimeUtility.encodeWord(name, charset.name(), null));
+                } catch (UnsupportedEncodingException ex) {
+                    throw new RuntimeException("Shouldn't happen", ex);
+                }
+            }
+            r.setDataHandler(new DataHandler(new InputStreamSupplierDatasource(content, contentType,
+                    type == Type.INLINE ? "inline" : name)));
+            setContentTransferEncodingHeader(r, encoding);
+            return r;
         }
     }
 }
