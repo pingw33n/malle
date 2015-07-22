@@ -86,4 +86,14 @@ class JavamailMessageTest extends AbstractJavamailTest {
                 .plain("")
         assertMatch("parses email address list.eml", m)
     }
+
+    @Test
+    void "Message-ID is preserved"() {
+        def m = (JavamailMessage) javamail.mail()
+                .plain("")
+                .id("test@id")
+        m.getMimeMessage()
+        m.writeTo(new ByteArrayOutputStream())
+        assertThat(m.getMimeMessage().getMessageID()).isEqualTo("<test@id>")
+    }
 }
