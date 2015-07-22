@@ -53,11 +53,6 @@ public class MimeMessageRawMatcher {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             actual.writeTo(baos);
-            {
-                FileOutputStream os = new FileOutputStream("/tmp/test2.eml");
-                os.write(baos.toByteArray());
-                os.close();
-            }
             assertMatch(new BufferedReader(new InputStreamReader(is, "ISO-8859-1")),
                     new BufferedReader(new InputStreamReader(new ByteArrayInputStream(baos.toByteArray()), "ISO-8859-1")));
         } finally {
