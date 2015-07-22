@@ -85,8 +85,8 @@ class ServletTemplateEngineTest {
                 .from("from@example.com", null)
                 .to("to@example.com", "Unicode ♡ Malle")
                 .cc("cc@example.com", "Malle ♡ Unicode")
-                .cc("cc2@example.com,\n" +
-                    "    \"CC 3\" <cc3@example.com>,\n" +
+                .cc("cc2@example.com,\r\n" +
+                    "    \"CC 3\" <cc3@example.com>,\r\n" +
                     "    \"♡ Unicode ♡\" <cc4@example.com>")
                 .plain("    Plain hello ☺")
                 .html("<p>Html hello ☺</p>")

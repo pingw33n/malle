@@ -1,3 +1,5 @@
 * text=auto
 
 *.eml text eol=crlf
+*.ftl text eol=crlf
+*.jsp text eol=crlf
