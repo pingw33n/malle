@@ -12,5 +12,6 @@
 hs_err_pid*
 
 # IDEA stuff
-.idea
+.idea/*
+!.idea/codeStyleSettings.xml
 *.iml
