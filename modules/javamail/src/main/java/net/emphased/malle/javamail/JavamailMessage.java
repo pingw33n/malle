@@ -9,6 +9,7 @@ import javax.mail.internet.*;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 import static net.emphased.malle.util.Preconditions.checkArgument;
@@ -365,6 +366,11 @@ class JavamailMessage implements Mail {
         } catch (IOException e) {
             throw new MailIOException(e);
         }
+    }
+
+    @Override
+    public Mail writeTo(String path) {
+        return writeTo(Paths.get(path));
     }
 
     private Mail address(AddressType type, InternetAddress address) {

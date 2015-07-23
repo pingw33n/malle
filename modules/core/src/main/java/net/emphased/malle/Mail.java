@@ -68,4 +68,5 @@ public interface Mail {
 
     Mail writeTo(OutputStream outputStream);
     Mail writeTo(Path path);
+    Mail writeTo(String path);
 }
