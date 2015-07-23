@@ -35,7 +35,6 @@ abstract class AttachmentBase extends Base {
     }
 
     private InputStreamSupplier getInputStreamSupplier() throws IOException, JspException {
-        checkArgument(getBody() == null, "[%s] Embedded attachment content is not supported", getTagName());
         checkArgument(i(file != null) + i(url != null) + i(resource != null) == 1,
                 "[%s] Either 'file', 'url', 'resource' or body may be specified", getTagName());
 

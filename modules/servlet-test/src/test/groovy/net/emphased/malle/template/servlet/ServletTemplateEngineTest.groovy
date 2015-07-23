@@ -1,11 +1,10 @@
 package net.emphased.malle.template.servlet
-import com.google.common.base.Throwables
 import com.google.common.io.Resources
 import net.emphased.malle.Encoding
 import net.emphased.malle.MailMock
 import net.emphased.malle.MailMockAssert
 import net.emphased.malle.support.InputStreamSuppliers
-import net.emphased.malle.template.MailTemplateException
+import net.emphased.malle.template.GenericMailTemplateException
 import org.apache.catalina.startup.Tomcat
 import org.junit.*
 import org.junit.rules.ExpectedException
@@ -100,15 +99,11 @@ class ServletTemplateEngineTest {
 
     @Test
     void "throws MailTemplateException when attachment or inline command has body"() {
-        thrown.expect(IllegalArgumentException);
-        thrown.expectMessage("Embedded attachment content is not supported");
+        thrown.expect(GenericMailTemplateException);
+        thrown.expectMessage("According to TLD, tag m:attachment must be empty, but is not");
 
-        try {
-            new MailMock(true)
-                    .withTemplateEngine(t)
-                    .template("/WEB-INF/mail/throws MailTemplateException when attachment or inline command has body.jsp")
-        } catch (MailTemplateException e) {
-            throw Throwables.getCausalChain(e).findAll { it instanceof IllegalArgumentException } [0]
-        }
+        new MailMock(true)
+                .withTemplateEngine(t)
+                .template("/WEB-INF/mail/throws MailTemplateException when attachment or inline command has body.jsp")
     }
 }

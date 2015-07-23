@@ -217,7 +217,7 @@
         </description>
         <name>attachment</name>
         <tag-class>net.emphased.malle.template.servlet.tag.Attachment</tag-class>
-        <body-content>scriptless</body-content>
+        <body-content>empty</body-content>
         <attribute>
             <description>Sets the trimming mode for the body content for the body. Possible values: 'none' (default), 'leading', 'trailing', 'both'.</description>
             <name>trim</name>
@@ -263,7 +263,7 @@
         </description>
         <name>inline</name>
         <tag-class>net.emphased.malle.template.servlet.tag.Inline</tag-class>
-        <body-content>scriptless</body-content>
+        <body-content>empty</body-content>
         <attribute>
             <description>Sets the trimming mode for the body content. Possible values: 'none' (default), 'leading', 'trailing', 'both'.</description>
             <name>trim</name>
