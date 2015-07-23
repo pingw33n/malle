@@ -172,12 +172,6 @@
             <required>true</required>
             <rtexprvalue>true</rtexprvalue>
         </attribute>
-        <attribute>
-            <description>Sets the trimming mode for the body content. Possible values: 'none', 'leading', 'trailing', 'both' (default).</description>
-            <name>trim</name>
-            <required>false</required>
-            <rtexprvalue>true</rtexprvalue>
-        </attribute>
     </tag>
 
     <tag>
@@ -218,12 +212,6 @@
         <tag-class>net.emphased.malle.template.servlet.tag.Attachment</tag-class>
         <body-content>empty</body-content>
         <attribute>
-            <description>Sets the trimming mode for the body content for the body. Possible values: 'none' (default), 'leading', 'trailing', 'both'.</description>
-            <name>trim</name>
-            <required>false</required>
-            <rtexprvalue>true</rtexprvalue>
-        </attribute>
-        <attribute>
             <description>The attachment filename.</description>
             <name>name</name>
             <required>true</required>
@@ -262,12 +250,6 @@
         <name>inline</name>
         <tag-class>net.emphased.malle.template.servlet.tag.Inline</tag-class>
         <body-content>empty</body-content>
-        <attribute>
-            <description>Sets the trimming mode for the body content. Possible values: 'none' (default), 'leading', 'trailing', 'both'.</description>
-            <name>trim</name>
-            <required>false</required>
-            <rtexprvalue>true</rtexprvalue>
-        </attribute>
         <attribute>
             <description>The attachment ID for referencing from the HTML content.</description>
             <name>id</name>
