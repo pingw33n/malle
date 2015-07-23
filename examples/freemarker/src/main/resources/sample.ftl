@@ -6,9 +6,7 @@
 <@mail cmd='to' address='${to}' personal='${to_firstName} ${to_lastName}'/>
 
 <#-- Leading and trailing whitespace in the header values gets trimmed. -->
-<@mail cmd='subject'>
-    A message for ${to_firstName} ${to_lastName} sent using Malle and Freemarker
-</@mail>
+<@mail cmd='subject' value='A message for ${to_firstName} ${to_lastName} sent using Malle and Freemarker'/>
 
 <#-- Whitespace in the text/html part gets trimmed. -->
 <@mail cmd='html'><#escape x as x?html>

@@ -134,9 +134,7 @@ where `mytemplate.ftl` looks like this:
 <@mail cmd='to' address='${to_address}' personal='${to_personal}'/>
 
 <#-- Leading and trailing whitespace inside the headers gets trimmed. -->
-<@mail cmd='subject'>
-    A message for ${to_personal} from ${from_personal} sent using Malle and Freemarker
-</@mail>
+<@mail cmd='subject' value='A message for ${to_personal} from ${from_personal} sent using Malle and Freemarker'/>
 
 <#-- Whitespace in the text/html part gets trimmed too. -->
 <@mail cmd='html'><#escape x as x?html>
