@@ -212,8 +212,7 @@
 
     <tag>
         <description>
-            Adds an attachment. One of the 'file', 'url' or 'resource' attributes must specify the attachment content,
-            or it can be embedded directly into the tag body.
+            Adds an attachment. One of the 'file', 'url' or 'resource' attributes must specify the attachment content.
         </description>
         <name>attachment</name>
         <tag-class>net.emphased.malle.template.servlet.tag.Attachment</tag-class>
@@ -258,8 +257,7 @@
 
     <tag>
         <description>
-            Adds an inline attachment. One of the 'file', 'url' or 'resource' attributes must specify the attachment content,
-            or it can be embedded directly into the tag body.
+            Adds an inline attachment. One of the 'file', 'url' or 'resource' attributes must specify the attachment content.
         </description>
         <name>inline</name>
         <tag-class>net.emphased.malle.template.servlet.tag.Inline</tag-class>
