@@ -1,5 +1,8 @@
 package net.emphased.malle;
 
+/**
+ * {@link Mail} factory interface.
+ */
 public interface MailSystem {
 
     Mail mail();

@@ -7,6 +7,32 @@ import java.nio.file.Path;
 import java.util.Locale;
 import java.util.Map;
 
+/**
+ * Fluent mail builder. This is the main interface to use when composing and sending a mail message.
+ *
+ * <p>Depending on whether it's multipart or not (i.e. created with {@link MailSystem#mail(boolean) mail(true)} or
+ * {@code mail(false)}) certain methods will throw {@link UnsupportedOperationException}. A non-multipart message
+ * doesn't support:
+ * <ul>
+ * <li>Having both plain and HTML bodies within a single message. See {@link #plain(String)}, {@link #html(String)}, {@link #body(BodyType, String)}.
+ * <li>Attachments (regular and inline). See {@link #attachment(InputStreamSupplier, String, String)}, {@link #inline(InputStreamSupplier, String, String)}
+ *     (and other variants of these methods).
+ * </ul>
+ *
+ * <p>Minimal usage example:
+ * <pre>
+ * MailSystem mailSystem = ... ;
+ *
+ * mailSystem.mail()
+ *           .from("me@example.com")
+ *           .to("you@example.com")
+ *           .subject("Hello there")
+ *           .html("&lt;p>Hey hey hey&lt;/p>")
+ *           .send();
+ * </pre>
+ *
+ * @see MailSystem
+ */
 public interface Mail {
 
     Charset DEFAULT_CHARSET = Charset.forName("UTF-8");
