@@ -8,6 +8,7 @@ import net.emphased.malle.template.GenericMailTemplateException
 import org.apache.catalina.startup.Tomcat
 import org.junit.*
 import org.junit.rules.ExpectedException
+import org.junit.rules.TemporaryFolder
 
 import javax.servlet.ServletContext
 import javax.servlet.ServletContextEvent
@@ -26,6 +27,8 @@ class ServletTemplateEngineTest {
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
+    @Rule
+    public TemporaryFolder tmpFolder = new TemporaryFolder();
 
     static class SCL implements ServletContextListener {
 
@@ -56,6 +59,7 @@ class ServletTemplateEngineTest {
 
         tomcat = new Tomcat()
         tomcat.setPort(0)
+        tomcat.setBaseDir(tmpFolder.newFolder("tomcat").toString())
 
         def ctx = tomcat.addWebapp("", new File(webappDir).getAbsolutePath())
         ctx.addApplicationListener(SCL.class.name)
