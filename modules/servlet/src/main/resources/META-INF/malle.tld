@@ -150,11 +150,11 @@
         </description>
         <name>subject</name>
         <tag-class>net.emphased.malle.template.servlet.tag.Subject</tag-class>
-        <body-content>scriptless</body-content>
+        <body-content>empty</body-content>
         <attribute>
-            <description>Sets the trimming mode for the body content. Possible values: 'none', 'leading', 'trailing', 'both' (default).</description>
-            <name>trim</name>
-            <required>false</required>
+            <description>The subject text.</description>
+            <name>value</name>
+            <required>true</required>
             <rtexprvalue>true</rtexprvalue>
         </attribute>
     </tag>

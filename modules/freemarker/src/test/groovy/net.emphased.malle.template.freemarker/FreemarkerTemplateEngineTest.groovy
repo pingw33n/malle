@@ -45,6 +45,7 @@ class FreemarkerTemplateEngineTest {
                 .cc("cc2@example.com,\r\n" +
                         "    \"CC 3\" <cc3@example.com>,\r\n" +
                         "    \"♡ Unicode ♡\" <cc4@example.com>")
+                .subject("From Malle With ♡♡♡")
                 .plain("    Plain hello ☺")
                 .html("<p>Html hello ☺</p>")
                 .attachment(InputStreamSuppliers.resource("classpath.txt"), "classpath.txt")

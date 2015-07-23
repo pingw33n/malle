@@ -12,6 +12,8 @@
     "♡ Unicode ♡" <cc4@example.com>
 </@mail>
 
+<@mail cmd='subject' value="From Malle With ♡♡♡"/>
+
 <@mail cmd='plain'>
     Plain hello ☺
 </@mail>

@@ -275,7 +275,8 @@ class MailDirective implements TemplateDirectiveModel {
 
         @Override
         public void handle(String cmd, Mail m, @Nullable String body, Map<String, ?> params) throws TemplateModelException {
-            m.subject(body);
+            String subject = getStringParam(params, "value");
+            m.subject(subject);
         }
     }
 
