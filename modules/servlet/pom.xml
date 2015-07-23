@@ -32,5 +32,13 @@
             <version>2.1</version>
             <scope>provided</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <!-- Using the oldest version that has the @Autowired annotation. -->
+            <version>2.5</version>
+            <optional>true</optional>
+        </dependency>
     </dependencies>
 </project>

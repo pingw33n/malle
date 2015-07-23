@@ -5,6 +5,7 @@ import net.emphased.malle.MailIOException;
 import net.emphased.malle.template.GenericMailTemplateException;
 import net.emphased.malle.template.MailTemplate;
 import net.emphased.malle.template.MailTemplateEngine;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.Nullable;
 import javax.servlet.RequestDispatcher;
@@ -42,6 +43,7 @@ public class ServletTemplateEngine implements MailTemplateEngine {
         return getTemplate(name, null);
     }
 
+    @Autowired(required = false)
     public void setServletContext(ServletContext servletContext) {
         this.servletContext = checkNotNull(servletContext);
     }
