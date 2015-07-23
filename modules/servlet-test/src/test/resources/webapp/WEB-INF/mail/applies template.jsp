@@ -33,6 +33,6 @@
     <p>Html hello ☺</p>
 </m:html>
 
-<m:attachment name="classpath.txt" resource="classpath.txt"/>
+<m:attachment name="classpath.txt" resource="classpath.txt"></m:attachment>
 
 <m:inline id="inline.png" resource="image1.png"/>

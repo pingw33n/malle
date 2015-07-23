@@ -20,7 +20,7 @@
     <p>Html hello ☺</p>
 </@mail>
 
-<@mail cmd='attachment' name="classpath.txt" resource="classpath.txt"/>
+<@mail cmd='attachment' name="classpath.txt" resource="classpath.txt"></@mail>
 
 <@mail cmd='inline' id="inline.png" resource="image1.png"/>
 
