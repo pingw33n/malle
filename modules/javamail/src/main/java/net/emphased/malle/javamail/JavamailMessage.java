@@ -633,7 +633,7 @@ class JavamailMessage implements Mail {
 
     private void checkMultipart() {
         if (!isMultipart()) {
-            throw new IllegalStateException("This message is not multipart");
+            throw new UnsupportedOperationException("The requested feature requires a multipart message. Please use MailSystem.mail([true])");
         }
     }
 
