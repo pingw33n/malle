@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 import static net.emphased.malle.util.Preconditions.*;
@@ -517,6 +518,11 @@ public class MailMock implements Mail {
     @Override
     public MailMock writeTo(Path path) {
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public MailMock writeTo(String path) {
+        return writeTo(Paths.get(path));
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
