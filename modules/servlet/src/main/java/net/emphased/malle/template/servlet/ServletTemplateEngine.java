@@ -60,12 +60,19 @@ public class ServletTemplateEngine implements MailTemplateEngine {
 
         Map<String, Object> ctx = new HashMap<>(context != null ? context : Collections.<String, Object>emptyMap());
 
+        Locale locale = template.getLocale();
+
         HttpServletRequest request = getContentProp(ctx, ServletTemplate.REQUEST, HttpServletRequest.class, null);
         if (request == null) {
-            request = new DummyHttpServletRequest(servletContext, template.getLocale());
+            request = new DummyHttpServletRequest(servletContext, locale);
         }
 
         ctx.put(MAIL_ATTR, mail);
+
+        if (Utils.JSTL_EXISTS && locale != null &&
+                ctx.get(Utils.JSTL_FMT_LOCALE) == null) {
+            ctx.put(Utils.JSTL_FMT_LOCALE, locale);
+        }
 
         for (Map.Entry<String, ?> prop: ctx.entrySet()) {
             request.setAttribute(prop.getKey(), prop.getValue());
@@ -76,7 +83,7 @@ public class ServletTemplateEngine implements MailTemplateEngine {
                 throw new GenericMailTemplateException("Couldn't get RequestDispatcher for: " + template.getName());
             }
             try {
-                dispatcher.include(request, new DummyHttpServletResponse());
+                dispatcher.include(request, new DummyHttpServletResponse(locale));
             } catch (ServletException e) {
                 throw new GenericMailTemplateException(e);
             } catch (IOException e) {

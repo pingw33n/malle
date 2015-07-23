@@ -12,6 +12,11 @@ import java.util.Locale;
 class DummyHttpServletResponse implements HttpServletResponse {
 
     private final PrintWriter writer = new PrintWriter(NoopWriter.INSTANCE);
+    private Locale locale;
+
+    public DummyHttpServletResponse(Locale locale) {
+        this.locale = locale;
+    }
 
     @Override
     public void setCharacterEncoding(String characterEncoding) {
@@ -72,11 +77,12 @@ class DummyHttpServletResponse implements HttpServletResponse {
 
     @Override
     public void setLocale(Locale locale) {
+        this.locale = locale;
     }
 
     @Override
     public Locale getLocale() {
-        return Locale.getDefault();
+        return locale;
     }
 
 
