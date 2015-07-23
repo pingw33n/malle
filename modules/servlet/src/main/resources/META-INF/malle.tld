@@ -146,6 +146,42 @@
 
     <tag>
         <description>
+            Sets Subject header.
+        </description>
+        <name>subject</name>
+        <tag-class>net.emphased.malle.template.servlet.tag.Subject</tag-class>
+        <body-content>scriptless</body-content>
+        <attribute>
+            <description>Sets the trimming mode for the body content. Possible values: 'none', 'leading', 'trailing', 'both' (default).</description>
+            <name>trim</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <description>
+            Sets mail priority.
+        </description>
+        <name>priority</name>
+        <tag-class>net.emphased.malle.template.servlet.tag.Priority</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <description>The priority value from 1 (highest) to 5 (lowest).</description>
+            <name>value</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>Sets the trimming mode for the body content. Possible values: 'none', 'leading', 'trailing', 'both' (default).</description>
+            <name>trim</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <description>
             Sets the text/plain content.
         </description>
         <name>plain</name>

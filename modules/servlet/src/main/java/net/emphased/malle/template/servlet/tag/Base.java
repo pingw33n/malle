@@ -49,6 +49,11 @@ abstract class Base extends SimpleTagSupport {
         return body;
     }
 
+    protected String getNonNullBody() throws IOException, JspException {
+        String r = getBody();
+        return r != null ? r : "";
+    }
+
     private String trim(String s) {
         switch (trim) {
             case none:

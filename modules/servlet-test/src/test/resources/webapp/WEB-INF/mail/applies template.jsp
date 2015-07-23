@@ -17,6 +17,14 @@
     "♡ Unicode ♡" <cc4@example.com>
 </m:cc>
 
+<m:subject>
+    From Malle With ♡♡♡
+
+
+</m:subject>
+
+<m:priority value="1"/>
+
 <m:plain>
     Plain hello ☺
 </m:plain>
