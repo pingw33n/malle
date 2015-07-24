@@ -3,7 +3,7 @@
 
     <groupId>net.emphased.malle</groupId>
     <artifactId>malle</artifactId>
-    <version>0.1.0-RC1</version>
+    <version>0.2.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Malle</name>
@@ -26,7 +26,7 @@
         <url>https://github.com/pingw33n/malle</url>
         <connection>scm:git:git://github.com/pingw33n/malle</connection>
         <developerConnection>scm:git:git@github.com:pingw33n/malle.git</developerConnection>
-      <tag>malle-0.1.0-RC1</tag>
+      <tag>HEAD</tag>
   </scm>
 
     <developers>
