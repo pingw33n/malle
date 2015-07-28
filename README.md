@@ -1,8 +1,6 @@
 ![travis-ci](https://travis-ci.org/pingw33n/malle.svg?branch=master)
 
-Malle is a small Java (1.7 or higher) library that aims to provide consistent and fluent interface for sending
-mail messages. Implemented on top of standard [JavaMail](http://www.oracle.com/technetwork/java/javamail/index.html)
-with [FreeMarker](http://freemarker.org/) for templating support.
+Malle is a small Java (1.7 or higher) library that aims to provide consistent and fluent interface for sending mail messages. Implemented on top of standard [JavaMail](http://www.oracle.com/technetwork/java/javamail/index.html) with [FreeMarker](http://freemarker.org/) and [Java Server Pages](https://github.com/pingw33n/malle/wiki/Servlet-Template-Engine) for templating support.
 
 ## Getting started
 
