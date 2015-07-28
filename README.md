@@ -6,30 +6,15 @@ with [FreeMarker](http://freemarker.org/) for templating support.
 
 ## Getting started
 
-### Clone and build
-
-```
-git clone https://github.com/pingw33n/malle.git && cd malle && mvn install
-```
-
 ### Add to your project
 
 Maven:
 
 ```xml
-<repositories>
-    <repository>
-        <id>sonatype-oss-snapshots</id>
-        <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        <releases><enabled>false</enabled></releases>
-        <snapshots><enabled>true</enabled></snapshots>
-    </repository>
-</repositories>
-
 <dependency>
     <groupId>net.emphased.malle</groupId>
     <artifactId>malle-javamail</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>0.1.0</version>
 </dependency>
 ```
 
@@ -39,7 +24,7 @@ If FreeMarker template support is needed:
 <dependency>
     <groupId>net.emphased.malle</groupId>
     <artifactId>malle-freemarker</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>0.1.0</version>
 </dependency>
 ```
 
