@@ -385,19 +385,9 @@ class JavamailMessage implements Mail {
 
     private InternetAddress[] parseAddresses(String addresses) {
         try {
-            InternetAddress[] r = InternetAddress.parse(addresses, false);
-            for (int i = 0; i < r.length; i++) {
-                InternetAddress ia = r[i];
-                String personal = ia.getPersonal();
-                // Force recoding of the personal part. This will also encode a possibly
-                // unencoded personal that needs encoding because of the non US-ASCII characters.
-                r[i] = new InternetAddress(ia.getAddress(), personal, charset.name());
-            }
-            return r;
+            return InternetAddress.parse(addresses, false);
         } catch (AddressException e) {
             throw Utils.wrapException(e);
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException("Shouldn't happen", e);
         }
     }
 
@@ -462,34 +452,34 @@ class JavamailMessage implements Mail {
                     case FROM:
                         root.removeHeader("From");
                         if (!l.isEmpty()) {
-                            root.addFrom(Utils.toArray(l, InternetAddress.class));
+                            root.addFrom(recode(Utils.toArray(l, InternetAddress.class)));
                         }
                         break;
 
                     case REPLY_TO:
                         if (!l.isEmpty()) {
-                            root.setReplyTo(Utils.toArray(l, InternetAddress.class));
+                            root.setReplyTo(recode(Utils.toArray(l, InternetAddress.class)));
                         }
                         break;
 
                     case TO:
                         root.removeHeader("To");
                         if (!l.isEmpty()) {
-                            root.addRecipients(Message.RecipientType.TO, Utils.toArray(l, InternetAddress.class));
+                            root.addRecipients(Message.RecipientType.TO, recode(Utils.toArray(l, InternetAddress.class)));
                         }
                         break;
 
                     case CC:
                         root.removeHeader("CC");
                         if (!l.isEmpty()) {
-                            root.addRecipients(Message.RecipientType.CC, Utils.toArray(l, InternetAddress.class));
+                            root.addRecipients(Message.RecipientType.CC, recode(Utils.toArray(l, InternetAddress.class)));
                         }
                         break;
 
                     case BCC:
                         root.removeHeader("BCC");
                         if (!l.isEmpty()) {
-                            root.addRecipients(Message.RecipientType.BCC, Utils.toArray(l, InternetAddress.class));
+                            root.addRecipients(Message.RecipientType.BCC, recode(Utils.toArray(l, InternetAddress.class)));
                         }
                         break;
 
@@ -616,6 +606,22 @@ class JavamailMessage implements Mail {
             }
 
             return root;
+        }
+
+        /**
+         * Recodes the specified InternetAddress array using the current {@link #charset}. This will also encode a possibly
+         * unencoded personal that needs encoding because of the non US-ASCII characters.
+         */
+        private InternetAddress[] recode(InternetAddress[] iaa) {
+            try {
+                for (int i = 0; i < iaa.length; i++) {
+                    InternetAddress ia = iaa[i];
+                    iaa[i] = new InternetAddress(ia.getAddress(), ia.getPersonal(), charset.name());
+                }
+                return iaa;
+            } catch (UnsupportedEncodingException e) {
+                throw new RuntimeException("Shouldn't happen");
+            }
         }
     }
 

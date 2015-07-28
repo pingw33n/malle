@@ -96,4 +96,26 @@ class JavamailMessageTest extends AbstractJavamailTest {
         m.writeTo(new ByteArrayOutputStream())
         assertThat(m.getMimeMessage().getMessageID()).isEqualTo("<test@id>")
     }
+
+    @Test
+    void "charset affects existing address headers"() {
+        def m = (JavamailMessage) javamail.mail()
+                .plain("")
+                .charset("UTF-8")
+                .from("from@example.com", "from mälle")
+                .replyTo("reply-to@example.com", "reply-to mälle")
+                .to("to@example.com", "to mälle")
+                .cc("cc@example.com", "cc mälle")
+                .bcc("bcc@example.com", "bcc mälle")
+                .charset("ISO-8859-1")
+
+        def mm = m.getMimeMessage()
+        ["From"     : "=?ISO-8859-1?Q?from_m=E4lle?= <from@example.com>",
+         "Reply-To" : "=?ISO-8859-1?Q?reply-to_m=E4lle?= <reply-to@example.com>",
+         "To"       : "=?ISO-8859-1?Q?to_m=E4lle?= <to@example.com>",
+         "CC"       : "=?ISO-8859-1?Q?cc_m=E4lle?= <cc@example.com>",
+         "BCC"      : "=?ISO-8859-1?Q?bcc_m=E4lle?= <bcc@example.com>",].each { k, v ->
+            assertThat(mm.getHeader(k)[0].toString()).isEqualTo(v)
+        }
+    }
 }
