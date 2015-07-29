@@ -65,7 +65,7 @@ public interface Mail {
      * @throws UnsupportedCharsetException
      * @see Charset#forName(String)
      */
-    Mail charset(String charset) throws IllegalCharsetNameException, UnsupportedCharsetException;
+    Mail charset(String charset);
 
     /**
      * Sets the body encoding. This encoding is used only when encoding a body. For attachments there's a separate
@@ -272,7 +272,7 @@ public interface Mail {
      *
      * @throws UnsupportedOperationException if this is a non-multipart mail and both body types exist
      */
-    Mail body(BodyType type, String value) throws UnsupportedOperationException;
+    Mail body(BodyType type, String value);
 
     /**
      * Adds an attachment. The {@link #attachmentEncoding(Encoding) attachmentEncoding} will be used to encode the attachment content.
@@ -281,8 +281,7 @@ public interface Mail {
      * @throws UnsupportedOperationException is this is a non-multipart mail
      * @see net.emphased.malle.support.InputStreamSuppliers
      */
-    Mail attachment(InputStreamSupplier content, String name, @Nullable String type)
-            throws UnsupportedOperationException;
+    Mail attachment(InputStreamSupplier content, String name, @Nullable String type);
 
     /**
      * Shortcut for {@link #attachment(InputStreamSupplier, String, String) attachment(content, name, null}.
@@ -297,8 +296,7 @@ public interface Mail {
      * @throws UnsupportedOperationException is this is a non-multipart mail
      * @see net.emphased.malle.support.InputStreamSuppliers
      */
-    Mail inline(InputStreamSupplier content, String id, @Nullable String type)
-            throws UnsupportedOperationException;
+    Mail inline(InputStreamSupplier content, String id, @Nullable String type);
 
     /**
      * Shortcut for {@link #inline(InputStreamSupplier, String, String) inline(content, name, null}.
@@ -340,8 +338,7 @@ public interface Mail {
      * @throws IllegalArgumentException if the length of the the {@code context} array is not even
      * @throws IllegalArgumentException if a {@code key} element in the {@code context} array is not a {@code String}
      */
-    Mail template(String name, @Nullable Locale locale, Object... context)
-            throws IllegalArgumentException;
+    Mail template(String name, @Nullable Locale locale, Object... context);
 
     /**
      * Shortcut for {@link #template(String, Locale, Map) template(name, null, context)}.
