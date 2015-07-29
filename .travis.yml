@@ -1,4 +1,7 @@
 language: java
+jdk:
+  - oraclejdk7
+  - oraclejdk8
 install: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -Dsource.skip=true -Dgpg.skip=true -B -V
 after_success:
   - chmod +x .travis/deploy.sh
