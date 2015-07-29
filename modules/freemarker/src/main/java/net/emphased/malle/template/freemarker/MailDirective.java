@@ -386,7 +386,7 @@ class MailDirective implements TemplateDirectiveModel {
 
             if (content == null) {
                 throw new TemplateModelException("'mail' directive: one of 'file', 'resource' or 'url' parameters must be present");
-            } else
+            }
 
             if (inline) {
                 m.inline(content, nameOrId, type);
