@@ -1,0 +1,9 @@
+net.emphased.malle
+net.emphased.malle.javamail
+net.emphased.malle.support
+net.emphased.malle.template
+net.emphased.malle.template.freemarker
+net.emphased.malle.template.servlet
+net.emphased.malle.template.servlet.tag
+net.emphased.malle.util
+test
