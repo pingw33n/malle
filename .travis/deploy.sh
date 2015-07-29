@@ -16,7 +16,7 @@ elif [ "$TRAVIS_BRANCH" != "$BRANCH" ]; then
     echo "Skipping snapshot deployment: wrong branch. Expected '$BRANCH' but was '$TRAVIS_BRANCH'."
 else
     echo "Deploying snapshot..."
-    mvn clean deploy --settings=.travis/settings.xml -Psnapshot -DskipTests
+    mvn deploy --settings=.travis/settings.xml -Psnapshot -DskipTests
     echo "Snapshot deployed!"
 
     echo "Publishing JavaDocs..."
