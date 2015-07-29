@@ -1,4 +1,12 @@
 #!/bin/bash
+#########################################################################################################
+# Deploys the artifacts and publishes the JavaDocs to gh-pages.
+#
+# Expects the following environment vars to be present:
+# OSSRH_USERNAME - Sonatype username.
+# OSSRH_PASSWORD - Sonatype password.
+# GH_TOKEN       - GitHub personal token.
+#########################################################################################################
 
 SLUG=pingw33n/malle
 JDK=oraclejdk7

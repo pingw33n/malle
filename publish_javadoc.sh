@@ -1,4 +1,12 @@
 #!/bin/bash
+#########################################################################################################
+# Publishes the JavaDocs to gh-pages.
+#
+# Usage: publish_javadoc.sh <dir_prefix> [<gh_token>]
+#
+# <dir_prefix> is appended to the "javadoc-" directory where the files will be copied.
+# <gh_token> optional GitHub personal token to use. If not specified SSH access will be used.
+#########################################################################################################
 
 set -e
 
