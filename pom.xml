@@ -26,8 +26,8 @@
         <url>https://github.com/pingw33n/malle</url>
         <connection>scm:git:git://github.com/pingw33n/malle</connection>
         <developerConnection>scm:git:git@github.com:pingw33n/malle.git</developerConnection>
-      <tag>HEAD</tag>
-  </scm>
+        <tag>HEAD</tag>
+    </scm>
 
     <developers>
         <developer>
@@ -256,6 +256,20 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>javadoc</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <configuration>
+                            <excludePackageNames>net.emphased.malle.example</excludePackageNames>
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>

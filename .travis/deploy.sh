@@ -18,4 +18,10 @@ else
     echo "Deploying snapshot..."
     mvn clean deploy --settings=.travis/settings.xml -Psnapshot -DskipTests
     echo "Snapshot deployed!"
+
+    echo "Publishing JavaDocs..."
+    git config --global user.email "travis@travis-ci.org"
+    git config --global user.name "travis-ci"
+    chmod +x ../publish_javadoc.sh && ../publish_javadoc.sh $BRANCH $GH_TOKEN
+    echo "JavaDocs published!"
 fi
