@@ -269,6 +269,7 @@
                         <artifactId>maven-javadoc-plugin</artifactId>
                         <configuration>
                             <excludePackageNames>net.emphased.malle.example</excludePackageNames>
+                            <nocomment>true</nocomment>
                         </configuration>
                     </plugin>
                 </plugins>
