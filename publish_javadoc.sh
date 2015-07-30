@@ -31,5 +31,5 @@ cd /tmp/gh-pages
 [ -d "$JAVADOC_DIR" ] && git rm -rf ${JAVADOC_DIR} && rm -rf ${JAVADOC_DIR} > /dev/null
 cp -r ${APIDOCS_DIR} ${JAVADOC_DIR}
 git add -f ${JAVADOC_DIR}
-git commit -m "auto-publish javadoc" > /dev/null
+git commit -m "Auto-publish JavaDoc" > /dev/null
 git push -f origin gh-pages
