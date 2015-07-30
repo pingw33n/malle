@@ -4,5 +4,6 @@ jdk:
   - oraclejdk8
 install: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -Dsource.skip=true -Dgpg.skip=true -B -V
 after_success:
-  - chmod +x .travis/deploy.sh
+  - chmod +x .travis/*.sh
   - .travis/deploy.sh
+  - .travis/javadoc.sh
