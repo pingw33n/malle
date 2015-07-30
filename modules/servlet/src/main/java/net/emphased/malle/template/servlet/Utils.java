@@ -9,7 +9,7 @@ class Utils {
         try {
             Class.forName(name, false, Utils.class.getClassLoader());
             return true;
-        } catch (ClassNotFoundException _) {
+        } catch (ClassNotFoundException unused) {
             return false;
         }
     }
