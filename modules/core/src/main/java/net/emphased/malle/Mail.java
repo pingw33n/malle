@@ -3,8 +3,6 @@ package net.emphased.malle;
 import javax.annotation.Nullable;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
-import java.nio.charset.IllegalCharsetNameException;
-import java.nio.charset.UnsupportedCharsetException;
 import java.nio.file.Path;
 import java.util.Locale;
 import java.util.Map;
@@ -61,8 +59,6 @@ public interface Mail {
 
     /**
      * Shortcut for {@link #charset(Charset) charset(Charset.forName(charset))}.
-     * @throws IllegalCharsetNameException
-     * @throws UnsupportedCharsetException
      * @see Charset#forName(String)
      */
     Mail charset(String charset);
@@ -70,7 +66,7 @@ public interface Mail {
     /**
      * Sets the body encoding. This encoding is used only when encoding a body. For attachments there's a separate
      * encoding setting.
-     * @param encoding If {@code null} the encoding will be auto-detected in order to optimize the encoded content size.
+     * @param encoding if {@code null} the encoding will be auto-detected in order to optimize the encoded content size
      * @see #attachmentEncoding(Encoding)
      */
     Mail bodyEncoding(@Nullable Encoding encoding);
@@ -78,14 +74,14 @@ public interface Mail {
     /**
      * Sets the attachment encoding. This encoding is used when encoding an attachment. For bodies there's a separate
      * encoding setting.
-     * @param encoding Must not be {@code null} since the auto-detection is not supported for attachments.
+     * @param encoding must not be {@code null} since the auto-detection is not supported for attachments
      * @see #bodyEncoding(Encoding)
      */
     Mail attachmentEncoding(Encoding encoding);
 
     /**
      * Sets the {@code Message-ID} header.
-     * @param id the ID string without the surrounding angle brackets {@code <...>}
+     * @param id the ID string without the surrounding {@code <}angle brackets{@code >}
      */
     Mail id(String id);
 
@@ -278,7 +274,7 @@ public interface Mail {
      * Adds an attachment. The {@link #attachmentEncoding(Encoding) attachmentEncoding} will be used to encode the attachment content.
      * @param name the name that will appear as attachment filename in a mail client
      * @param type the content type. If {@code null} it will be auto-detected.
-     * @throws UnsupportedOperationException is this is a non-multipart mail
+     * @throws UnsupportedOperationException if this is a non-multipart mail
      * @see net.emphased.malle.support.InputStreamSuppliers
      */
     Mail attachment(InputStreamSupplier content, String name, @Nullable String type);
@@ -291,7 +287,7 @@ public interface Mail {
     /**
      * Adds an inline attachment. The {@link #attachmentEncoding(Encoding) attachmentEncoding} will be used to encode
      * the attachment content.
-     * @param id the ID string without the surrounding angle brackets {@code <...>}
+     * @param id the ID string without the surrounding {@code <}angle brackets{@code >}
      * @param type the content type. If {@code null} it will be auto-detected.
      * @throws UnsupportedOperationException is this is a non-multipart mail
      * @see net.emphased.malle.support.InputStreamSuppliers
