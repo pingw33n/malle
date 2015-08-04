@@ -2,6 +2,11 @@
 
 Malle is a small Java (1.7 or higher) library that aims to provide consistent and fluent interface for sending mail messages. Implemented on top of standard [JavaMail](http://www.oracle.com/technetwork/java/javamail/index.html) with [FreeMarker](http://freemarker.org/) and [Java Server Pages](https://github.com/pingw33n/malle/wiki/Servlet-Template-Engine) for templating support.
 
+## Documentation
+
+* [Wiki](https://github.com/pingw33n/malle/wiki/)
+* [JavaDocs](http://pingw33n.github.io/malle/javadoc-master/)
+
 ## Getting started
 
 ### Add to your project
