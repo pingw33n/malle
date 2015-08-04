@@ -238,7 +238,6 @@ public class MailMock implements Mail {
     private Charset charset = DEFAULT_CHARSET;
     private Encoding bodyEncoding = DEFAULT_BODY_ENCODING;
     private Encoding attachmentEncoding = DEFAULT_ATTACHMENT_ENCODING;
-    private String id;
     private int priority;
     private final Map<AddressType, List<Address>> addresses;
     {
@@ -279,12 +278,6 @@ public class MailMock implements Mail {
     @Override
     public MailMock attachmentEncoding(Encoding encoding) {
         attachmentEncoding = checkNotNull(encoding);
-        return this;
-    }
-
-    @Override
-    public MailMock id(String id) {
-        this.id = checkNotNull(id);
         return this;
     }
 
@@ -574,14 +567,6 @@ public class MailMock implements Mail {
 
     public void setAttachmentEncoding(Encoding attachmentEncoding) {
         this.attachmentEncoding = attachmentEncoding;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public int getPriority() {

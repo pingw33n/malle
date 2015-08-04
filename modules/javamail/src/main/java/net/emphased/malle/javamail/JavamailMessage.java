@@ -88,13 +88,6 @@ class JavamailMessage implements Mail {
     }
 
     @Override
-    public Mail id(String id) {
-        checkNotNull(id, "The 'id' can't be null");
-        this.id = id;
-        return this;
-    }
-
-    @Override
     public Mail priority(int priority) {
         this.priority = priority;
         return this;

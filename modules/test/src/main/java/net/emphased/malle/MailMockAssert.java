@@ -27,7 +27,6 @@ public class MailMockAssert extends AbstractAssert<MailMockAssert, MailMock> {
         SoftAssertions sa = new SoftAssertions();
         sa.assertThat(actual.isMultipart()).isEqualTo(e.isMultipart());
         sa.assertThat(actual.getPriority()).isEqualTo(e.getPriority());
-        sa.assertThat(actual.getId()).isEqualTo(e.getId());
         sa.assertThat(sorted(actual.getAddresses())).isEqualTo(sorted(e.getAddresses()));
         sa.assertThat(sorted(actual.getBodies())).isEqualTo(sorted(e.getBodies()));
         sa.assertThat(actual.getSubject()).isEqualTo(e.getSubject());

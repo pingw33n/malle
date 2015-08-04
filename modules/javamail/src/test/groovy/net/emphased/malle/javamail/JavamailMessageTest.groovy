@@ -88,16 +88,6 @@ class JavamailMessageTest extends AbstractJavamailTest {
     }
 
     @Test
-    void "Message-ID is preserved"() {
-        def m = (JavamailMessage) javamail.mail()
-                .plain("")
-                .id("test@id")
-        m.getMimeMessage()
-        m.writeTo(new ByteArrayOutputStream())
-        assertThat(m.getMimeMessage().getMessageID()).isEqualTo("<test@id>")
-    }
-
-    @Test
     void "charset affects existing address headers"() {
         def m = (JavamailMessage) javamail.mail()
                 .plain("")

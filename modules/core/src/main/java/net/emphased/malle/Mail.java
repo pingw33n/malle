@@ -85,12 +85,6 @@ public interface Mail {
     Mail attachmentEncoding(Encoding encoding);
 
     /**
-     * Sets the {@code Message-ID} header.
-     * @param id the ID string without the surrounding {@code <}angle brackets{@code >}
-     */
-    Mail id(String id);
-
-    /**
      * Sets the {@code X-Priority} header.
      * @param priority the priority value from 1 (highest priority) to 5 (lowest priority)
      */
