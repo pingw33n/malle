@@ -7,10 +7,7 @@ import net.emphased.malle.template.MailTemplate;
 import net.emphased.malle.template.MailTemplateEngine;
 
 import javax.annotation.Nullable;
-import javax.mail.Address;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Transport;
+import javax.mail.*;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
@@ -82,8 +79,13 @@ public class Javamail implements MailSystem {
                 for (JavamailMessage jmsg: messages) {
                     MimeMessage m = jmsg.getMimeMessage();
 
-                    Address[] addrs = m.getAllRecipients();
-                    if (addrs == null || addrs.length == 0) {
+                    Address[] to = m.getRecipients(Message.RecipientType.TO);
+                    if (to == null) {
+                        to = new Address[0];
+                    }
+                    Address[] ccAndBcc = concat(m.getRecipients(Message.RecipientType.CC),
+                            m.getRecipients(Message.RecipientType.BCC));
+                    if (to.length + ccAndBcc.length == 0) {
                         throw new MailSendException("No mail recipients specified");
                     }
 
@@ -92,7 +94,18 @@ public class Javamail implements MailSystem {
                         connected = true;
                     }
 
-                    doSend(t, m, addrs);
+                    if (jmsg.isSegregate() && to.length > 1) {
+                        Address[] addrs = concat(new Address[1], ccAndBcc);
+                        for (Address addr: to) {
+                            m.setRecipient(Message.RecipientType.TO, addr);
+                            addrs[0] = addr;
+                            doSend(t, m, addrs);
+                            // Ensure we get a new Message-ID for the next iteration.
+                            m.removeHeader("Message-ID");
+                        }
+                    } else {
+                        doSend(t, m, concat(to, ccAndBcc));
+                    }
                 }
             } finally {
                 if (connected) {
@@ -103,6 +116,23 @@ public class Javamail implements MailSystem {
             throw Utils.wrapException(e);
         }
 
+    }
+
+    private Address[] concat(@Nullable Address[] a1, @Nullable Address[] a2) {
+        int a1len = len(a1);
+        int a2len = len(a2);
+        Address[] r = new Address[a1len + a2len];
+        if (a1len != 0) {
+            System.arraycopy(a1, 0, r, 0, a1len);
+        }
+        if (a2len != 0) {
+            System.arraycopy(a2, 0, r, a1len, a2len);
+        }
+        return r;
+    }
+
+    private int len(@Nullable Address[] a) {
+        return a != null ? a.length : 0;
     }
 
     private void doSend(Transport t, MimeMessage m, Address[] addrs) throws MessagingException {

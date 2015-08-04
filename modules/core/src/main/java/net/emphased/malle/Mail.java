@@ -51,6 +51,11 @@ public interface Mail {
     Encoding DEFAULT_ATTACHMENT_ENCODING = Encoding.BASE64;
 
     /**
+     * The default value ({@code false}) for {@link #segregate(boolean) segregate}.
+     */
+    boolean DEFAULT_SEGREGATE = false;
+
+    /**
      * Sets the charset. This charset is used when encoding headers and as the {@code charset} parameter
      * in the body content type ({@code text/plain; charset=...}, {@code text/html; charset=...}). The default value is
      * {@link #DEFAULT_CHARSET}.
@@ -239,6 +244,31 @@ public interface Mail {
      * must be a single {@code local@domain} address without the personal part (it may be specified as the {@code personal} parameter).
      */
     Mail address(AddressType type, String address, @Nullable String personal);
+
+    /**
+     * Enables or disables message recipients segregation - a useful feature if you want to completely hide the fact the message
+     * was sent to multiple recipients. If the segregation is enabled each {@link AddressType#TO TO} recipient will receive
+     * a copy this message with the {@code To} header set to that particular recipient address. If the segregation is
+     * disabled (the default) the {@code To} header won't be modified and will contain the full list of the recipients;
+     * this is the standard behavior for multiple {@code TO} recipients.
+     *
+     * <p>Note that if {@code segregate(true)} is used in conjunction with {@link AddressType#CC CC} and/or {@link AddressType#BCC BCC}
+     * recipients, each such recipient will get a copy of message <i>per</i> {@code TO} recipient.
+     *
+     * <p>For example the following sample code
+     *
+     * <pre>
+     *     ...
+     *     .to("to1@example.com")
+     *     .to("to2@example.com")
+     *     .segregate(true)
+     *     .send()
+     * </pre>
+     *
+     * will result in sending one message to {@code to1@example.com} with {@code 'To: to1@example.com'} header and one
+     * to {@code to2@example.com} with {@code 'To: to2@example.com'} header.
+     */
+    Mail segregate(boolean segregate);
 
     /**
      * Sets the {@code Subject} header. If needed the value will be encoded according to the RFC822 using the

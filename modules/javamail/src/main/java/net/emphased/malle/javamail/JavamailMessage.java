@@ -25,6 +25,7 @@ class JavamailMessage implements Mail {
     private Encoding bodyEncoding = DEFAULT_BODY_ENCODING;
     private Encoding attachmentEncoding = DEFAULT_ATTACHMENT_ENCODING;
     private final Map<AddressType, List<InternetAddress>> addresses = new EnumMap<>(AddressType.class);
+    private boolean segregate = DEFAULT_SEGREGATE;
     private final Map<Attachment.Type, List<Attachment>> attachments = new EnumMap<>(Attachment.Type.class);
     private String id;
     private Integer priority;
@@ -54,6 +55,10 @@ class JavamailMessage implements Mail {
 
     MimeMessage getMimeMessage() {
         return new MimeMessageBuilder().build();
+    }
+
+    boolean isSegregate() {
+        return segregate;
     }
 
     @Override
@@ -212,6 +217,12 @@ class JavamailMessage implements Mail {
         for(InternetAddress ia: parseAddresses(addresses)) {
             address(type, ia);
         }
+        return this;
+    }
+
+    @Override
+    public Mail segregate(boolean segregate) {
+        this.segregate = segregate;
         return this;
     }
 
