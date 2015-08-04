@@ -300,18 +300,12 @@
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../net/emphased/malle/Mail.html" title="interface in net.emphased.malle">Mail</a></code></td>
-<td class="colLast"><span class="typeNameLabel">Mail.</span><code><span class="memberNameLink"><a href="../../../../net/emphased/malle/Mail.html#id-java.lang.String-">id</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;id)</code>
-<div class="block">Sets the <code>Message-ID</code> header.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><code><a href="../../../../net/emphased/malle/Mail.html" title="interface in net.emphased.malle">Mail</a></code></td>
 <td class="colLast"><span class="typeNameLabel">Mail.</span><code><span class="memberNameLink"><a href="../../../../net/emphased/malle/Mail.html#inline-net.emphased.malle.InputStreamSupplier-java.lang.String-">inline</a></span>(<a href="../../../../net/emphased/malle/InputStreamSupplier.html" title="interface in net.emphased.malle">InputStreamSupplier</a>&nbsp;content,
       <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;id)</code>
 <div class="block">Shortcut for <a href="../../../../net/emphased/malle/Mail.html#inline-net.emphased.malle.InputStreamSupplier-java.lang.String-java.lang.String-"><code>inline(content, name, null</code></a>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../net/emphased/malle/Mail.html" title="interface in net.emphased.malle">Mail</a></code></td>
 <td class="colLast"><span class="typeNameLabel">Mail.</span><code><span class="memberNameLink"><a href="../../../../net/emphased/malle/Mail.html#inline-net.emphased.malle.InputStreamSupplier-java.lang.String-java.lang.String-">inline</a></span>(<a href="../../../../net/emphased/malle/InputStreamSupplier.html" title="interface in net.emphased.malle">InputStreamSupplier</a>&nbsp;content,
       <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;id,
@@ -319,77 +313,77 @@
 <div class="block">Adds an inline attachment.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../net/emphased/malle/Mail.html" title="interface in net.emphased.malle">Mail</a></code></td>
 <td class="colLast"><span class="typeNameLabel">MailSystem.</span><code><span class="memberNameLink"><a href="../../../../net/emphased/malle/MailSystem.html#mail--">mail</a></span>()</code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../net/emphased/malle/Mail.html" title="interface in net.emphased.malle">Mail</a></code></td>
 <td class="colLast"><span class="typeNameLabel">MailSystem.</span><code><span class="memberNameLink"><a href="../../../../net/emphased/malle/MailSystem.html#mail-boolean-">mail</a></span>(boolean&nbsp;multipart)</code>&nbsp;</td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../net/emphased/malle/Mail.html" title="interface in net.emphased.malle">Mail</a></code></td>
 <td class="colLast"><span class="typeNameLabel">Mail.</span><code><span class="memberNameLink"><a href="../../../../net/emphased/malle/Mail.html#plain-java.lang.String-">plain</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;plain)</code>
 <div class="block">Shortcut for <a href="../../../../net/emphased/malle/Mail.html#body-net.emphased.malle.BodyType-java.lang.String-"><code>body(BodyType.PLAIN, plain</code></a>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../net/emphased/malle/Mail.html" title="interface in net.emphased.malle">Mail</a></code></td>
 <td class="colLast"><span class="typeNameLabel">Mail.</span><code><span class="memberNameLink"><a href="../../../../net/emphased/malle/Mail.html#priority-int-">priority</a></span>(int&nbsp;priority)</code>
 <div class="block">Sets the <code>X-Priority</code> header.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../net/emphased/malle/Mail.html" title="interface in net.emphased.malle">Mail</a></code></td>
 <td class="colLast"><span class="typeNameLabel">Mail.</span><code><span class="memberNameLink"><a href="../../../../net/emphased/malle/Mail.html#replyTo-java.lang.Iterable-">replyTo</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt;&nbsp;addresses)</code>
 <div class="block">Identical to calling <a href="../../../../net/emphased/malle/Mail.html#address-net.emphased.malle.AddressType-java.lang.String-"><code>address(AddressType.REPLY_TO, address)</code></a> for each
  element in the <code>addresses</code> iterable.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../net/emphased/malle/Mail.html" title="interface in net.emphased.malle">Mail</a></code></td>
 <td class="colLast"><span class="typeNameLabel">Mail.</span><code><span class="memberNameLink"><a href="../../../../net/emphased/malle/Mail.html#replyTo-java.lang.String-">replyTo</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;addresses)</code>
 <div class="block">Shortcut for <a href="../../../../net/emphased/malle/Mail.html#address-net.emphased.malle.AddressType-java.lang.String-"><code>address(AddressType.REPLY_TO, addresses)</code></a>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../net/emphased/malle/Mail.html" title="interface in net.emphased.malle">Mail</a></code></td>
 <td class="colLast"><span class="typeNameLabel">Mail.</span><code><span class="memberNameLink"><a href="../../../../net/emphased/malle/Mail.html#replyTo-java.lang.String:A-">replyTo</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>[]&nbsp;addresses)</code>
 <div class="block">Identical to calling <a href="../../../../net/emphased/malle/Mail.html#address-net.emphased.malle.AddressType-java.lang.String-"><code>address(AddressType.REPLY_TO, address)</code></a> for each
  element in the <code>addresses</code> array.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../net/emphased/malle/Mail.html" title="interface in net.emphased.malle">Mail</a></code></td>
 <td class="colLast"><span class="typeNameLabel">Mail.</span><code><span class="memberNameLink"><a href="../../../../net/emphased/malle/Mail.html#replyTo-java.lang.String-java.lang.String-">replyTo</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;address,
        <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;personal)</code>
 <div class="block">Shortcut for <a href="../../../../net/emphased/malle/Mail.html#address-net.emphased.malle.AddressType-java.lang.String-java.lang.String-"><code>address(AddressType.REPLY_TO, address, personal)</code></a>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../net/emphased/malle/Mail.html" title="interface in net.emphased.malle">Mail</a></code></td>
 <td class="colLast"><span class="typeNameLabel">MailMock.</span><code><span class="memberNameLink"><a href="../../../../net/emphased/malle/MailMock.html#segregate-boolean-">segregate</a></span>(boolean&nbsp;segregate)</code>&nbsp;</td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../net/emphased/malle/Mail.html" title="interface in net.emphased.malle">Mail</a></code></td>
 <td class="colLast"><span class="typeNameLabel">Mail.</span><code><span class="memberNameLink"><a href="../../../../net/emphased/malle/Mail.html#segregate-boolean-">segregate</a></span>(boolean&nbsp;segregate)</code>
 <div class="block">Enables or disables message recipients segregation - a useful feature if you want to completely hide the fact the message
  was sent to multiple recipients.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../net/emphased/malle/Mail.html" title="interface in net.emphased.malle">Mail</a></code></td>
 <td class="colLast"><span class="typeNameLabel">Mail.</span><code><span class="memberNameLink"><a href="../../../../net/emphased/malle/Mail.html#send--">send</a></span>()</code>
 <div class="block">Builds and sends out this mail.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../net/emphased/malle/Mail.html" title="interface in net.emphased.malle">Mail</a></code></td>
 <td class="colLast"><span class="typeNameLabel">Mail.</span><code><span class="memberNameLink"><a href="../../../../net/emphased/malle/Mail.html#subject-java.lang.String-">subject</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;subject)</code>
 <div class="block">Sets the <code>Subject</code> header.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../net/emphased/malle/Mail.html" title="interface in net.emphased.malle">Mail</a></code></td>
 <td class="colLast"><span class="typeNameLabel">Mail.</span><code><span class="memberNameLink"><a href="../../../../net/emphased/malle/Mail.html#template-java.lang.String-java.util.Locale-java.util.Map-">template</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;name,
         <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Locale.html?is-external=true" title="class or interface in java.util">Locale</a>&nbsp;locale,
@@ -397,7 +391,7 @@
 <div class="block">Applies the template specified by <code>name</code>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../net/emphased/malle/Mail.html" title="interface in net.emphased.malle">Mail</a></code></td>
 <td class="colLast"><span class="typeNameLabel">Mail.</span><code><span class="memberNameLink"><a href="../../../../net/emphased/malle/Mail.html#template-java.lang.String-java.util.Locale-java.lang.Object...-">template</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;name,
         <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Locale.html?is-external=true" title="class or interface in java.util">Locale</a>&nbsp;locale,
@@ -405,60 +399,60 @@
 <div class="block">A version of <a href="../../../../net/emphased/malle/Mail.html#template-java.lang.String-java.util.Locale-java.util.Map-"><code>template(String, Locale, Map)</code></a> with the <code>context</code> passed as varargs parameter.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../net/emphased/malle/Mail.html" title="interface in net.emphased.malle">Mail</a></code></td>
 <td class="colLast"><span class="typeNameLabel">Mail.</span><code><span class="memberNameLink"><a href="../../../../net/emphased/malle/Mail.html#template-java.lang.String-java.util.Map-">template</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;name,
         <a href="http://docs.oracle.com/javase/7/docs/api/java/util/Map.html?is-external=true" title="class or interface in java.util">Map</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>,?&gt;&nbsp;context)</code>
 <div class="block">Shortcut for <a href="../../../../net/emphased/malle/Mail.html#template-java.lang.String-java.util.Locale-java.util.Map-"><code>template(name, null, context)</code></a>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../net/emphased/malle/Mail.html" title="interface in net.emphased.malle">Mail</a></code></td>
 <td class="colLast"><span class="typeNameLabel">Mail.</span><code><span class="memberNameLink"><a href="../../../../net/emphased/malle/Mail.html#template-java.lang.String-java.lang.Object...-">template</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;name,
         <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Object.html?is-external=true" title="class or interface in java.lang">Object</a>...&nbsp;context)</code>
 <div class="block">Shortcut for <a href="../../../../net/emphased/malle/Mail.html#template-java.lang.String-java.util.Locale-java.lang.Object...-"><code>template(name, null, context)</code></a>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../net/emphased/malle/Mail.html" title="interface in net.emphased.malle">Mail</a></code></td>
 <td class="colLast"><span class="typeNameLabel">Mail.</span><code><span class="memberNameLink"><a href="../../../../net/emphased/malle/Mail.html#to-java.lang.Iterable-">to</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt;&nbsp;addresses)</code>
 <div class="block">Identical to calling <a href="../../../../net/emphased/malle/Mail.html#address-net.emphased.malle.AddressType-java.lang.String-"><code>address(AddressType.TO, address)</code></a> for each
  element in the <code>addresses</code> iterable.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../net/emphased/malle/Mail.html" title="interface in net.emphased.malle">Mail</a></code></td>
 <td class="colLast"><span class="typeNameLabel">Mail.</span><code><span class="memberNameLink"><a href="../../../../net/emphased/malle/Mail.html#to-java.lang.String-">to</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;addresses)</code>
 <div class="block">Shortcut for <a href="../../../../net/emphased/malle/Mail.html#address-net.emphased.malle.AddressType-java.lang.String-"><code>address(AddressType.TO, addresses)</code></a>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../net/emphased/malle/Mail.html" title="interface in net.emphased.malle">Mail</a></code></td>
 <td class="colLast"><span class="typeNameLabel">Mail.</span><code><span class="memberNameLink"><a href="../../../../net/emphased/malle/Mail.html#to-java.lang.String:A-">to</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>[]&nbsp;addresses)</code>
 <div class="block">Identical to calling <a href="../../../../net/emphased/malle/Mail.html#address-net.emphased.malle.AddressType-java.lang.String-"><code>address(AddressType.TO, address)</code></a> for each
  element in the <code>addresses</code> array.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../net/emphased/malle/Mail.html" title="interface in net.emphased.malle">Mail</a></code></td>
 <td class="colLast"><span class="typeNameLabel">Mail.</span><code><span class="memberNameLink"><a href="../../../../net/emphased/malle/Mail.html#to-java.lang.String-java.lang.String-">to</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;address,
   <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;personal)</code>
 <div class="block">Shortcut for <a href="../../../../net/emphased/malle/Mail.html#address-net.emphased.malle.AddressType-java.lang.String-java.lang.String-"><code>address(AddressType.TO, address, personal)</code></a>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../net/emphased/malle/Mail.html" title="interface in net.emphased.malle">Mail</a></code></td>
 <td class="colLast"><span class="typeNameLabel">Mail.</span><code><span class="memberNameLink"><a href="../../../../net/emphased/malle/Mail.html#writeTo-java.io.OutputStream-">writeTo</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/io/OutputStream.html?is-external=true" title="class or interface in java.io">OutputStream</a>&nbsp;outputStream)</code>
 <div class="block">Builds and writes this mail as an RFC822 data to the <code>outputStream</code>.</div>
 </td>
 </tr>
-<tr class="rowColor">
+<tr class="altColor">
 <td class="colFirst"><code><a href="../../../../net/emphased/malle/Mail.html" title="interface in net.emphased.malle">Mail</a></code></td>
 <td class="colLast"><span class="typeNameLabel">Mail.</span><code><span class="memberNameLink"><a href="../../../../net/emphased/malle/Mail.html#writeTo-java.nio.file.Path-">writeTo</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/nio/file/Path.html?is-external=true" title="class or interface in java.nio.file">Path</a>&nbsp;path)</code>
 <div class="block">Builds and writes this mail as an RFC822 data to the file specified by <code>path</code>.</div>
 </td>
 </tr>
-<tr class="altColor">
+<tr class="rowColor">
 <td class="colFirst"><code><a href="../../../../net/emphased/malle/Mail.html" title="interface in net.emphased.malle">Mail</a></code></td>
 <td class="colLast"><span class="typeNameLabel">Mail.</span><code><span class="memberNameLink"><a href="../../../../net/emphased/malle/Mail.html#writeTo-java.lang.String-">writeTo</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;path)</code>
 <div class="block">Shortcut for <a href="../../../../net/emphased/malle/Mail.html#writeTo-java.nio.file.Path-"><code>writeTo(Paths.get(path))</code></a>.</div>
