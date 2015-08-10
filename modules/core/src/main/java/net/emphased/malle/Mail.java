@@ -261,6 +261,8 @@ public interface Mail {
      *
      * will result in sending one message to {@code to1@example.com} with {@code 'To: to1@example.com'} header and one
      * to {@code to2@example.com} with {@code 'To: to2@example.com'} header.
+     *
+     * <p>For messages with a single {@code TO} recipient this setting has no effect.
      */
     Mail personalize(boolean personalize);
 
