@@ -170,8 +170,8 @@ var activeTableTab = "activeTableTab";
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../net/emphased/malle/Mail.html#DEFAULT_SEGREGATE">DEFAULT_SEGREGATE</a></span></code>
-<div class="block">The default value (<code>false</code>) for <a href="../../../net/emphased/malle/Mail.html#segregate-boolean-"><code>segregate</code></a>.</div>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../net/emphased/malle/Mail.html#DEFAULT_PERSONALIZE">DEFAULT_PERSONALIZE</a></span></code>
+<div class="block">The default value (<code>false</code>) for <a href="../../../net/emphased/malle/Mail.html#personalize-boolean-"><code>personalize</code></a>.</div>
 </td>
 </tr>
 </table>
@@ -377,48 +377,48 @@ var activeTableTab = "activeTableTab";
 </tr>
 <tr id="i27" class="rowColor">
 <td class="colFirst"><code><a href="../../../net/emphased/malle/Mail.html" title="interface in net.emphased.malle">Mail</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../net/emphased/malle/Mail.html#personalize-boolean-">personalize</a></span>(boolean&nbsp;personalize)</code>
+<div class="block">Enables or disables message personalization - a useful feature if you want to completely hide the fact the message
+ was sent to multiple recipients.</div>
+</td>
+</tr>
+<tr id="i28" class="altColor">
+<td class="colFirst"><code><a href="../../../net/emphased/malle/Mail.html" title="interface in net.emphased.malle">Mail</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../net/emphased/malle/Mail.html#plain-java.lang.String-">plain</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;plain)</code>
 <div class="block">Shortcut for <a href="../../../net/emphased/malle/Mail.html#body-net.emphased.malle.BodyType-java.lang.String-"><code>body(BodyType.PLAIN, plain</code></a>.</div>
 </td>
 </tr>
-<tr id="i28" class="altColor">
+<tr id="i29" class="rowColor">
 <td class="colFirst"><code><a href="../../../net/emphased/malle/Mail.html" title="interface in net.emphased.malle">Mail</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../net/emphased/malle/Mail.html#priority-int-">priority</a></span>(int&nbsp;priority)</code>
 <div class="block">Sets the <code>X-Priority</code> header.</div>
 </td>
 </tr>
-<tr id="i29" class="rowColor">
+<tr id="i30" class="altColor">
 <td class="colFirst"><code><a href="../../../net/emphased/malle/Mail.html" title="interface in net.emphased.malle">Mail</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../net/emphased/malle/Mail.html#replyTo-java.lang.Iterable-">replyTo</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt;&nbsp;addresses)</code>
 <div class="block">Identical to calling <a href="../../../net/emphased/malle/Mail.html#address-net.emphased.malle.AddressType-java.lang.String-"><code>address(AddressType.REPLY_TO, address)</code></a> for each
  element in the <code>addresses</code> iterable.</div>
 </td>
 </tr>
-<tr id="i30" class="altColor">
+<tr id="i31" class="rowColor">
 <td class="colFirst"><code><a href="../../../net/emphased/malle/Mail.html" title="interface in net.emphased.malle">Mail</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../net/emphased/malle/Mail.html#replyTo-java.lang.String-">replyTo</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;addresses)</code>
 <div class="block">Shortcut for <a href="../../../net/emphased/malle/Mail.html#address-net.emphased.malle.AddressType-java.lang.String-"><code>address(AddressType.REPLY_TO, addresses)</code></a>.</div>
 </td>
 </tr>
-<tr id="i31" class="rowColor">
+<tr id="i32" class="altColor">
 <td class="colFirst"><code><a href="../../../net/emphased/malle/Mail.html" title="interface in net.emphased.malle">Mail</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../net/emphased/malle/Mail.html#replyTo-java.lang.String:A-">replyTo</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>[]&nbsp;addresses)</code>
 <div class="block">Identical to calling <a href="../../../net/emphased/malle/Mail.html#address-net.emphased.malle.AddressType-java.lang.String-"><code>address(AddressType.REPLY_TO, address)</code></a> for each
  element in the <code>addresses</code> array.</div>
 </td>
 </tr>
-<tr id="i32" class="altColor">
+<tr id="i33" class="rowColor">
 <td class="colFirst"><code><a href="../../../net/emphased/malle/Mail.html" title="interface in net.emphased.malle">Mail</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../net/emphased/malle/Mail.html#replyTo-java.lang.String-java.lang.String-">replyTo</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;address,
        <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;personal)</code>
 <div class="block">Shortcut for <a href="../../../net/emphased/malle/Mail.html#address-net.emphased.malle.AddressType-java.lang.String-java.lang.String-"><code>address(AddressType.REPLY_TO, address, personal)</code></a>.</div>
-</td>
-</tr>
-<tr id="i33" class="rowColor">
-<td class="colFirst"><code><a href="../../../net/emphased/malle/Mail.html" title="interface in net.emphased.malle">Mail</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../net/emphased/malle/Mail.html#segregate-boolean-">segregate</a></span>(boolean&nbsp;segregate)</code>
-<div class="block">Enables or disables message recipients segregation - a useful feature if you want to completely hide the fact the message
- was sent to multiple recipients.</div>
 </td>
 </tr>
 <tr id="i34" class="altColor">
@@ -553,17 +553,17 @@ var activeTableTab = "activeTableTab";
 <div class="block">The default value (<a href="../../../net/emphased/malle/Encoding.html#BASE64"><code>Encoding.BASE64</code></a>) for <a href="../../../net/emphased/malle/Mail.html#attachmentEncoding-net.emphased.malle.Encoding-"><code>attachmentEncoding</code></a>.</div>
 </li>
 </ul>
-<a name="DEFAULT_SEGREGATE">
+<a name="DEFAULT_PERSONALIZE">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
-<h4>DEFAULT_SEGREGATE</h4>
-<pre>static final&nbsp;boolean DEFAULT_SEGREGATE</pre>
-<div class="block">The default value (<code>false</code>) for <a href="../../../net/emphased/malle/Mail.html#segregate-boolean-"><code>segregate</code></a>.</div>
+<h4>DEFAULT_PERSONALIZE</h4>
+<pre>static final&nbsp;boolean DEFAULT_PERSONALIZE</pre>
+<div class="block">The default value (<code>false</code>) for <a href="../../../net/emphased/malle/Mail.html#personalize-boolean-"><code>personalize</code></a>.</div>
 <dl>
 <dt><span class="seeLabel">See Also:</span></dt>
-<dd><a href="../../../constant-values.html#net.emphased.malle.Mail.DEFAULT_SEGREGATE">Constant Field Values</a></dd>
+<dd><a href="../../../constant-values.html#net.emphased.malle.Mail.DEFAULT_PERSONALIZE">Constant Field Values</a></dd>
 </dl>
 </li>
 </ul>
@@ -938,20 +938,20 @@ var activeTableTab = "activeTableTab";
  must be a single <code>local@domain</code> address without the personal part (it may be specified as the <code>personal</code> parameter).</div>
 </li>
 </ul>
-<a name="segregate-boolean-">
+<a name="personalize-boolean-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>segregate</h4>
-<pre><a href="../../../net/emphased/malle/Mail.html" title="interface in net.emphased.malle">Mail</a>&nbsp;segregate(boolean&nbsp;segregate)</pre>
-<div class="block">Enables or disables message recipients segregation - a useful feature if you want to completely hide the fact the message
- was sent to multiple recipients. If the segregation is enabled each <a href="../../../net/emphased/malle/AddressType.html#TO"><code>TO</code></a> recipient will receive
- a copy this message with the <code>To</code> header set to that particular recipient address. If the segregation is
+<h4>personalize</h4>
+<pre><a href="../../../net/emphased/malle/Mail.html" title="interface in net.emphased.malle">Mail</a>&nbsp;personalize(boolean&nbsp;personalize)</pre>
+<div class="block">Enables or disables message personalization - a useful feature if you want to completely hide the fact the message
+ was sent to multiple recipients. If the personalization is enabled each <a href="../../../net/emphased/malle/AddressType.html#TO"><code>TO</code></a> recipient will receive
+ a copy this message with the <code>To</code> header set to that particular recipient address. If the personalization is
  disabled (the default) the <code>To</code> header won't be modified and will contain the full list of the recipients;
  this is the standard behavior for multiple <code>TO</code> recipients.
 
- <p>Note that if <code>segregate(true)</code> is used in conjunction with <a href="../../../net/emphased/malle/AddressType.html#CC"><code>CC</code></a> and/or <a href="../../../net/emphased/malle/AddressType.html#BCC"><code>BCC</code></a>
+ <p>Note that if <code>personalize(true)</code> is used in conjunction with <a href="../../../net/emphased/malle/AddressType.html#CC"><code>CC</code></a> and/or <a href="../../../net/emphased/malle/AddressType.html#BCC"><code>BCC</code></a>
  recipients, each such recipient will get a copy of message <i>per</i> <code>TO</code> recipient.
 
  <p>For example the following sample code
@@ -960,12 +960,14 @@ var activeTableTab = "activeTableTab";
      ...
      .to("to1@example.com")
      .to("to2@example.com")
-     .segregate(true)
+     .personalize(true)
      .send()
  </pre>
 
  will result in sending one message to <code>to1@example.com</code> with <code>'To: to1@example.com'</code> header and one
- to <code>to2@example.com</code> with <code>'To: to2@example.com'</code> header.</div>
+ to <code>to2@example.com</code> with <code>'To: to2@example.com'</code> header.
+
+ <p>For messages with a single <code>TO</code> recipient this setting has no effect.</div>
 </li>
 </ul>
 <a name="subject-java.lang.String-">

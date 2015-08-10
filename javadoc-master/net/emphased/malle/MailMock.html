@@ -172,7 +172,7 @@ implements <a href="../../../net/emphased/malle/Mail.html" title="interface in n
 <!--   -->
 </a>
 <h3>Fields inherited from interface&nbsp;net.emphased.malle.<a href="../../../net/emphased/malle/Mail.html" title="interface in net.emphased.malle">Mail</a></h3>
-<code><a href="../../../net/emphased/malle/Mail.html#DEFAULT_ATTACHMENT_ENCODING">DEFAULT_ATTACHMENT_ENCODING</a>, <a href="../../../net/emphased/malle/Mail.html#DEFAULT_BODY_ENCODING">DEFAULT_BODY_ENCODING</a>, <a href="../../../net/emphased/malle/Mail.html#DEFAULT_CHARSET">DEFAULT_CHARSET</a>, <a href="../../../net/emphased/malle/Mail.html#DEFAULT_SEGREGATE">DEFAULT_SEGREGATE</a></code></li>
+<code><a href="../../../net/emphased/malle/Mail.html#DEFAULT_ATTACHMENT_ENCODING">DEFAULT_ATTACHMENT_ENCODING</a>, <a href="../../../net/emphased/malle/Mail.html#DEFAULT_BODY_ENCODING">DEFAULT_BODY_ENCODING</a>, <a href="../../../net/emphased/malle/Mail.html#DEFAULT_CHARSET">DEFAULT_CHARSET</a>, <a href="../../../net/emphased/malle/Mail.html#DEFAULT_PERSONALIZE">DEFAULT_PERSONALIZE</a></code></li>
 </ul>
 </li>
 </ul>
@@ -441,52 +441,52 @@ implements <a href="../../../net/emphased/malle/Mail.html" title="interface in n
 </tr>
 <tr id="i39" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../net/emphased/malle/MailMock.html#isSegregate--">isSegregate</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../net/emphased/malle/MailMock.html#isPersonalize--">isPersonalize</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i40" class="altColor">
+<td class="colFirst"><code><a href="../../../net/emphased/malle/Mail.html" title="interface in net.emphased.malle">Mail</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../net/emphased/malle/MailMock.html#personalize-boolean-">personalize</a></span>(boolean&nbsp;personalize)</code>
+<div class="block">Enables or disables message personalization - a useful feature if you want to completely hide the fact the message
+ was sent to multiple recipients.</div>
+</td>
+</tr>
+<tr id="i41" class="rowColor">
 <td class="colFirst"><code><a href="../../../net/emphased/malle/MailMock.html" title="class in net.emphased.malle">MailMock</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../net/emphased/malle/MailMock.html#plain-java.lang.String-">plain</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;plain)</code>
 <div class="block">Shortcut for <a href="../../../net/emphased/malle/Mail.html#body-net.emphased.malle.BodyType-java.lang.String-"><code>body(BodyType.PLAIN, plain</code></a>.</div>
 </td>
 </tr>
-<tr id="i41" class="rowColor">
+<tr id="i42" class="altColor">
 <td class="colFirst"><code><a href="../../../net/emphased/malle/MailMock.html" title="class in net.emphased.malle">MailMock</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../net/emphased/malle/MailMock.html#priority-int-">priority</a></span>(int&nbsp;priority)</code>
 <div class="block">Sets the <code>X-Priority</code> header.</div>
 </td>
 </tr>
-<tr id="i42" class="altColor">
+<tr id="i43" class="rowColor">
 <td class="colFirst"><code><a href="../../../net/emphased/malle/MailMock.html" title="class in net.emphased.malle">MailMock</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../net/emphased/malle/MailMock.html#replyTo-java.lang.Iterable-">replyTo</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/Iterable.html?is-external=true" title="class or interface in java.lang">Iterable</a>&lt;<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&gt;&nbsp;addresses)</code>
 <div class="block">Identical to calling <a href="../../../net/emphased/malle/Mail.html#address-net.emphased.malle.AddressType-java.lang.String-"><code>address(AddressType.REPLY_TO, address)</code></a> for each
  element in the <code>addresses</code> iterable.</div>
 </td>
 </tr>
-<tr id="i43" class="rowColor">
+<tr id="i44" class="altColor">
 <td class="colFirst"><code><a href="../../../net/emphased/malle/MailMock.html" title="class in net.emphased.malle">MailMock</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../net/emphased/malle/MailMock.html#replyTo-java.lang.String-">replyTo</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;addresses)</code>
 <div class="block">Shortcut for <a href="../../../net/emphased/malle/Mail.html#address-net.emphased.malle.AddressType-java.lang.String-"><code>address(AddressType.REPLY_TO, addresses)</code></a>.</div>
 </td>
 </tr>
-<tr id="i44" class="altColor">
+<tr id="i45" class="rowColor">
 <td class="colFirst"><code><a href="../../../net/emphased/malle/MailMock.html" title="class in net.emphased.malle">MailMock</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../net/emphased/malle/MailMock.html#replyTo-java.lang.String:A-">replyTo</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>[]&nbsp;addresses)</code>
 <div class="block">Identical to calling <a href="../../../net/emphased/malle/Mail.html#address-net.emphased.malle.AddressType-java.lang.String-"><code>address(AddressType.REPLY_TO, address)</code></a> for each
  element in the <code>addresses</code> array.</div>
 </td>
 </tr>
-<tr id="i45" class="rowColor">
+<tr id="i46" class="altColor">
 <td class="colFirst"><code><a href="../../../net/emphased/malle/MailMock.html" title="class in net.emphased.malle">MailMock</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../net/emphased/malle/MailMock.html#replyTo-java.lang.String-java.lang.String-">replyTo</a></span>(<a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;address,
        <a href="http://docs.oracle.com/javase/7/docs/api/java/lang/String.html?is-external=true" title="class or interface in java.lang">String</a>&nbsp;personal)</code>
 <div class="block">Shortcut for <a href="../../../net/emphased/malle/Mail.html#address-net.emphased.malle.AddressType-java.lang.String-java.lang.String-"><code>address(AddressType.REPLY_TO, address, personal)</code></a>.</div>
-</td>
-</tr>
-<tr id="i46" class="altColor">
-<td class="colFirst"><code><a href="../../../net/emphased/malle/Mail.html" title="interface in net.emphased.malle">Mail</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../net/emphased/malle/MailMock.html#segregate-boolean-">segregate</a></span>(boolean&nbsp;segregate)</code>
-<div class="block">Enables or disables message recipients segregation - a useful feature if you want to completely hide the fact the message
- was sent to multiple recipients.</div>
 </td>
 </tr>
 <tr id="i47" class="rowColor">
@@ -1118,21 +1118,21 @@ implements <a href="../../../net/emphased/malle/Mail.html" title="interface in n
 </dl>
 </li>
 </ul>
-<a name="segregate-boolean-">
+<a name="personalize-boolean-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>segregate</h4>
-<pre>public&nbsp;<a href="../../../net/emphased/malle/Mail.html" title="interface in net.emphased.malle">Mail</a>&nbsp;segregate(boolean&nbsp;segregate)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../net/emphased/malle/Mail.html#segregate-boolean-">Mail</a></code></span></div>
-<div class="block">Enables or disables message recipients segregation - a useful feature if you want to completely hide the fact the message
- was sent to multiple recipients. If the segregation is enabled each <a href="../../../net/emphased/malle/AddressType.html#TO"><code>TO</code></a> recipient will receive
- a copy this message with the <code>To</code> header set to that particular recipient address. If the segregation is
+<h4>personalize</h4>
+<pre>public&nbsp;<a href="../../../net/emphased/malle/Mail.html" title="interface in net.emphased.malle">Mail</a>&nbsp;personalize(boolean&nbsp;personalize)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../net/emphased/malle/Mail.html#personalize-boolean-">Mail</a></code></span></div>
+<div class="block">Enables or disables message personalization - a useful feature if you want to completely hide the fact the message
+ was sent to multiple recipients. If the personalization is enabled each <a href="../../../net/emphased/malle/AddressType.html#TO"><code>TO</code></a> recipient will receive
+ a copy this message with the <code>To</code> header set to that particular recipient address. If the personalization is
  disabled (the default) the <code>To</code> header won't be modified and will contain the full list of the recipients;
  this is the standard behavior for multiple <code>TO</code> recipients.
 
- <p>Note that if <code>segregate(true)</code> is used in conjunction with <a href="../../../net/emphased/malle/AddressType.html#CC"><code>CC</code></a> and/or <a href="../../../net/emphased/malle/AddressType.html#BCC"><code>BCC</code></a>
+ <p>Note that if <code>personalize(true)</code> is used in conjunction with <a href="../../../net/emphased/malle/AddressType.html#CC"><code>CC</code></a> and/or <a href="../../../net/emphased/malle/AddressType.html#BCC"><code>BCC</code></a>
  recipients, each such recipient will get a copy of message <i>per</i> <code>TO</code> recipient.
 
  <p>For example the following sample code
@@ -1141,15 +1141,17 @@ implements <a href="../../../net/emphased/malle/Mail.html" title="interface in n
      ...
      .to("to1@example.com")
      .to("to2@example.com")
-     .segregate(true)
+     .personalize(true)
      .send()
  </pre>
 
  will result in sending one message to <code>to1@example.com</code> with <code>'To: to1@example.com'</code> header and one
- to <code>to2@example.com</code> with <code>'To: to2@example.com'</code> header.</div>
+ to <code>to2@example.com</code> with <code>'To: to2@example.com'</code> header.
+
+ <p>For messages with a single <code>TO</code> recipient this setting has no effect.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../../../net/emphased/malle/Mail.html#segregate-boolean-">segregate</a></code>&nbsp;in interface&nbsp;<code><a href="../../../net/emphased/malle/Mail.html" title="interface in net.emphased.malle">Mail</a></code></dd>
+<dd><code><a href="../../../net/emphased/malle/Mail.html#personalize-boolean-">personalize</a></code>&nbsp;in interface&nbsp;<code><a href="../../../net/emphased/malle/Mail.html" title="interface in net.emphased.malle">Mail</a></code></dd>
 </dl>
 </li>
 </ul>
@@ -1656,13 +1658,13 @@ implements <a href="../../../net/emphased/malle/Mail.html" title="interface in n
 <pre>public&nbsp;<a href="http://docs.oracle.com/javase/7/docs/api/java/util/List.html?is-external=true" title="class or interface in java.util">List</a>&lt;<a href="../../../net/emphased/malle/MailMock.Inline.html" title="class in net.emphased.malle">MailMock.Inline</a>&gt;&nbsp;getInlines()</pre>
 </li>
 </ul>
-<a name="isSegregate--">
+<a name="isPersonalize--">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
-<h4>isSegregate</h4>
-<pre>public&nbsp;boolean&nbsp;isSegregate()</pre>
+<h4>isPersonalize</h4>
+<pre>public&nbsp;boolean&nbsp;isPersonalize()</pre>
 </li>
 </ul>
 </li>

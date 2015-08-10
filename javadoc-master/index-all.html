@@ -324,12 +324,12 @@
 <dd>
 <div class="block">The default value ("UTF-8") for <a href="net/emphased/malle/Mail.html#charset-java.nio.charset.Charset-"><code>charset</code></a>.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="net/emphased/malle/Mail.html#DEFAULT_PERSONALIZE">DEFAULT_PERSONALIZE</a></span> - Static variable in interface net.emphased.malle.<a href="net/emphased/malle/Mail.html" title="interface in net.emphased.malle">Mail</a></dt>
+<dd>
+<div class="block">The default value (<code>false</code>) for <a href="net/emphased/malle/Mail.html#personalize-boolean-"><code>personalize</code></a>.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="net/emphased/malle/javamail/Javamail.html#DEFAULT_PROTOCOL">DEFAULT_PROTOCOL</a></span> - Static variable in class net.emphased.malle.javamail.<a href="net/emphased/malle/javamail/Javamail.html" title="class in net.emphased.malle.javamail">Javamail</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="net/emphased/malle/Mail.html#DEFAULT_SEGREGATE">DEFAULT_SEGREGATE</a></span> - Static variable in interface net.emphased.malle.<a href="net/emphased/malle/Mail.html" title="interface in net.emphased.malle">Mail</a></dt>
-<dd>
-<div class="block">The default value (<code>false</code>) for <a href="net/emphased/malle/Mail.html#segregate-boolean-"><code>segregate</code></a>.</div>
-</dd>
 <dt><a href="net/emphased/malle/template/servlet/DefaultServletTemplate.html" title="class in net.emphased.malle.template.servlet"><span class="typeNameLink">DefaultServletTemplate</span></a> - Class in <a href="net/emphased/malle/template/servlet/package-summary.html">net.emphased.malle.template.servlet</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="net/emphased/malle/template/servlet/DefaultServletTemplate.html#DefaultServletTemplate-net.emphased.malle.template.servlet.ServletTemplateEngine-java.lang.String-java.util.Locale-">DefaultServletTemplate(ServletTemplateEngine, String, Locale)</a></span> - Constructor for class net.emphased.malle.template.servlet.<a href="net/emphased/malle/template/servlet/DefaultServletTemplate.html" title="class in net.emphased.malle.template.servlet">DefaultServletTemplate</a></dt>
@@ -714,6 +714,8 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="net/emphased/malle/MailMockAssert.html#isNotEqualTo-java.lang.Object-">isNotEqualTo(Object)</a></span> - Method in class net.emphased.malle.<a href="net/emphased/malle/MailMockAssert.html" title="class in net.emphased.malle">MailMockAssert</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="net/emphased/malle/MailMock.html#isPersonalize--">isPersonalize()</a></span> - Method in class net.emphased.malle.<a href="net/emphased/malle/MailMock.html" title="class in net.emphased.malle">MailMock</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="net/emphased/malle/template/servlet/DummyHttpServletRequest.html#isRequestedSessionIdFromCookie--">isRequestedSessionIdFromCookie()</a></span> - Method in class net.emphased.malle.template.servlet.<a href="net/emphased/malle/template/servlet/DummyHttpServletRequest.html" title="class in net.emphased.malle.template.servlet">DummyHttpServletRequest</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="net/emphased/malle/template/servlet/DummyHttpServletRequest.html#isRequestedSessionIdFromURL--">isRequestedSessionIdFromURL()</a></span> - Method in class net.emphased.malle.template.servlet.<a href="net/emphased/malle/template/servlet/DummyHttpServletRequest.html" title="class in net.emphased.malle.template.servlet">DummyHttpServletRequest</a></dt>
@@ -725,8 +727,6 @@
 <dt><span class="memberNameLink"><a href="net/emphased/malle/template/servlet/DummyHttpServletRequest.html#isRequestedSessionIdValid--">isRequestedSessionIdValid()</a></span> - Method in class net.emphased.malle.template.servlet.<a href="net/emphased/malle/template/servlet/DummyHttpServletRequest.html" title="class in net.emphased.malle.template.servlet">DummyHttpServletRequest</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="net/emphased/malle/template/servlet/DummyHttpServletRequest.html#isSecure--">isSecure()</a></span> - Method in class net.emphased.malle.template.servlet.<a href="net/emphased/malle/template/servlet/DummyHttpServletRequest.html" title="class in net.emphased.malle.template.servlet">DummyHttpServletRequest</a></dt>
-<dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="net/emphased/malle/MailMock.html#isSegregate--">isSegregate()</a></span> - Method in class net.emphased.malle.<a href="net/emphased/malle/MailMock.html" title="class in net.emphased.malle">MailMock</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="net/emphased/malle/template/servlet/DummyHttpServletRequest.html#isUserInRole-java.lang.String-">isUserInRole(String)</a></span> - Method in class net.emphased.malle.template.servlet.<a href="net/emphased/malle/template/servlet/DummyHttpServletRequest.html" title="class in net.emphased.malle.template.servlet">DummyHttpServletRequest</a></dt>
 <dd>&nbsp;</dd>
@@ -874,6 +874,13 @@
 <dl>
 <dt><span class="memberNameLink"><a href="net/emphased/malle/javamail/Javamail.html#PASSWORD_PROP">PASSWORD_PROP</a></span> - Static variable in class net.emphased.malle.javamail.<a href="net/emphased/malle/javamail/Javamail.html" title="class in net.emphased.malle.javamail">Javamail</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="net/emphased/malle/Mail.html#personalize-boolean-">personalize(boolean)</a></span> - Method in interface net.emphased.malle.<a href="net/emphased/malle/Mail.html" title="interface in net.emphased.malle">Mail</a></dt>
+<dd>
+<div class="block">Enables or disables message personalization - a useful feature if you want to completely hide the fact the message
+ was sent to multiple recipients.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="net/emphased/malle/MailMock.html#personalize-boolean-">personalize(boolean)</a></span> - Method in class net.emphased.malle.<a href="net/emphased/malle/MailMock.html" title="class in net.emphased.malle">MailMock</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="net/emphased/malle/Mail.html#plain-java.lang.String-">plain(String)</a></span> - Method in interface net.emphased.malle.<a href="net/emphased/malle/Mail.html" title="interface in net.emphased.malle">Mail</a></dt>
 <dd>
 <div class="block">Shortcut for <a href="net/emphased/malle/Mail.html#body-net.emphased.malle.BodyType-java.lang.String-"><code>body(BodyType.PLAIN, plain</code></a>.</div>
@@ -959,13 +966,6 @@
 </a>
 <h2 class="title">S</h2>
 <dl>
-<dt><span class="memberNameLink"><a href="net/emphased/malle/Mail.html#segregate-boolean-">segregate(boolean)</a></span> - Method in interface net.emphased.malle.<a href="net/emphased/malle/Mail.html" title="interface in net.emphased.malle">Mail</a></dt>
-<dd>
-<div class="block">Enables or disables message recipients segregation - a useful feature if you want to completely hide the fact the message
- was sent to multiple recipients.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="net/emphased/malle/MailMock.html#segregate-boolean-">segregate(boolean)</a></span> - Method in class net.emphased.malle.<a href="net/emphased/malle/MailMock.html" title="class in net.emphased.malle">MailMock</a></dt>
-<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="net/emphased/malle/javamail/Javamail.html#send-net.emphased.malle.Mail...-">send(Mail...)</a></span> - Method in class net.emphased.malle.javamail.<a href="net/emphased/malle/javamail/Javamail.html" title="class in net.emphased.malle.javamail">Javamail</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="net/emphased/malle/javamail/Javamail.html#send-java.lang.Iterable-">send(Iterable&lt;? extends Mail&gt;)</a></span> - Method in class net.emphased.malle.javamail.<a href="net/emphased/malle/javamail/Javamail.html" title="class in net.emphased.malle.javamail">Javamail</a></dt>
