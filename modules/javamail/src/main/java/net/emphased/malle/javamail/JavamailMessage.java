@@ -25,7 +25,7 @@ class JavamailMessage implements Mail {
     private Encoding bodyEncoding = DEFAULT_BODY_ENCODING;
     private Encoding attachmentEncoding = DEFAULT_ATTACHMENT_ENCODING;
     private final Map<AddressType, List<InternetAddress>> addresses = new EnumMap<>(AddressType.class);
-    private boolean segregate = DEFAULT_SEGREGATE;
+    private boolean personalize = DEFAULT_PERSONALIZE;
     private final Map<Attachment.Type, List<Attachment>> attachments = new EnumMap<>(Attachment.Type.class);
     private String id;
     private Integer priority;
@@ -57,8 +57,8 @@ class JavamailMessage implements Mail {
         return new MimeMessageBuilder().build();
     }
 
-    boolean isSegregate() {
-        return segregate;
+    boolean isPersonalize() {
+        return personalize;
     }
 
     @Override
@@ -214,8 +214,8 @@ class JavamailMessage implements Mail {
     }
 
     @Override
-    public Mail segregate(boolean segregate) {
-        this.segregate = segregate;
+    public Mail personalize(boolean personalize) {
+        this.personalize = personalize;
         return this;
     }
 

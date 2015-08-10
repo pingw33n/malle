@@ -252,7 +252,7 @@ public class MailMock implements Mail {
     private final List<Header> headers = new ArrayList<>();
     private final List<Attachment> attachments = new ArrayList<>();
     private final List<Inline> inlines = new ArrayList<>();
-    private boolean segregate;
+    private boolean personalize;
 
     public MailMock(boolean multipart) {
         this.multipart = multipart;
@@ -404,8 +404,8 @@ public class MailMock implements Mail {
     }
 
     @Override
-    public Mail segregate(boolean segregate) {
-        this.segregate = segregate;
+    public Mail personalize(boolean personalize) {
+        this.personalize = personalize;
         return this;
     }
 
@@ -605,8 +605,8 @@ public class MailMock implements Mail {
         return inlines;
     }
 
-    public boolean isSegregate() {
-        return segregate;
+    public boolean isPersonalize() {
+        return personalize;
     }
 
     private List<Address> toAddressList(Iterable<String> addresses) {

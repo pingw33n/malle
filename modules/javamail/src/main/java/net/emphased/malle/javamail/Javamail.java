@@ -94,7 +94,7 @@ public class Javamail implements MailSystem {
                         connected = true;
                     }
 
-                    if (jmsg.isSegregate() && to.length > 1) {
+                    if (jmsg.isPersonalize() && to.length > 1) {
                         Address[] addrs = concat(new Address[1], ccAndBcc);
                         for (Address addr: to) {
                             m.setRecipient(Message.RecipientType.TO, addr);

@@ -51,9 +51,9 @@ public interface Mail {
     Encoding DEFAULT_ATTACHMENT_ENCODING = Encoding.BASE64;
 
     /**
-     * The default value ({@code false}) for {@link #segregate(boolean) segregate}.
+     * The default value ({@code false}) for {@link #personalize(boolean) personalize}.
      */
-    boolean DEFAULT_SEGREGATE = false;
+    boolean DEFAULT_PERSONALIZE = false;
 
     /**
      * Sets the charset. This charset is used when encoding headers and as the {@code charset} parameter
@@ -240,13 +240,13 @@ public interface Mail {
     Mail address(AddressType type, String address, @Nullable String personal);
 
     /**
-     * Enables or disables message recipients segregation - a useful feature if you want to completely hide the fact the message
-     * was sent to multiple recipients. If the segregation is enabled each {@link AddressType#TO TO} recipient will receive
-     * a copy this message with the {@code To} header set to that particular recipient address. If the segregation is
+     * Enables or disables message personalization - a useful feature if you want to completely hide the fact the message
+     * was sent to multiple recipients. If the personalization is enabled each {@link AddressType#TO TO} recipient will receive
+     * a copy this message with the {@code To} header set to that particular recipient address. If the personalization is
      * disabled (the default) the {@code To} header won't be modified and will contain the full list of the recipients;
      * this is the standard behavior for multiple {@code TO} recipients.
      *
-     * <p>Note that if {@code segregate(true)} is used in conjunction with {@link AddressType#CC CC} and/or {@link AddressType#BCC BCC}
+     * <p>Note that if {@code personalize(true)} is used in conjunction with {@link AddressType#CC CC} and/or {@link AddressType#BCC BCC}
      * recipients, each such recipient will get a copy of message <i>per</i> {@code TO} recipient.
      *
      * <p>For example the following sample code
@@ -255,14 +255,14 @@ public interface Mail {
      *     ...
      *     .to("to1@example.com")
      *     .to("to2@example.com")
-     *     .segregate(true)
+     *     .personalize(true)
      *     .send()
      * </pre>
      *
      * will result in sending one message to {@code to1@example.com} with {@code 'To: to1@example.com'} header and one
      * to {@code to2@example.com} with {@code 'To: to2@example.com'} header.
      */
-    Mail segregate(boolean segregate);
+    Mail personalize(boolean personalize);
 
     /**
      * Sets the {@code Subject} header. If needed the value will be encoded according to the RFC822 using the
