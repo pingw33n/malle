@@ -16,7 +16,7 @@ import java.util.Map;
 public final class FreemarkerExample extends AbstractExample {
 
     public static void main(String[] args) throws IOException {
-        Configuration fc = new Configuration(Configuration.VERSION_2_3_22);
+        Configuration fc = new Configuration(Configuration.VERSION_2_3_23);
         fc.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
         fc.setDefaultEncoding("UTF-8");
 
