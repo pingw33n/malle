@@ -76,15 +76,7 @@ public class FreemarkerTemplateEngine implements MailTemplateEngine {
     }
 
     private void configure() {
-        Map<String, Object> vars = new HashMap<>();
-
-        vars.put(MailDirective.NAME, new MailDirective());
-
-        try {
-            configuration.setSharedVaribles(vars);
-        } catch (TemplateModelException e) {
-            throw Utils.wrapException(e);
-        }
+        configuration.setSharedVariable(MailDirective.NAME, new MailDirective());
     }
 
     private FreemarkerTemplate createFreemarkerTemplate(Template template) {
